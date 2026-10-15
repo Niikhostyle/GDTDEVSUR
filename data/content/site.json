@@ -1,0 +1,83 @@
+{
+  "brandName": "GDT DevSur",
+  "tagline": "Grupo Desarrollo Tecnológico · Diseño web premium",
+  "logoText": "GDT DevSur",
+  "favicon": "/favicon.svg",
+  "primaryColor": "#FA9658",
+  "phones": [
+    "+56 9 95995720"
+  ],
+  "emails": [
+    "info@gdtdevsur.cl"
+  ],
+  "social": {
+    "instagram": "https://instagram.com/gdtdevsur",
+    "linkedin": "https://linkedin.com/company/gdtdevsur"
+  },
+  "footerNote": "© 2026 · GDT DevSur · Grupo Desarrollo Tecnológico",
+  "seo": {
+    "title": "GDT DevSur | Agencia de Diseño y Desarrollo Web en Chile",
+    "description": "GDT DevSur (Grupo Desarrollo Tecnológico) es una agencia chilena de diseño y desarrollo web premium: sitios a medida con Astro/Next.js, CMS propio y SEO + GEO.",
+    "ogImage": "/og-default.jpg",
+    "keywords": [
+      "diseño web Chile",
+      "agencia web premium",
+      "desarrollo web a medida",
+      "Astro",
+      "Next.js",
+      "SEO técnico",
+      "GEO",
+      "sitios autoadministrables"
+    ],
+    "googleSiteVerification": "",
+    "bingSiteVerification": ""
+  },
+  "nav": [
+    {
+      "label": "Inicio",
+      "href": "/#inicio"
+    },
+    {
+      "label": "Acerca de",
+      "href": "/acerca-de"
+    },
+    {
+      "label": "Portfolio",
+      "href": "/#portfolio"
+    },
+    {
+      "label": "Clientes",
+      "href": "/#clientes"
+    },
+    {
+      "label": "Servicios",
+      "href": "/#servicios"
+    },
+    {
+      "label": "Blog",
+      "href": "/#blog"
+    },
+    {
+      "label": "FAQ",
+      "href": "/#faq"
+    },
+    {
+      "label": "Contacto",
+      "href": "/#contacto"
+    }
+  ],
+  "ctaPrimary": {
+    "label": "Solicita presupuesto",
+    "href": "/#contacto"
+  },
+  "ctaSecondary": {
+    "label": "Conoce más",
+    "href": "/#nosotros"
+  },
+  "locales": [
+    "es",
+    "en"
+  ],
+  "defaultLocale": "es",
+  "enabled": true
+}

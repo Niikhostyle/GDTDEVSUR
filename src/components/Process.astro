@@ -1,0 +1,77 @@
+---
+import TechStack from "./TechStack.astro";
+
+interface Step {
+  number: string;
+  title: string;
+  description: string;
+}
+
+interface StackItem {
+  id: string;
+  name: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  steps: Step[];
+  stackEyebrow?: string;
+  stackTitle?: string;
+  stack?: StackItem[];
+}
+
+const {
+  eyebrow,
+  title,
+  subtitle,
+  steps,
+  stackEyebrow = "Stack",
+  stackTitle = "Tecnologías que dominamos",
+  stack = [],
+} = Astro.props;
+---
+
+<section id="proceso" class="reveal-section bg-[var(--color-surface)] px-5 py-16 md:px-8 md:py-24">
+  <div class="mx-auto max-w-[1120px]">
+    <div class="reveal-item max-w-2xl">
+      <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+        {eyebrow}
+      </p>
+      <h2 class="font-display text-[1.75rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.15rem]">
+        {title}
+      </h2>
+      <p class="mt-3 text-sm leading-relaxed text-[#6b6b6b] md:text-base">{subtitle}</p>
+    </div>
+
+    <ol class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        steps.map((step, index) => (
+          <li
+            class="reveal-item rounded-2xl bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
+            style={`--stagger: ${index * 70}ms`}
+          >
+            <span class="font-display text-2xl font-700 text-[var(--color-accent)]">{step.number}</span>
+            <h3 class="font-display mt-3 text-lg font-600 text-[#2a2a2a]">{step.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-[#6b6b6b]">{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  {
+    stack.length > 0 && (
+      <div class="reveal-item mt-16 border-t border-[var(--color-line)] pt-12 md:mt-20 md:pt-14">
+        <div class="mx-auto mb-8 max-w-[1120px] text-center md:mb-10">
+          <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+            {stackEyebrow}
+          </p>
+          <h3 class="font-display text-xl font-700 text-[#2a2a2a] md:text-2xl">{stackTitle}</h3>
+        </div>
+        <TechStack items={stack} mode="marquee" />
+      </div>
+    )
+  }
+</section>

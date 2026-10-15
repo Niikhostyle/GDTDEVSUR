@@ -1,0 +1,44 @@
+{
+  "eyebrow": "Servicios",
+  "title": "Todo lo que necesitas para tu presencia digital",
+  "subtitle": "Diseño premium, desarrollo a medida y evolución continua — un solo equipo especializado.",
+  "items": [
+    {
+      "id": "diseno-web",
+      "title": "Diseño web premium a medida",
+      "description": "Tipografía, espaciado, animaciones fluidas y llamados a la acción creados desde cero. Sin plantillas.",
+      "icon": "sparkles"
+    },
+    {
+      "id": "web-apps",
+      "title": "Web apps y software a medida",
+      "description": "Reservas, calculadoras, paneles propios, integraciones CRM/ERP y plataformas con usuarios y bases de datos.",
+      "icon": "code"
+    },
+    {
+      "id": "multilang",
+      "title": "Sitios multilenguaje",
+      "description": "Cada idioma posiciona por separado en Google. Internacionalización profesional, no plugins traductores.",
+      "icon": "globe"
+    },
+    {
+      "id": "admin",
+      "title": "Paneles de administración propios",
+      "description": "Edita todo el contenido sin tocar código. Flexibles, seguros y preparados para escalar.",
+      "icon": "layout"
+    },
+    {
+      "id": "seo-geo",
+      "title": "Optimización para Google e IA",
+      "description": "SEO técnico + GEO: estructura citable por ChatGPT, Gemini y Claude.",
+      "icon": "search"
+    },
+    {
+      "id": "redesign",
+      "title": "Rediseño, mantenimiento y soporte",
+      "description": "Modernizamos sitios existentes y acompañamos la evolución mes a mes.",
+      "icon": "refresh"
+    }
+  ],
+  "enabled": true
+}

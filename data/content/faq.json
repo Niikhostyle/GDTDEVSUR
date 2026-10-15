@@ -1,0 +1,48 @@
+{
+  "eyebrow": "FAQ",
+  "title": "Preguntas Frecuentes",
+  "subtitle": "Encuentra respuestas a las preguntas más comunes sobre nuestros servicios y procesos de diseño web.",
+  "items": [
+    {
+      "id": "f1",
+      "question": "¿Qué es GDT DevSur y qué proyectos desarrollan?",
+      "answer": "GDT DevSur (Grupo Desarrollo Tecnológico DevSur) es una agencia chilena de diseño y desarrollo web y TI. Creamos sitios institucionales, landing pages, plataformas autoadministrables, web apps e integraciones con IA — siempre a medida, sin plantillas ni WordPress."
+    },
+    {
+      "id": "f7",
+      "question": "¿Qué servicios ofrece GDT DevSur?",
+      "answer": "Diseño web premium a medida, web apps y software a medida, sitios multilenguaje, paneles de administración propios, optimización para Google e IA (SEO técnico + GEO) y rediseño, mantenimiento y soporte de sitios existentes."
+    },
+    {
+      "id": "f2",
+      "question": "¿Qué diferencia a GDT DevSur de otras agencias?",
+      "answer": "Diseño a medida de alto impacto, tecnología de primera línea (Astro/Next.js) y experiencia comprobada. Sitios más rápidos, seguros y preparados para Google y asistentes de IA."
+    },
+    {
+      "id": "f3",
+      "question": "¿Cuánto cuesta una página web profesional?",
+      "answer": "Depende del alcance. Landing pages, sitios institucionales y plataformas a medida tienen rangos distintos. Trabajamos en el segmento premium: presupuesto concreto tras una consulta sin compromiso."
+    },
+    {
+      "id": "f4",
+      "question": "¿Cuánto tiempo lleva desarrollar una página web?",
+      "answer": "Landing: 2–3 semanas. Sitio institucional: 4–6 semanas. Corporativo con funcionalidades a medida: 6–10 semanas. Plataformas complejas: 8–14 semanas."
+    },
+    {
+      "id": "f5",
+      "question": "¿Dónde está GDT DevSur y en qué zona trabajan?",
+      "answer": "GDT DevSur es una agencia de Chile. Trabajamos de forma remota con empresas de todo Chile y el exterior. Reuniones por videollamada, servidor de pruebas compartido y comunicación directa."
+    },
+    {
+      "id": "f6",
+      "question": "¿Puedo editar el contenido sin programar?",
+      "answer": "Sí. Cada proyecto puede incluir un panel de administración propio para configurar, añadir y editar todo el contenido sin tocar código."
+    },
+    {
+      "id": "f8",
+      "question": "¿Cómo contacto a GDT DevSur?",
+      "answer": "Escríbenos a info@gdtdevsur.cl, llámanos o escríbenos por WhatsApp al +56 9 95995720, o completa el formulario de contacto en gdtdevsur.cl para pedir un presupuesto sin compromiso."
+    }
+  ],
+  "enabled": true
+}

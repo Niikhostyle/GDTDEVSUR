@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Renogare";
+  src: url("/fonts/Renogare-Regular.woff2") format("woff2");
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-display: "Renogare", "Montserrat", sans-serif;
+  --font-sans: "Montserrat", system-ui, sans-serif;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-ink: #414141;
+  --color-ink-soft: #6b6b6b;
+  --color-line: #e8e8e8;
+  --color-surface: #f7f7f7;
+  --color-accent: #fa9658;
+  --color-accent-deep: #e87d3a;
+}
+
+@layer base {
+  /* Oculta la barra de scroll (sigue scrolleando con rueda/trackpad/touch) */
+  html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Menú móvil abierto: bloquea scroll de fondo */
+  html.menu-open,
+  html.menu-open body {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  @media (max-width: 768px) {
+    .section-pad {
+      padding-block: clamp(3rem, 10vw, 4.5rem);
+    }
+
+    main section[id] {
+      scroll-margin-top: 4.5rem;
+    }
+
+    /* Menos trabajo de pintura en móvil */
+    .reveal-item,
+    .vox-card {
+      will-change: auto;
+    }
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 40%, white);
+    color: var(--color-black);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+@layer utilities {
+  .font-display,
+  .font-special {
+    font-family: var(--font-display);
+  }
+
+  .font-600 {
+    font-weight: 600;
+  }
+
+  .font-700 {
+    font-weight: 700;
+  }
+
+  .font-800 {
+    font-weight: 800;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .container-shell {
+    width: min(1120px, 100%);
+    margin-inline: auto;
+  }
+
+  .section-pad {
+    padding-block: clamp(4rem, 8vw, 6.5rem);
+    padding-inline: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  /* Anclas bajo header fijo */
+  main section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0.85rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .btn-outline:hover {
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .btn-solid {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: var(--color-white);
+    padding: 0.85rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.25s ease;
+  }
+
+  .btn-solid:hover {
+    background: var(--color-accent-deep);
+  }
+
+  .fade-up {
+    animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .fade-up-delay-1 {
+    animation-delay: 0.1s;
+  }
+
+  .fade-up-delay-2 {
+    animation-delay: 0.2s;
+  }
+
+  .fade-up-delay-3 {
+    animation-delay: 0.3s;
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+
+  @media (pointer: coarse), (max-width: 768px) {
+    .marquee-track {
+      animation-duration: 28s;
+    }
+  }
+
+  .menu-orb {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    gap: 5px;
+  }
+
+  .menu-orb span {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: currentColor;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/*
+  Progressive enhancement: el contenido es VISIBLE por defecto.
+  GSAP (Reveal/Hero) oculta y anima solo si el módulo carga.
+  Nunca ocultar con CSS global — eso causaba pantalla blanca si JS fallaba.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .marquee-track {
+    animation: none !important;
+  }
+}
+

@@ -1,0 +1,15 @@
+{
+  "eyebrow": "Construyamos algo excepcional",
+  "title": "Consulta ahora",
+  "subtitle": "Envíanos una consulta o solicita un presupuesto. Pronto nos pondremos en contacto.",
+  "successMessage": "Mensaje enviado. Te contactaremos pronto.",
+  "fields": {
+    "name": { "label": "Nombre", "required": true },
+    "phone": { "label": "Teléfono", "required": true },
+    "email": { "label": "Email", "required": true },
+    "company": { "label": "Empresa", "required": false },
+    "message": { "label": "Mensaje", "required": true }
+  },
+  "submitLabel": "Enviar mensaje",
+  "enabled": true
+}

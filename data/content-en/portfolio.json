@@ -1,0 +1,18 @@
+{
+  "eyebrow": "Our work",
+  "title": "Projects already live online",
+  "subtitle": "Premium design and custom development for digital products with real results.",
+  "items": [
+    {
+      "id": "mibidon",
+      "title": "MiBidón — SaaS platform",
+      "category": "Digital product"
+    },
+    {
+      "id": "mibidon-demo",
+      "title": "MiBidón — demo store",
+      "category": "E-commerce"
+    }
+  ],
+  "cta": { "label": "See more work", "href": "#contacto" }
+}

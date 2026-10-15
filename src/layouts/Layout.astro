@@ -1,0 +1,143 @@
+﻿---
+import "../styles/global.css";
+import {
+  absoluteUrl,
+  canonicalPath,
+  DEFAULT_SHARE_IMAGE,
+  defaultKeywords,
+  imageMimeType,
+  localizedUrl,
+  shareImagePath,
+  siteOrigin,
+  truncateMeta,
+} from "../lib/seo";
+import type { Locale } from "../lib/locale";
+import { getCollection } from "../lib/cms";
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonical?: string;
+  noindex?: boolean;
+  locale?: Locale;
+  keywords?: string[];
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = DEFAULT_SHARE_IMAGE,
+  canonical,
+  noindex = false,
+  locale = "es",
+  keywords,
+  type = "website",
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+
+const origin = siteOrigin(Astro.site, Astro.url.origin);
+const path = canonicalPath(Astro.url.pathname);
+const canonicalUrl = canonical || localizedUrl(origin, path, locale === "en" ? "en" : "es");
+const urlEs = localizedUrl(origin, path, "es");
+const urlEn = localizedUrl(origin, path, "en");
+const shareImage = shareImagePath(ogImage);
+const absoluteOg = absoluteUrl(origin, shareImage);
+const metaDescription = truncateMeta(description, 160);
+const keywordList = (keywords?.length ? keywords : defaultKeywords(locale)).join(", ");
+const htmlLang = locale === "en" ? "en" : "es-CL";
+const ogLocale = locale === "en" ? "en_US" : "es_CL";
+const ogLocaleAlt = locale === "en" ? "es_CL" : "en_US";
+const robots = noindex
+  ? "noindex, nofollow"
+  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+let siteSeo: { googleSiteVerification?: string; bingSiteVerification?: string } = {};
+try {
+  siteSeo = (await getCollection<any>("site", "es"))?.seo || {};
+} catch {
+  /* sin CMS: solo variables de entorno */
+}
+const verificationToken = (value?: string) =>
+  String(value || "").replace(/.*content=["']?([^"'\s>]+).*/s, "$1").trim();
+const googleVerification = verificationToken(
+  siteSeo.googleSiteVerification || import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION,
+);
+const bingVerification = verificationToken(
+  siteSeo.bingSiteVerification || import.meta.env.PUBLIC_BING_SITE_VERIFICATION,
+);
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={metaDescription} />
+    <meta name="keywords" content={keywordList} />
+    <meta name="author" content="GDT DevSur" />
+    <meta name="creator" content="GDT DevSur" />
+    <meta name="publisher" content="GDT DevSur" />
+    <meta name="robots" content={robots} />
+    <meta name="googlebot" content={robots} />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="theme-color" content="#06080d" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="geo.region" content="CL" />
+    <meta name="geo.placename" content="Chile" />
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
+
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="es-CL" href={urlEs} />
+    <link rel="alternate" hreflang="es" href={urlEs} />
+    <link rel="alternate" hreflang="en" href={urlEn} />
+    <link rel="alternate" hreflang="x-default" href={urlEs} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="GDT DevSur" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
+    <meta property="og:image" content={absoluteOg} />
+    <meta property="og:image:secure_url" content={absoluteOg} />
+    <meta property="og:image:type" content={imageMimeType(shareImage)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={absoluteOg} />
+    <meta name="twitter:image:alt" content={title} />
+
+    <link rel="preload" href="/fonts/Montserrat-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Renogare-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <link rel="alternate" type="text/markdown" title="llms.txt" href="/llms.txt" />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body>
+    {/* Cloudflare Email Obfuscation oculta el email de contacto a buscadores e IA */}
+    <Fragment set:html="<!--email_off-->" />
+    <slot />
+    <Fragment set:html="<!--/email_off-->" />
+  </body>
+</html>

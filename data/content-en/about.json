@@ -1,0 +1,106 @@
+{
+  "eyebrow": "Specialists in website design",
+  "title": "GDT DevSur",
+  "body": "**GDT DevSur** is a Chilean agency for **premium web design** and custom development. We build high-impact websites focused on results. We specialize in custom solutions and personalized design for every client — typography, spacing, animations, and micro-interactions without templates.",
+  "highlights": [
+    "100% custom UX/UI design",
+    "High-performance stack (Astro / Next.js)",
+    "Professional CMS, no WordPress",
+    "SEO + GEO (AI) optimization"
+  ],
+  "cta": {
+    "label": "Learn more",
+    "href": "/acerca-de"
+  },
+  "detail": {
+    "eyebrow": "A standout service for your brand",
+    "title": "Maximum attention to detail",
+    "body": "To create a true wow effect, we carefully craft typography, color, layout, photo lighting, contrast, and calls to action. Every detail matters in premium custom design."
+  },
+  "page": {
+    "seoTitle": "About GDT DevSur | Web Design Agency in Chile",
+    "seoDescription": "GDT DevSur — Technological Development Group. Custom premium web design, Astro/Next.js, performance, and SEO + GEO for companies in Chile and abroad.",
+    "breadcrumb": "About",
+    "heroTitle": "About GDT DevSur",
+    "heroSubtitle": "Technological Development Group",
+    "experienceEyebrow": "Experience",
+    "experienceTitle": "+3 years building premium websites",
+    "experienceBody": "GDT DevSur is a Chilean web design and development agency. We build your website with Astro and Next.js — **cutting-edge technology trusted by global brands.** Faster, more secure, future-ready sites with an exceptional user experience.",
+    "pillars": [
+      {
+        "id": "integral",
+        "icon": "layers",
+        "title": "End-to-end web solutions",
+        "body": "We offer complete web solutions from start to finish, so you don't have to worry about technical details. From domain setup to custom development and ongoing support, we make sure your project works well end to end."
+      },
+      {
+        "id": "design",
+        "icon": "palette",
+        "title": "Design & technology",
+        "body": "We build sites with modern technologies — such as Astro and Next.js — to create fast, secure, and visually striking digital experiences. 100% custom design and development, crafted to reflect each brand's unique identity."
+      },
+      {
+        "id": "trust",
+        "icon": "shield",
+        "title": "Experience & reliability",
+        "body": "Our work is backed by real experience and successful projects across industries. Local and international companies trust us to deliver reliable, high-performance websites tailored to each need."
+      },
+      {
+        "id": "scale",
+        "icon": "trend",
+        "title": "Flexibility & scalability",
+        "body": "We design with the future in mind. Our modern, flexible, and scalable architecture lets your website grow with your business, making it easy to add features without rebuilding from scratch."
+      }
+    ],
+    "stackEyebrow": "Technology stack",
+    "stackTitle": "Built with the most modern and powerful technology on the market",
+    "stackBody": "We use modern, reliable technologies to deliver exceptional results.",
+    "stackCta": {
+      "label": "See our process",
+      "href": "/#proceso"
+    },
+    "stack": [
+      {
+        "id": "react",
+        "name": "react",
+        "label": "React"
+      },
+      {
+        "id": "node",
+        "name": "node",
+        "label": "Node.js"
+      },
+      {
+        "id": "next",
+        "name": "next",
+        "label": "Next.js"
+      },
+      {
+        "id": "tailwind",
+        "name": "tailwind",
+        "label": "Tailwind CSS"
+      },
+      {
+        "id": "payload",
+        "name": "payload",
+        "label": "Payload"
+      },
+      {
+        "id": "prisma",
+        "name": "prisma",
+        "label": "Prisma"
+      }
+    ],
+    "ctaTitle": "Let's build something exceptional",
+    "ctaBody": "Contact us today to explore how GDT DevSur can help your company stand out online.",
+    "ctaPrimary": {
+      "label": "View work",
+      "href": "/#portfolio"
+    },
+    "ctaSecondary": {
+      "label": "Request a quote",
+      "href": "/#contacto"
+    }
+  },
+  "imageAlt": "Web designer with headphones working at a curved monitor showing a color palette and typography, on a white desk with a lamp and a plant"
+}

@@ -1,0 +1,34 @@
+{
+  "eyebrow": "Nuestro blog",
+  "title": "Últimos artículos",
+  "items": [
+    {
+      "id": "b1",
+      "title": "¿Cómo mejorar mi página web para conseguir más clientes?",
+      "excerpt": "Consultas, velocidad, llamados a la acción y estructura de contenido que convierten.",
+      "date": "2026-10-01",
+      "slug": "mejorar-pagina-web-mas-clientes",
+      "image": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80",
+      "published": true
+    },
+    {
+      "id": "b2",
+      "title": "Páginas web creadas con IA: la receta para que olviden por qué elegirte",
+      "excerpt": "Velocidad de producción no es diseño premium. Lo que diferencia a una marca.",
+      "date": "2026-09-22",
+      "slug": "paginas-web-creadas-con-ia",
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
+      "published": true
+    },
+    {
+      "id": "b3",
+      "title": "Cómo aparecer en ChatGPT y Gemini con tu empresa",
+      "excerpt": "GEO: datos estructurados, FAQ y arquitectura que los modelos de IA citan.",
+      "date": "2026-08-12",
+      "slug": "aparecer-en-chatgpt-gemini",
+      "image": "https://images.unsplash.com/photo-1676299080925-c116ba76f4d3?w=800&q=80",
+      "published": true
+    }
+  ],
+  "enabled": true
+}

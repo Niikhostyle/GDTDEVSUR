@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// Contenido CMS (equivalente a data/content/*.json)
+model CmsDocument {
+  id         String   @id @default(cuid())
+  collection String   @db.VarChar(64)
+  locale     String   @default("es") @db.VarChar(8)
+  data       Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([collection, locale])
+  @@index([collection])
+  @@map("cms_documents")
+}
+
+/// Formularios de contacto / consultas
+model Submission {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  name      String   @db.VarChar(191)
+  phone     String   @db.VarChar(64)
+  email     String   @db.VarChar(191)
+  company   String?  @db.VarChar(191)
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("submissions")
+}
+
+/// Usuarios del panel admin (contraseña solo como hash bcrypt)
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique @db.VarChar(191)
+  passwordHash String    @db.VarChar(255)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("admin_users")
+}

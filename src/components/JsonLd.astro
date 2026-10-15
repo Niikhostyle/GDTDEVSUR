@@ -1,0 +1,209 @@
+---
+import {
+  absoluteUrl,
+  BRAND_ALTERNATE_NAMES,
+  DEFAULT_SHARE_IMAGE,
+  localizedUrl,
+  siteOrigin,
+} from "../lib/seo";
+import type { Locale } from "../lib/locale";
+
+interface Props {
+  brandName: string;
+  description: string;
+  emails: string[];
+  phones: string[];
+  faqItems?: { question: string; answer: string }[];
+  locale?: Locale;
+  social?: Record<string, string | undefined>;
+  pageType?: "WebPage" | "AboutPage" | "ContactPage";
+  pageTitle?: string;
+  pageDescription?: string;
+  breadcrumbs?: { name: string; path: string }[];
+  services?: { name: string; description?: string }[];
+}
+
+const {
+  brandName,
+  description,
+  emails,
+  phones,
+  faqItems = [],
+  locale = "es",
+  social = {},
+  pageType = "WebPage",
+  pageTitle,
+  pageDescription,
+  breadcrumbs,
+  services = [],
+} = Astro.props;
+
+const origin = siteOrigin(Astro.site, Astro.url.origin);
+const isEn = locale === "en";
+const inLanguage = isEn ? "en" : "es-CL";
+const pageUrl = localizedUrl(origin, Astro.url.pathname, locale);
+const logoUrl = absoluteUrl(origin, "/logo-512.png");
+const ogUrl = absoluteUrl(origin, DEFAULT_SHARE_IMAGE);
+const sameAs = Object.values(social).filter(
+  (v): v is string => typeof v === "string" && /^https?:\/\//.test(v),
+);
+const phone = (phones[0] || "").replace(/\s+/g, " ").trim();
+const email = emails[0] || "";
+const stripMd = (text = "") => text.replace(/\*\*(.*?)\*\*/g, "$1").replace(/\s+/g, " ").trim();
+
+const orgId = `${origin}/#organization`;
+const websiteId = `${origin}/#website`;
+const logoId = `${origin}/#logo`;
+const webpageId = `${pageUrl}#webpage`;
+
+const org = {
+  "@type": ["Organization", "ProfessionalService"],
+  "@id": orgId,
+  name: brandName,
+  alternateName: BRAND_ALTERNATE_NAMES.filter((n) => n !== brandName),
+  description,
+  url: `${origin}/`,
+  logo: {
+    "@type": "ImageObject",
+    "@id": logoId,
+    url: logoUrl,
+    contentUrl: logoUrl,
+    width: 512,
+    height: 512,
+    caption: brandName,
+  },
+  image: [logoUrl, ogUrl],
+  ...(email && { email }),
+  ...(phone && { telephone: phone }),
+  address: { "@type": "PostalAddress", addressCountry: "CL" },
+  areaServed: [
+    { "@type": "Country", name: "Chile" },
+    { "@type": "Place", name: isEn ? "Latin America" : "Latinoamérica" },
+  ],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: isEn ? "sales" : "ventas",
+      ...(phone && { telephone: phone }),
+      ...(email && { email }),
+      availableLanguage: ["es", "en"],
+      areaServed: "CL",
+    },
+  ],
+  knowsAbout: isEn
+    ? [
+        "Web design",
+        "Custom web development",
+        "Web applications",
+        "Astro",
+        "Next.js",
+        "Technical SEO",
+        "Generative Engine Optimization (GEO)",
+        "Content management systems (CMS)",
+        "Corporate websites",
+        "Landing pages",
+      ]
+    : [
+        "Diseño web",
+        "Desarrollo web a medida",
+        "Aplicaciones web",
+        "Astro",
+        "Next.js",
+        "SEO técnico",
+        "GEO (optimización para motores de IA)",
+        "CMS autoadministrable",
+        "Sitios corporativos",
+        "Landing pages",
+      ],
+  ...(services.length > 0 && {
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: isEn ? "Web design and development services" : "Servicios de diseño y desarrollo web",
+      itemListElement: services.map((service) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: service.name,
+          ...(service.description && { description: stripMd(service.description) }),
+          provider: { "@id": orgId },
+          areaServed: { "@type": "Country", name: "Chile" },
+        },
+      })),
+    },
+  }),
+  ...(sameAs.length > 0 && { sameAs }),
+  slogan: isEn
+    ? "Premium web design and custom development"
+    : "Diseño web premium y desarrollo a medida",
+};
+
+const website = {
+  "@type": "WebSite",
+  "@id": websiteId,
+  name: brandName,
+  alternateName: BRAND_ALTERNATE_NAMES.filter((n) => n !== brandName),
+  url: `${origin}/`,
+  description,
+  inLanguage: ["es-CL", "en"],
+  publisher: { "@id": orgId },
+  copyrightHolder: { "@id": orgId },
+};
+
+const breadcrumbId = `${pageUrl}#breadcrumb`;
+const breadcrumbList = breadcrumbs?.length
+  ? {
+      "@type": "BreadcrumbList",
+      "@id": breadcrumbId,
+      itemListElement: breadcrumbs.map((crumb, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: crumb.name,
+        item: localizedUrl(origin, crumb.path, locale),
+      })),
+    }
+  : null;
+
+const webpage = {
+  "@type": pageType,
+  "@id": webpageId,
+  url: pageUrl,
+  name: pageTitle || brandName,
+  description: pageDescription || description,
+  inLanguage,
+  isPartOf: { "@id": websiteId },
+  about: { "@id": orgId },
+  publisher: { "@id": orgId },
+  primaryImageOfPage: {
+    "@type": "ImageObject",
+    url: ogUrl,
+    width: 1200,
+    height: 630,
+  },
+  ...(breadcrumbList && { breadcrumb: { "@id": breadcrumbId } }),
+};
+
+const faq =
+  faqItems.length > 0
+    ? {
+        "@type": "FAQPage",
+        "@id": `${pageUrl}#faq`,
+        inLanguage,
+        isPartOf: { "@id": webpageId },
+        mainEntity: faqItems.map((item) => ({
+          "@type": "Question",
+          name: stripMd(item.question),
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: stripMd(item.answer),
+          },
+        })),
+      }
+    : null;
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [org, website, webpage, breadcrumbList, faq].filter(Boolean),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graph).replace(/</g, "\\u003c")} />

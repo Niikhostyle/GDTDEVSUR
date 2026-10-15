@@ -1,0 +1,56 @@
+{
+  "eyebrow": "Experiencia",
+  "title": "+3 años de experiencia de diseño web",
+  "subtitle": "",
+  "items": [
+    {
+      "id": "tech",
+      "title": "La tecnología más potente del mundo",
+      "body": "Creamos tu sitio web usando Astro y Next.js, tecnología de vanguardia en la que confían marcas globales. Sitios más rápidos, seguros y preparados para el futuro, con una experiencia de usuario excepcional.",
+      "icon": "tech"
+    },
+    {
+      "id": "speed",
+      "title": "Velocidad relámpago",
+      "body": "Tu sitio cargará increíblemente rápido, sin esperas para el visitante. Un sitio más veloz mejora la experiencia, aumenta conversiones y ayuda a posicionar mejor en buscadores como Google.",
+      "icon": "speed"
+    },
+    {
+      "id": "motion",
+      "title": "Animaciones impactantes",
+      "body": "Gracias a animación avanzada, tu web no solo se ve bien: se siente viva. Movimientos y transiciones sutiles y elegantes crean una experiencia moderna y premium que destaca tu marca.",
+      "icon": "motion"
+    },
+    {
+      "id": "future",
+      "title": "Preparado para el futuro",
+      "body": "Desarrollamos con la última tecnología en la que confían empresas líderes. Así tu web es segura, estable y lista para crecer con tu negocio sin necesidad de rehacerla más adelante.",
+      "icon": "future"
+    },
+    {
+      "id": "responsive",
+      "title": "Diseño web moderno y responsive",
+      "body": "No importa si navegan desde teléfono, tablet o computador: tu web se ve y funciona perfecto. Una experiencia fluida en cada dispositivo para convertir más visitas en clientes.",
+      "icon": "responsive"
+    },
+    {
+      "id": "results",
+      "title": "Foco en comunicación y resultados",
+      "body": "Obtener resultados comerciales es el objetivo de una buena estrategia digital. Por eso diseñamos con foco en marketing digital y experiencia de usuario, no solo en estética.",
+      "icon": "results"
+    },
+    {
+      "id": "seo-geo",
+      "title": "Optimizado para SEO y AI",
+      "body": "Programamos y diseñamos para personas, para Google y para modelos de inteligencia artificial. Esa estructura mejora el posicionamiento y la citabilidad en ChatGPT, Gemini y Claude (GEO).",
+      "icon": "seo-geo"
+    },
+    {
+      "id": "cms",
+      "title": "Sitios web autoadministrables",
+      "body": "Desarrollamos paneles a medida para que tu equipo actualice la información de forma ágil, sencilla y adaptada a las necesidades dinámicas del negocio, sin tocar código.",
+      "icon": "cms"
+    }
+  ],
+  "enabled": true
+}

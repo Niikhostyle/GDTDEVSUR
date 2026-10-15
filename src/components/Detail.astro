@@ -1,0 +1,43 @@
+---
+import { imageUrl, imageSrcset } from "../lib/utils";
+interface Props {
+  eyebrow: string;
+  title: string;
+  body: string;
+  image?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  body,
+  image = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80",
+} = Astro.props;
+---
+
+<section class="reveal-section bg-white px-5 py-16 md:px-8 md:py-24">
+  <div class="mx-auto grid max-w-[1120px] items-center gap-10 lg:grid-cols-2 lg:gap-14">
+    <div class="reveal-item">
+      <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+        {eyebrow}
+      </p>
+      <h2 class="font-display text-[1.65rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[1.9rem] lg:text-[2.1rem]">
+        {title}
+      </h2>
+      <p class="mt-4 max-w-[34rem] text-[0.95rem] leading-[1.7] text-[#6b6b6b] md:text-[1rem]">
+        {body}
+      </p>
+    </div>
+    <div class="reveal-item overflow-hidden rounded-sm">
+      <img
+        src={imageUrl(image, 900, 70)}
+        srcset={imageSrcset(image, [640, 900, 1200], 70)}
+        sizes="(min-width: 1024px) 544px, 100vw"
+        alt=""
+        class="aspect-[5/4] w-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  </div>
+</section>

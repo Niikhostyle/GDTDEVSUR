@@ -1,0 +1,46 @@
+{
+  "eyebrow": "Experience",
+  "title": "+3 years of web design experience",
+  "items": [
+    {
+      "id": "tech",
+      "title": "The world's most powerful technology",
+      "body": "We build your website with Astro and Next.js — cutting-edge technology trusted by global brands. Faster, more secure, future-ready sites with an exceptional user experience."
+    },
+    {
+      "id": "speed",
+      "title": "Lightning speed",
+      "body": "Your site loads incredibly fast, with no waiting for visitors. A faster site improves experience, increases conversions, and helps you rank better on Google."
+    },
+    {
+      "id": "motion",
+      "title": "Impactful animations",
+      "body": "With advanced animation, your website doesn't just look good — it feels alive. Subtle, elegant motion and transitions create a modern premium experience that highlights your brand."
+    },
+    {
+      "id": "future",
+      "title": "Future-ready",
+      "body": "We develop with the latest technology trusted by leading companies. Your site stays secure, stable, and ready to grow without needing a full rebuild later."
+    },
+    {
+      "id": "responsive",
+      "title": "Modern responsive web design",
+      "body": "Whether visitors browse on phone, tablet, or desktop, your site looks and works perfectly. A fluid experience on every device to convert more visits into clients."
+    },
+    {
+      "id": "results",
+      "title": "Focus on communication and results",
+      "body": "Commercial results are the goal of a strong digital strategy. That's why we design with a focus on digital marketing and user experience — not just aesthetics."
+    },
+    {
+      "id": "seo-geo",
+      "title": "Optimized for SEO and AI",
+      "body": "We design and develop for people, for Google, and for AI models. That structure improves rankings and citability in ChatGPT, Gemini, and Claude (GEO)."
+    },
+    {
+      "id": "cms",
+      "title": "Self-manageable websites",
+      "body": "We build custom panels so your team can update information quickly and easily, adapting to the dynamic needs of your business — without touching code."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+---
+import { imageUrl, imageSrcset } from "../lib/utils";
+interface Props {
+  title: string;
+  cta: { label: string; href: string };
+  image?: string;
+}
+
+const {
+  title,
+  cta,
+  image = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2000&q=80",
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-black text-white">
+  <div class="absolute inset-0">
+    <img
+      src={imageUrl(image, 1600, 60)}
+      srcset={imageSrcset(image, [800, 1280, 1600], 60)}
+      sizes="100vw"
+      alt=""
+      class="h-full w-full object-cover opacity-40 grayscale"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="absolute inset-0 bg-black/55"></div>
+  </div>
+  <div class="relative section-pad">
+    <div class="container-shell flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+      <h2 class="font-display max-w-xl text-3xl font-700 tracking-tight md:text-5xl">{title}</h2>
+      <a href={cta.href} class="btn-outline border-white text-white">{cta.label}</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+{
+  "eyebrow": "Let's build something exceptional",
+  "title": "Get in touch",
+  "subtitle": "Send us a message or request a quote. We'll get back to you soon.",
+  "successMessage": "Message sent. We'll contact you soon.",
+  "fields": {
+    "name": { "label": "Name", "required": true },
+    "phone": { "label": "Phone", "required": true },
+    "email": { "label": "Email", "required": true },
+    "company": { "label": "Company", "required": false },
+    "message": { "label": "Message", "required": true }
+  },
+  "submitLabel": "Send message"
+}

@@ -1,0 +1,19 @@
+{
+  "eyebrow": "Clientes",
+  "title": "Empresas que confían en nosotros",
+  "items": [
+    {
+      "id": "mibidon",
+      "name": "mibidon.cl",
+      "logo": "",
+      "url": "https://www.mibidon.cl/"
+    },
+    {
+      "id": "veotv",
+      "name": "veotv.cloud",
+      "logo": "",
+      "url": "https://veotv.cloud/"
+    }
+  ],
+  "enabled": false
+}

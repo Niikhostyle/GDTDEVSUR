@@ -1,0 +1,27 @@
+{
+  "eyebrow": "Nuestro trabajo",
+  "title": "Proyectos que ya están online",
+  "subtitle": "Diseño premium y desarrollo a medida para productos digitales con resultados reales.",
+  "items": [
+    {
+      "id": "mibidon",
+      "title": "MiBidón — plataforma SaaS",
+      "client": "mibidon.cl",
+      "category": "Producto digital",
+      "image": "/portfolio/mibidon.webp?v=4",
+      "url": "https://www.mibidon.cl/",
+      "featured": true
+    },
+    {
+      "id": "mibidon-demo",
+      "title": "MiBidón — tienda demo",
+      "client": "demo.mibidon.cl",
+      "category": "E-commerce",
+      "image": "/portfolio/mibidon-demo.webp?v=4",
+      "url": "https://demo.mibidon.cl/",
+      "featured": true
+    }
+  ],
+  "cta": { "label": "Ver más trabajos", "href": "#contacto" },
+  "enabled": true
+}

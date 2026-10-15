@@ -1,0 +1,575 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  brandName: string;
+  nav: NavItem[];
+  cta: { label: string; href: string };
+  locales?: string[];
+  defaultLocale?: string;
+  phone?: string;
+}
+
+const {
+  brandName,
+  nav,
+  cta,
+  locales = ["es", "en"],
+  defaultLocale = "es",
+  phone = "",
+} = Astro.props;
+
+const isEn = defaultLocale === "en";
+const waText = isEn
+  ? "Hi, I'd like to request a quote"
+  : "Hola, quiero solicitar un presupuesto";
+const phoneDigits = phone.replace(/\D/g, "");
+const phoneIsPlaceholder =
+  !phoneDigits || phoneDigits.includes("00000000") || /^56?0+$/.test(phoneDigits);
+const waHref = !phoneIsPlaceholder
+  ? `https://wa.me/${phoneDigits}?text=${encodeURIComponent(waText)}`
+  : cta.href;
+const langAria = isEn ? "Change language" : "Cambiar idioma";
+const menuClose = isEn ? "Close" : "Cerrar";
+const menuOpen = isEn ? "Open menu" : "Abrir menú";
+const menuAria = isEn ? "Mobile menu" : "Menú móvil";
+const navAria = isEn ? "Main" : "Principal";
+
+const navKeyMap: Record<string, string> = {
+  Inicio: "nav.inicio",
+  "Acerca de": "nav.acerca",
+  Portfolio: "nav.portfolio",
+  Clientes: "nav.clientes",
+  Servicios: "nav.servicios",
+  Blog: "nav.blog",
+  FAQ: "nav.faq",
+  Contacto: "nav.contacto",
+  Home: "nav.inicio",
+  About: "nav.acerca",
+  Clients: "nav.clientes",
+  Services: "nav.servicios",
+  Contact: "nav.contacto",
+};
+---
+
+<header
+  class="site-header fixed inset-x-0 top-0 z-50 border-b border-white/0 transition-[background,border-color] duration-300"
+  data-site-header
+>
+  <div
+    class="mx-auto flex h-[64px] max-w-[1280px] items-center gap-3 px-4 md:h-[80px] md:gap-4 md:px-6 lg:px-8"
+    style="padding-top: env(safe-area-inset-top);"
+  >
+    <a
+      href="/"
+      class="flex shrink-0 items-center justify-center text-white"
+      aria-label={brandName}
+    >
+      <img
+        src="/logo-devsur.svg"
+        alt={brandName}
+        width="48"
+        height="48"
+        class="h-9 w-9 md:h-12 md:w-12"
+        decoding="async"
+      />
+    </a>
+
+    <nav
+      class="ml-2 hidden flex-1 items-center justify-center gap-1 xl:flex"
+      aria-label={navAria}
+    >
+      {
+        nav.map((item, index) => (
+          <a
+            href={item.href}
+            class:list={[
+              "nav-link relative px-3 py-2 text-[13px] font-500 tracking-wide text-white/90 transition hover:text-white",
+              index === 0 && "is-active",
+            ]}
+            data-i18n={navKeyMap[item.label] || undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="ml-auto flex items-center gap-2 md:gap-3">
+      <div class="relative z-[70] hidden sm:block" data-lang-wrap>
+        <button
+          type="button"
+          class="lang-btn inline-flex items-center gap-1.5 rounded-full border border-white/35 px-3 py-1.5 text-xs font-600 tracking-wide text-white transition hover:border-white/70"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          aria-label={langAria}
+          data-lang-toggle
+        >
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 opacity-90" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
+          </svg>
+          <span data-lang-current>{defaultLocale.toUpperCase()}</span>
+          <svg viewBox="0 0 24 24" class="h-3 w-3 opacity-80" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
+        </button>
+        <ul
+          class="lang-menu absolute right-0 top-[calc(100%+8px)] z-[80] hidden min-w-[104px] overflow-hidden rounded-xl border border-white/15 bg-[#0c1018] py-1 shadow-2xl"
+          role="listbox"
+          data-lang-menu
+        >
+          {
+            locales.map((locale) => (
+              <li>
+                <button
+                  type="button"
+                  class="block w-full px-3.5 py-2.5 text-left text-xs font-600 tracking-wide text-white/85 transition hover:bg-white/10 hover:text-white"
+                  data-lang-option={locale}
+                  role="option"
+                  aria-selected={locale === defaultLocale ? "true" : "false"}
+                >
+                  {locale.toUpperCase()}
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <a
+        href={waHref}
+        target={!phoneIsPlaceholder ? "_blank" : undefined}
+        rel={!phoneIsPlaceholder ? "noopener noreferrer" : undefined}
+        class="cta-budget hidden items-center gap-2 rounded-full border border-white/40 px-3.5 py-2 text-[12px] font-600 tracking-wide text-white transition hover:border-white hover:bg-white/10 md:inline-flex lg:px-4 lg:text-[13px]"
+      >
+        <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] shrink-0" aria-hidden="true">
+          <path
+            fill="#25D366"
+            d="M12.04 2C6.58 2 2.15 6.4 2.15 11.84c0 1.97.52 3.8 1.44 5.43L2 22l4.88-1.55a9.9 9.9 0 0 0 5.16 1.42h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2zm5.77 14.13c-.24.68-1.4 1.25-1.94 1.33-.5.07-1.13.1-1.82-.11-.42-.14-.96-.3-1.65-.6-2.9-1.26-4.79-4.2-4.93-4.4-.14-.19-1.17-1.56-1.17-2.97 0-1.42.74-2.11 1-2.4.26-.28.57-.35.76-.35h.55c.17 0 .4-.07.63.48.24.57.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.28.29-.12.56.16.28.71 1.17 1.53 1.9 1.05.93 1.94 1.22 2.21 1.36.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.63-.14.26.1 1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.68-.17 1.36z"
+          ></path>
+        </svg>
+        <span data-i18n="cta.budget">{cta.label}</span>
+      </a>
+
+      <button
+        type="button"
+        id="menu-toggle"
+        class="menu-toggle relative z-[70] inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition active:scale-95 xl:hidden"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        aria-label={menuOpen}
+      >
+        <span class="burger" aria-hidden="true">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div
+  id="site-menu"
+  class="site-menu fixed inset-0 z-[60] flex flex-col"
+  hidden
+  aria-hidden="true"
+>
+  <div class="site-menu__backdrop absolute inset-0 bg-black/55" data-menu-backdrop></div>
+  <div
+    class="site-menu__panel absolute inset-y-0 right-0 flex w-full max-w-[420px] flex-col bg-[#070a10] shadow-[-20px_0_60px_rgba(0,0,0,0.45)]"
+    role="dialog"
+    aria-modal="true"
+    aria-label={menuAria}
+  >
+    <div
+      class="flex items-center justify-between gap-3 border-b border-white/10 px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4"
+    >
+      <div class="flex min-w-0 items-center gap-3">
+        <img src="/logo-devsur.svg" alt="" width="36" height="36" class="h-9 w-9 shrink-0" decoding="async" />
+        <span class="truncate font-display text-base font-700 tracking-wide text-white">{brandName}</span>
+      </div>
+      <button
+        type="button"
+        id="menu-close"
+        class="inline-flex h-11 items-center gap-2 rounded-full border border-white/25 px-4 text-xs font-600 tracking-[0.14em] text-white uppercase transition hover:border-white/50"
+        aria-label={menuClose}
+      >
+        <span data-i18n="menu.close">{menuClose}</span>
+        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="flex flex-1 flex-col gap-1 overflow-y-auto px-5 py-6" aria-label={menuAria}>
+      {
+        nav.map((item, i) => (
+          <a
+            class="menu-link group flex items-center justify-between border-b border-white/8 py-3.5 text-white transition"
+            href={item.href}
+            style={`--i:${i}`}
+            data-i18n={navKeyMap[item.label] || undefined}
+          >
+            <span class="font-display text-[1.65rem] leading-none font-700 tracking-tight transition group-hover:text-[var(--color-accent)] sm:text-[1.85rem]">
+              {item.label}
+            </span>
+            <span class="text-white/25 transition group-hover:translate-x-0.5 group-hover:text-[var(--color-accent)]" aria-hidden="true">
+              →
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="mt-auto space-y-4 border-t border-white/10 px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="mr-1 text-[11px] font-600 tracking-[0.16em] text-white/45 uppercase">{langAria}</span>
+        {
+          locales.map((locale) => (
+            <button
+              type="button"
+              class:list={[
+                "min-h-11 min-w-11 rounded-full border px-3.5 text-xs font-700 tracking-wide transition",
+                locale === defaultLocale
+                  ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]"
+                  : "border-white/25 text-white hover:border-white/50",
+              ]}
+              data-lang-option={locale}
+            >
+              {locale.toUpperCase()}
+            </button>
+          ))
+        }
+      </div>
+      <a
+        href={waHref}
+        target={!phoneIsPlaceholder ? "_blank" : undefined}
+        rel={!phoneIsPlaceholder ? "noopener noreferrer" : undefined}
+        class="inline-flex w-full min-h-12 items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 text-sm font-700 text-white shadow-[0_10px_28px_rgba(37,211,102,0.35)] transition active:scale-[0.98]"
+      >
+        <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+          <path
+            fill="#fff"
+            d="M12.04 2C6.58 2 2.15 6.4 2.15 11.84c0 1.97.52 3.8 1.44 5.43L2 22l4.88-1.55a9.9 9.9 0 0 0 5.16 1.42h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2zm5.77 14.13c-.24.68-1.4 1.25-1.94 1.33-.5.07-1.13.1-1.82-.11-.42-.14-.96-.3-1.65-.6-2.9-1.26-4.79-4.2-4.93-4.4-.14-.19-1.17-1.56-1.17-2.97 0-1.42.74-2.11 1-2.4.26-.28.57-.35.76-.35h.55c.17 0 .4-.07.63.48.24.57.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.28.29-.12.56.16.28.71 1.17 1.53 1.9 1.05.93 1.94 1.22 2.21 1.36.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.63-.14.26.1 1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.68-.17 1.36z"
+          ></path>
+        </svg>
+        <span data-i18n="cta.budget">{cta.label}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  type Locale = "es" | "en";
+
+  declare global {
+    interface Window {
+      __lenis?: { scroll: number; on: (event: string, cb: () => void) => void };
+    }
+  }
+
+  function closeLangMenus() {
+    document.querySelectorAll<HTMLElement>("[data-lang-menu]").forEach((menu) => {
+      menu.classList.add("hidden");
+    });
+    document.querySelectorAll("[data-lang-toggle]").forEach((btn) => {
+      btn.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  async function setLocale(locale: Locale) {
+    closeLangMenus();
+    try {
+      localStorage.setItem("gds-locale", locale);
+    } catch {}
+    document.cookie = `gds_locale=${locale}; path=/; max-age=31536000; SameSite=Lax`;
+    try {
+      await fetch("/api/locale", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locale }),
+      });
+    } catch {}
+    const url = new URL(window.location.href);
+    if (locale === "en") url.searchParams.set("lang", "en");
+    else url.searchParams.delete("lang");
+    url.searchParams.delete("locale");
+    window.location.assign(url.pathname + url.search + url.hash);
+  }
+
+  function openMenu() {
+    const menu = document.getElementById("site-menu");
+    const toggle = document.getElementById("menu-toggle");
+    if (!menu || !toggle) return;
+    menu.hidden = false;
+    menu.setAttribute("aria-hidden", "false");
+    document.documentElement.classList.add("menu-open");
+    requestAnimationFrame(() => {
+      menu.classList.add("is-open");
+      toggle.classList.add("is-open");
+      toggle.setAttribute("aria-expanded", "true");
+    });
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMenu() {
+    const menu = document.getElementById("site-menu");
+    const toggle = document.getElementById("menu-toggle");
+    if (!menu || !toggle) return;
+    menu.classList.remove("is-open");
+    toggle.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-hidden", "true");
+    document.documentElement.classList.remove("menu-open");
+    document.body.style.overflow = "";
+    window.setTimeout(() => {
+      if (!menu.classList.contains("is-open")) menu.hidden = true;
+    }, 320);
+  }
+
+  function initHeader() {
+    const header = document.querySelector<HTMLElement>("[data-site-header]");
+    const menu = document.getElementById("site-menu");
+    const toggle = document.getElementById("menu-toggle");
+    const closeBtn = document.getElementById("menu-close");
+    const alreadyBound = header?.dataset.bound === "1";
+
+    const onScroll = () => {
+      if (!header) return;
+      const y = window.__lenis?.scroll ?? window.scrollY;
+      header.classList.toggle("is-scrolled", y > 16);
+    };
+
+    const sections = [...document.querySelectorAll<HTMLElement>("main section[id]")];
+    const links = [...document.querySelectorAll<HTMLAnchorElement>(".nav-link")];
+    const path = window.location.pathname.replace(/\/$/, "") || "/";
+    let syncRaf = 0;
+
+    const syncActive = () => {
+      if (path !== "/" && path !== "") {
+        links.forEach((link) => {
+          const href = (link.getAttribute("href") || "").replace(/\/$/, "");
+          link.classList.toggle("is-active", href === path || href.startsWith(`${path}#`));
+        });
+        return;
+      }
+      let current = sections[0]?.id;
+      for (const section of sections) {
+        const top = section.getBoundingClientRect().top;
+        if (top <= 120) current = section.id;
+      }
+      links.forEach((link) => {
+        const href = link.getAttribute("href") || "";
+        const hash = href.includes("#") ? href.slice(href.indexOf("#")) : "";
+        link.classList.toggle("is-active", hash === `#${current}`);
+      });
+    };
+
+    // Throttle: evita getBoundingClientRect en cada pixel de scroll (mata Android)
+    const onScrollTick = () => {
+      onScroll();
+      if (syncRaf) return;
+      syncRaf = requestAnimationFrame(() => {
+        syncRaf = 0;
+        syncActive();
+      });
+    };
+
+    if (!alreadyBound && header) {
+      header.dataset.bound = "1";
+
+      toggle?.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") === "true";
+        if (open) closeMenu();
+        else openMenu();
+      });
+      closeBtn?.addEventListener("click", closeMenu);
+      menu?.querySelector("[data-menu-backdrop]")?.addEventListener("click", closeMenu);
+      menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+
+      document.querySelectorAll("[data-lang-toggle]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const wrap = (btn as HTMLElement).closest("[data-lang-wrap]");
+          const langMenu = wrap?.querySelector<HTMLElement>("[data-lang-menu]");
+          if (!langMenu) return;
+          const willOpen = langMenu.classList.contains("hidden");
+          closeLangMenus();
+          if (willOpen) {
+            langMenu.classList.remove("hidden");
+            btn.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+
+      document.querySelectorAll("[data-lang-option]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const locale = btn.getAttribute("data-lang-option");
+          if (locale === "es" || locale === "en") void setLocale(locale);
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        const target = e.target as Node;
+        const inside = [...document.querySelectorAll("[data-lang-wrap]")].some((wrap) =>
+          wrap.contains(target),
+        );
+        if (!inside) closeLangMenus();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeLangMenus();
+          closeMenu();
+        }
+      });
+
+      window.addEventListener("scroll", onScrollTick, { passive: true });
+      window.addEventListener("lenis:ready", () => {
+        window.__lenis?.on("scroll", onScrollTick);
+        onScrollTick();
+      });
+      window.__lenis?.on("scroll", onScrollTick);
+    }
+
+    onScrollTick();
+  }
+
+  initHeader();
+  document.addEventListener("astro:page-load", initHeader);
+</script>
+
+<style>
+  .site-header.is-scrolled {
+    background: rgba(6, 8, 13, 0.92);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-link.is-active::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 4px;
+    height: 1.5px;
+    background: #fff;
+  }
+
+  .lang-menu:not(.hidden) {
+    display: block;
+  }
+
+  /* Burger → X */
+  .burger {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 14px;
+  }
+
+  .burger-line {
+    position: absolute;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    border-radius: 2px;
+    background: #fff;
+    transition:
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.2s ease,
+      top 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .burger-line:nth-child(1) {
+    top: 0;
+  }
+  .burger-line:nth-child(2) {
+    top: 6px;
+  }
+  .burger-line:nth-child(3) {
+    top: 12px;
+  }
+
+  .menu-toggle.is-open {
+    border-color: rgba(250, 150, 88, 0.55);
+    background: rgba(250, 150, 88, 0.12);
+  }
+
+  .menu-toggle.is-open .burger-line:nth-child(1) {
+    top: 6px;
+    transform: rotate(45deg);
+  }
+  .menu-toggle.is-open .burger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .menu-toggle.is-open .burger-line:nth-child(3) {
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+
+  /* Panel menú */
+  .site-menu {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .site-menu__backdrop {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .site-menu__panel {
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .site-menu.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .site-menu.is-open .site-menu__backdrop {
+    opacity: 1;
+  }
+
+  .site-menu.is-open .site-menu__panel {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .site-menu.is-open .menu-link {
+    animation: menu-link-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(0.04s * var(--i, 0) + 0.08s);
+  }
+
+  @keyframes menu-link-in {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .burger-line,
+    .site-menu__panel,
+    .site-menu__backdrop,
+    .site-menu.is-open .menu-link {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>

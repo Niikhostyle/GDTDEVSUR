@@ -1,0 +1,21 @@
+{
+  "eyebrow": "Our blog",
+  "title": "Latest articles",
+  "items": [
+    {
+      "id": "b1",
+      "title": "How to improve my website to get more clients?",
+      "excerpt": "Queries, speed, calls to action, and content structure that convert."
+    },
+    {
+      "id": "b2",
+      "title": "AI-made websites: the recipe for being forgettable",
+      "excerpt": "Production speed is not premium design. What truly differentiates a brand."
+    },
+    {
+      "id": "b3",
+      "title": "How to appear in ChatGPT and Gemini with your company",
+      "excerpt": "GEO: structured data, FAQ, and architecture that AI models cite."
+    }
+  ]
+}

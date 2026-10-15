@@ -1,0 +1,61 @@
+{
+  "tagline": "Technological Development Group · Premium web design",
+  "footerNote": "© 2026 · GDT DevSur · Technological Development Group",
+  "seo": {
+    "title": "GDT DevSur | Web Design & Development Agency in Chile",
+    "description": "GDT DevSur (Grupo Desarrollo Tecnológico) is a Chilean premium web design and development agency: custom Astro/Next.js sites, proprietary CMS, and SEO + GEO.",
+    "ogImage": "/og-default.jpg",
+    "keywords": [
+      "web design Chile",
+      "premium web agency",
+      "custom web development",
+      "Astro",
+      "Next.js",
+      "technical SEO",
+      "GEO",
+      "self-manageable websites"
+    ]
+  },
+  "nav": [
+    {
+      "label": "Home",
+      "href": "/#inicio"
+    },
+    {
+      "label": "About",
+      "href": "/acerca-de"
+    },
+    {
+      "label": "Portfolio",
+      "href": "/#portfolio"
+    },
+    {
+      "label": "Clients",
+      "href": "/#clientes"
+    },
+    {
+      "label": "Services",
+      "href": "/#servicios"
+    },
+    {
+      "label": "Blog",
+      "href": "/#blog"
+    },
+    {
+      "label": "FAQ",
+      "href": "/#faq"
+    },
+    {
+      "label": "Contact",
+      "href": "/#contacto"
+    }
+  ],
+  "ctaPrimary": {
+    "label": "Request a quote",
+    "href": "/#contacto"
+  },
+  "ctaSecondary": {
+    "label": "Learn more",
+    "href": "/#nosotros"
+  }
+}

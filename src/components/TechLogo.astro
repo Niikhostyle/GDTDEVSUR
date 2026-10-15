@@ -1,0 +1,68 @@
+---
+import { resolveTechIconSlug, techIconUrl } from "../lib/techIcons";
+
+interface Props {
+  id: string;
+  label?: string;
+  name?: string;
+  logo?: string;
+  icon?: string;
+  class?: string;
+}
+
+const { id, label, name, logo, icon, class: className = "" } = Astro.props;
+const title = label || name || id;
+const resolved = resolveTechIconSlug({ id, name: name || label, label, logo, icon });
+const src =
+  resolved?.kind === "url"
+    ? resolved.value
+    : resolved?.kind === "simple"
+      ? techIconUrl(resolved.value)
+      : null;
+const initials = title.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "??";
+---
+
+<span
+  class:list={["tech-logo inline-flex flex-col items-center justify-center gap-2", className]}
+  title={title}
+  data-tech={id}
+>
+  {
+    src ? (
+      <>
+        <img
+          src={src}
+          alt=""
+          width="40"
+          height="40"
+          class="tech-logo__img h-9 w-9 object-contain md:h-10 md:w-10"
+          loading="lazy"
+          decoding="async"
+          onerror="this.classList.add('is-broken'); this.nextElementSibling?.classList.remove('hidden')"
+        />
+        <span
+          class="tech-logo__fallback hidden grid h-9 w-9 place-items-center rounded-lg bg-[#111]/8 text-[10px] font-700 tracking-wide text-[#111]/60 md:h-10 md:w-10"
+          aria-hidden="true"
+        >
+          {initials}
+        </span>
+      </>
+    ) : (
+      <span
+        class="grid h-9 w-9 place-items-center rounded-lg bg-[#111]/8 text-[10px] font-700 tracking-wide text-[#111]/60 md:h-10 md:w-10"
+        aria-hidden="true"
+      >
+        {initials}
+      </span>
+    )
+  }
+  <span class="font-display text-[11px] font-700 tracking-[0.14em] text-[#1a1a1a] uppercase md:text-xs">
+    {title}
+  </span>
+</span>
+
+<style>
+  .tech-logo__img.is-broken {
+    display: none;
+  }
+</style>

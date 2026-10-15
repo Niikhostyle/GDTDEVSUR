@@ -1,0 +1,250 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import SmoothScroll from "../components/SmoothScroll.astro";
+import Reveal from "../components/Reveal.astro";
+import JsonLd from "../components/JsonLd.astro";
+import TechStack from "../components/TechStack.astro";
+import { getCollection } from "../lib/cms";
+import { getLocaleFromRequest } from "../lib/locale";
+import { filterNavByModules } from "../lib/nav";
+import { imageUrl, imageSrcset } from "../lib/utils";
+
+const locale = getLocaleFromRequest(Astro.request);
+const site = await getCollection<any>("site", locale);
+const about = await getCollection<any>("about", locale);
+const hero = await getCollection<any>("hero", locale);
+const services = await getCollection<any>("services", locale);
+const differentials = await getCollection<any>("differentials", locale);
+const portfolio = await getCollection<any>("portfolio", locale);
+const clients = await getCollection<any>("clients", locale);
+const process = await getCollection<any>("process", locale);
+const blog = await getCollection<any>("blog", locale);
+const news = await getCollection<any>("news", locale);
+const faq = await getCollection<any>("faq", locale);
+const contact = await getCollection<any>("contact", locale);
+const page = about.page;
+
+const nav = filterNavByModules(site.nav, {
+  hero,
+  about,
+  services,
+  differentials,
+  portfolio,
+  clients,
+  process,
+  blog,
+  news,
+  faq,
+  contact,
+});
+
+const icons: Record<string, string> = {
+  layers: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>`,
+  palette: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.36-.769-.36-1.214 0-.96.769-1.73 1.73-1.73H20c2.21 0 4-1.79 4-4 0-5.523-4.477-10-10-10z"/></svg>`,
+  shield: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
+  trend: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>`,
+};
+
+const experienceHtml = String(page.experienceBody || "").replace(
+  /\*\*(.*?)\*\*/g,
+  "<strong class='font-600 text-[#2a2a2a]'>$1</strong>",
+);
+---
+
+<Layout
+  title={page.seoTitle}
+  description={page.seoDescription}
+  ogImage={site.seo?.ogImage || "/og-default.jpg"}
+  locale={locale}
+  keywords={site.seo?.keywords}
+>
+  <JsonLd
+    brandName={site.brandName}
+    description={site.seo.description}
+    emails={site.emails}
+    phones={site.phones}
+    locale={locale}
+    social={site.social}
+    pageType="AboutPage"
+    pageTitle={page.seoTitle}
+    pageDescription={page.seoDescription}
+    breadcrumbs={[
+      { name: locale === "en" ? "Home" : "Inicio", path: "/" },
+      { name: page.breadcrumb || (locale === "en" ? "About" : "Acerca de"), path: "/acerca-de" },
+    ]}
+  />
+  <Header
+    brandName={site.brandName}
+    nav={nav}
+    cta={site.ctaPrimary}
+    locales={site.locales}
+    defaultLocale={locale}
+    phone={site.phones?.[0] || ""}
+  />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden bg-[#06080d] pt-28 pb-16 text-white md:pt-36 md:pb-24">
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-full md:w-[55%]">
+        <img
+          src={imageUrl(page.heroImage, 1280, 65)}
+          srcset={imageSrcset(page.heroImage, [800, 1280, 1600], 65)}
+          sizes="(min-width: 768px) 55vw, 100vw"
+          alt=""
+          decoding="async"
+          class="h-full w-full object-cover object-center grayscale contrast-125 opacity-70 md:opacity-90"
+          fetchpriority="high"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-[#06080d] via-[#06080d]/75 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#06080d] via-transparent to-[#06080d]/40"></div>
+      </div>
+
+      <div class="relative z-10 mx-auto max-w-[1120px] px-5 md:px-8">
+        <nav class="mb-6 flex items-center gap-2 text-xs text-white/70" aria-label="Breadcrumb">
+          <a
+            href="/"
+            class="inline-flex items-center gap-1.5 transition hover:text-white"
+            aria-label={locale === "en" ? "Home" : "Inicio"}
+          >
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M3 10.5 12 3l9 7.5"></path>
+              <path d="M5 9.5V21h14V9.5"></path>
+            </svg>
+          </a>
+          <span aria-hidden="true">›</span>
+          <span class="text-white">{page.breadcrumb}</span>
+        </nav>
+
+        <h1 class="font-display max-w-xl text-4xl leading-[1.05] font-700 tracking-tight md:text-5xl lg:text-6xl">
+          {page.heroTitle}
+        </h1>
+        <p class="mt-4 text-lg text-white/80 md:text-xl">{page.heroSubtitle}</p>
+      </div>
+    </section>
+
+    <!-- Experiencia + pilares -->
+    <section class="reveal-section bg-white px-5 py-16 md:px-8 md:py-24">
+      <div class="mx-auto max-w-[1120px]">
+        <div class="reveal-item mx-auto max-w-3xl text-center">
+          <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+            {page.experienceEyebrow}
+          </p>
+          <h2 class="font-display text-[1.85rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.5rem] lg:text-[2.85rem]">
+            {page.experienceTitle}
+          </h2>
+          <p
+            class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-[#6b6b6b] md:text-base"
+            set:html={experienceHtml}
+          />
+        </div>
+
+        <div class="mt-14 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+          {
+            page.pillars.map((pillar: any) => (
+              <article class="vox-card p-6">
+                <div
+                  class="mb-4 text-[var(--color-accent)]"
+                  set:html={icons[pillar.icon] || icons.layers}
+                />
+                <h3 class="font-display text-xl font-600 tracking-tight text-[#2a2a2a]">
+                  {pillar.title}
+                </h3>
+                <p class="mt-3 text-sm leading-relaxed text-[#6b6b6b]">{pillar.body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Stack -->
+    <section class="reveal-section bg-white px-5 pb-16 md:px-8 md:pb-24">
+      <div class="mx-auto max-w-[1120px]">
+        <div class="reveal-item mx-auto max-w-3xl text-center">
+          <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+            {page.stackEyebrow}
+          </p>
+          <h2 class="font-display text-[1.75rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.35rem]">
+            {page.stackTitle}
+          </h2>
+          <p class="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[#6b6b6b] md:text-base">
+            {page.stackBody}
+          </p>
+        </div>
+
+      </div>
+
+      {
+        page.stack?.length > 0 && (
+          <div class="reveal-item mx-auto mt-12 max-w-[1120px] px-5 md:mt-14 md:px-8">
+            <TechStack items={page.stack} mode="row" />
+          </div>
+        )
+      }
+
+      <div class="reveal-item mx-auto mt-12 max-w-[1120px] px-5 text-center md:mt-14 md:px-8">
+        <a
+          href={page.stackCta.href}
+          class="inline-flex rounded-full border border-[var(--color-accent)] px-6 py-2.5 text-sm font-600 text-[var(--color-accent)] transition hover:bg-[var(--color-accent)] hover:text-white"
+        >
+          {page.stackCta.label}
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="relative overflow-hidden bg-[#0a0c10] text-white">
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-full opacity-35 md:w-[50%] md:opacity-50">
+        <img
+          src={imageUrl(page.ctaImage, 1280, 60)}
+          srcset={imageSrcset(page.ctaImage, [800, 1280], 60)}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          alt=""
+          decoding="async"
+          class="h-full w-full object-cover object-center grayscale contrast-125"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-[#0a0c10] via-[#0a0c10]/70 to-transparent"></div>
+      </div>
+
+      <div class="relative z-10 mx-auto flex max-w-[1120px] flex-col gap-8 px-5 py-16 md:flex-row md:items-end md:justify-between md:px-8 md:py-24">
+        <div class="max-w-xl border-l-4 border-[var(--color-accent)] pl-5 md:pl-6">
+          <h2 class="font-display text-2xl leading-tight font-700 tracking-tight uppercase md:text-3xl lg:text-4xl">
+            {page.ctaTitle}
+          </h2>
+          <p class="mt-4 text-sm leading-relaxed text-white/75 md:text-base">{page.ctaBody}</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-4 md:pb-1">
+          <a
+            href={page.ctaPrimary.href}
+            class="inline-flex rounded-full border border-white/50 px-5 py-2.5 text-sm font-600 text-white transition hover:border-white hover:bg-white/10"
+          >
+            {page.ctaPrimary.label}
+          </a>
+          <a
+            href={page.ctaSecondary.href}
+            class="inline-flex items-center gap-2 text-sm font-600 text-white transition hover:text-[var(--color-accent)]"
+          >
+            {page.ctaSecondary.label}
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer
+    brandName={site.brandName}
+    footerNote={site.footerNote}
+    emails={site.emails}
+    phones={site.phones}
+    nav={nav}
+    locale={locale}
+  />
+  <WhatsAppFloat phone={site.phones?.[0] || ""} />
+  <SmoothScroll />
+  <Reveal />
+</Layout>

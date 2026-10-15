@@ -1,0 +1,243 @@
+---
+import { imageUrl, imageSrcset } from "../lib/utils";
+interface Props {
+  eyebrow: string;
+  title: string;
+  body: string;
+  highlights: string[];
+  cta: { label: string; href: string };
+  image?: string;
+  imageAlt?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  body,
+  cta,
+  image = "/about/about-designer-1400.webp",
+  imageAlt = "",
+} = Astro.props;
+
+// Imagen local versionada por ancho (nombre-<w>.webp): srcset con la variante de 800w
+const localWidth = image.match(/-(\d+)\.webp$/)?.[1];
+const imgSrc = localWidth ? image : imageUrl(image, 900, 65);
+const imgSrcset = localWidth
+  ? `${image.replace(/-\d+\.webp$/, "-800.webp")} 800w, ${image} ${localWidth}w`
+  : imageSrcset(image, [640, 900, 1200], 65);
+const htmlBody = body.replace(
+  /\*\*(.*?)\*\*/g,
+  "<strong class='font-600 text-[#1a1a1a]'>$1</strong>",
+);
+---
+
+<section id="nosotros" class="about-vox reveal-section bg-white" data-reveal="soft">
+  <div class="about-vox__shell mx-auto grid items-center">
+    <div class="about-vox__copy order-2 lg:order-1">
+      <p class="reveal-item about-vox__eyebrow">{eyebrow}</p>
+      <h2 class="reveal-item about-vox__title font-display">{title}</h2>
+      <p class="reveal-item about-vox__body" set:html={htmlBody} />
+      <a href={cta.href} class="reveal-item about-vox__cta">
+        {cta.label}
+      </a>
+    </div>
+
+    <div class="reveal-item about-vox__media order-1 lg:order-2">
+      <figure class="about-vox__frame">
+        <img
+          src={imgSrc}
+          srcset={imgSrcset}
+          sizes="(min-width: 1024px) 45vw, calc(100vw - 2.5rem)"
+          width="1400"
+          height="1050"
+          alt={imageAlt}
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-vox {
+    --about-fade: 40vh;
+    position: relative;
+    padding-block: clamp(4.5rem, 9vw, 7.5rem);
+    padding-top: calc(var(--about-fade) * 0.6 + clamp(3rem, 6vw, 5rem));
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  @media (max-width: 768px) {
+    .about-vox {
+      --about-fade: 28vh;
+      --about-fade: 28svh;
+    }
+  }
+
+  /* Fundido #06080d → blanco: easing seno, colores interpolados en OKLab (sin grises sucios) */
+  .about-vox::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--about-fade);
+    background: linear-gradient(
+      to bottom,
+      #06080d 0%,
+      #080b10 8.3%,
+      #12141a 16.7%,
+      #222429 25%,
+      #383b40 33.3%,
+      #54575b 41.7%,
+      #75767a 50%,
+      #97989b 58.3%,
+      #b7b8ba 66.7%,
+      #d5d5d6 75%,
+      #ebecec 83.3%,
+      #fafafa 91.7%,
+      #fff 100%
+    );
+    pointer-events: none;
+  }
+
+  .about-vox__shell {
+    position: relative;
+  }
+
+  .about-vox__shell {
+    width: min(1320px, 100%);
+    gap: clamp(2.5rem, 5vw, 5rem);
+  }
+
+  @media (min-width: 1024px) {
+    .about-vox__shell {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: clamp(3.5rem, 6vw, 6.5rem);
+    }
+  }
+
+  .about-vox__eyebrow {
+    margin: 0 0 1.1rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+  }
+
+  .about-vox__title {
+    margin: 0;
+    max-width: 14ch;
+    color: #121212;
+    font-size: clamp(1.85rem, 7.5vw, 4.15rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 640px) {
+    .about-vox {
+      padding-top: calc(var(--about-fade) * 0.6 + 3rem);
+      padding-bottom: 3.25rem;
+    }
+
+    .about-vox__title {
+      max-width: 11ch;
+    }
+
+    .about-vox__body {
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+  }
+
+  .about-vox__body {
+    margin: 1.35rem 0 0;
+    max-width: 36rem;
+    color: #5c5c5c;
+    font-family: var(--font-sans);
+    font-size: clamp(0.98rem, 1.15vw, 1.08rem);
+    font-weight: 400;
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+  }
+
+  .about-vox__cta {
+    margin-top: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #111;
+    color: #fff;
+    padding: 0.85rem 1.85rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .about-vox__cta:hover {
+    background: #000;
+    transform: translateY(-1px);
+  }
+
+  .about-vox__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-vox__frame {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    max-width: 620px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #f4f4f4;
+    box-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.04),
+      0 12px 40px rgba(0, 0, 0, 0.08);
+    transition:
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Detalle de acento: línea naranja en el borde inferior */
+  .about-vox__frame::after {
+    content: "";
+    position: absolute;
+    left: 1.5rem;
+    bottom: 0;
+    width: 3.5rem;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: var(--color-accent);
+  }
+
+  .about-vox__frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  @media (hover: hover) {
+    .about-vox__media:hover .about-vox__frame {
+      transform: translateY(-4px);
+      box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.04),
+        0 22px 55px rgba(0, 0, 0, 0.14);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .about-vox__frame {
+      max-width: none;
+    }
+  }
+</style>

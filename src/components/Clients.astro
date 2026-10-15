@@ -1,0 +1,74 @@
+---
+interface Item {
+  id: string;
+  name: string;
+  logo: string;
+  url?: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  items: Item[];
+  locale?: "es" | "en";
+}
+
+const { eyebrow, title, items, locale = "es" } = Astro.props;
+const emptyLabel = locale === "en" ? "More clients coming soon." : "Pronto más clientes.";
+---
+
+<section id="clientes" class="reveal-section border-y border-[var(--color-line)] bg-[var(--color-surface)] py-16 md:py-20">
+  <div class="reveal-item mx-auto mb-10 max-w-[1120px] px-5 text-center md:px-8">
+    <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+      {eyebrow}
+    </p>
+    <h2 class="font-display text-[1.75rem] font-700 tracking-tight text-[#2a2a2a] md:text-[2.15rem]">{title}</h2>
+  </div>
+  {
+    items.length > 0 ? (
+      <div class="overflow-hidden">
+        <div class="marquee-track gap-16 px-6">
+          {items.map((item) =>
+            item.url ? (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-display shrink-0 text-xl font-600 tracking-tight text-[#6b6b6b] transition hover:text-[var(--color-accent)]"
+              >
+                {item.name}
+              </a>
+            ) : (
+              <span class="font-display shrink-0 text-xl font-600 tracking-tight text-[#6b6b6b]">
+                {item.name}
+              </span>
+            ),
+          )}
+          {items.map((item) =>
+            item.url ? (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="marquee-clone font-display shrink-0 text-xl font-600 tracking-tight text-[#6b6b6b] transition hover:text-[var(--color-accent)]"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                {item.name}
+              </a>
+            ) : (
+              <span
+                class="marquee-clone font-display shrink-0 text-xl font-600 tracking-tight text-[#6b6b6b]"
+                aria-hidden="true"
+              >
+                {item.name}
+              </span>
+            ),
+          )}
+        </div>
+      </div>
+    ) : (
+      <p class="text-center text-sm text-[#6b6b6b]">{emptyLabel}</p>
+    )
+  }
+</section>

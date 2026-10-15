@@ -1,0 +1,128 @@
+{
+  "eyebrow": "Especialistas en diseño de páginas web",
+  "title": "GDT DevSur",
+  "body": "**GDT DevSur** es una agencia chilena de **diseño web premium** y desarrollo a medida. Desarrollamos páginas de alto impacto orientadas a maximizar resultados. Somos especialistas en soluciones a medida y diseño personalizado para cada cliente — tipografía, espaciado, animaciones y microanimaciones sin plantillas.",
+  "highlights": [
+    "Diseño UX/UI 100% a medida",
+    "Stack de alto rendimiento (Astro / Next.js)",
+    "CMS profesional, sin WordPress",
+    "Optimización SEO + GEO (IA)"
+  ],
+  "cta": {
+    "label": "Conoce más",
+    "href": "/acerca-de"
+  },
+  "image": "/about/about-designer-1400.webp",
+  "detail": {
+    "eyebrow": "Te brindamos un servicio destacado",
+    "title": "Máxima atención al detalle",
+    "body": "Para lograr el efecto «wow», cuidamos tipografía, color, distribución, luz de las fotos, contrastes y llamados a la acción. Cada detalle cuenta en un diseño premium a medida."
+  },
+  "page": {
+    "seoTitle": "Acerca de GDT DevSur | Agencia de diseño web en Chile",
+    "seoDescription": "GDT DevSur — Grupo Desarrollo Tecnológico. Diseño web premium a medida, Astro/Next.js, performance y SEO + GEO para empresas en Chile y el exterior.",
+    "breadcrumb": "Acerca de",
+    "heroTitle": "Acerca de GDT DevSur",
+    "heroSubtitle": "Grupo Desarrollo Tecnológico",
+    "heroImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80",
+    "experienceEyebrow": "Experiencia",
+    "experienceTitle": "+3 años desarrollando sitios web premium",
+    "experienceBody": "GDT DevSur es una agencia chilena de diseño y desarrollo web. Creamos tu sitio web usando Astro y Next.js, una **tecnología de vanguardia en la que confían marcas globales.** Sitios más rápidos, seguros y preparados para el futuro, que ofrecen una experiencia de usuario excepcional.",
+    "pillars": [
+      {
+        "id": "integral",
+        "icon": "layers",
+        "title": "Soluciones web integrales",
+        "body": "Te ofrecemos soluciones web completas de punta a punta, para que no tengas que preocuparte por los detalles técnicos. Desde la configuración del dominio hasta el desarrollo a medida y el soporte continuo, nos aseguramos de que tu proyecto funcione bien de principio a fin."
+      },
+      {
+        "id": "design",
+        "icon": "palette",
+        "title": "Diseño & tecnología",
+        "body": "Desarrollamos sitios con las tecnologías más modernas —como Astro y Next.js— para crear experiencias digitales rápidas, seguras y visualmente impactantes. Diseño y desarrollo 100% a medida, pensado para reflejar la identidad única de cada marca."
+      },
+      {
+        "id": "trust",
+        "icon": "shield",
+        "title": "Experiencia & confiabilidad",
+        "body": "Nuestro trabajo está respaldado por experiencia concreta y proyectos exitosos para clientes de distintos rubros. Empresas locales e internacionales confían en nosotros para entregar sitios confiables y de alto rendimiento, adaptados a cada necesidad."
+      },
+      {
+        "id": "scale",
+        "icon": "trend",
+        "title": "Flexibilidad & escalabilidad",
+        "body": "Diseñamos pensando en el futuro. Nuestra arquitectura moderna, flexible y escalable permite que tu sitio web crezca junto a tu negocio, facilitando sumar nuevas funciones sin rehacer la base y manteniendo la vigencia de la inversión."
+      }
+    ],
+    "stackEyebrow": "Stack tecnológico",
+    "stackTitle": "Construido con la tecnología más moderna y potente del mercado",
+    "stackBody": "Utilizamos las tecnologías más modernas y confiables para lograr resultados excepcionales.",
+    "stackCta": {
+      "label": "Conoce nuestro proceso",
+      "href": "/#proceso"
+    },
+    "stack": [
+      {
+        "id": "react",
+        "name": "React",
+        "icon": "react",
+        "logo": "/tech/react.svg"
+      },
+      {
+        "id": "node",
+        "name": "Node.js",
+        "icon": "nodedotjs",
+        "logo": "/tech/nodedotjs.svg"
+      },
+      {
+        "id": "next",
+        "name": "Next.js",
+        "icon": "nextdotjs",
+        "logo": "/tech/nextdotjs.svg"
+      },
+      {
+        "id": "tailwind",
+        "name": "Tailwind CSS",
+        "icon": "tailwindcss",
+        "logo": "/tech/tailwindcss.svg"
+      },
+      {
+        "id": "astro",
+        "name": "Astro",
+        "icon": "astro",
+        "logo": "/tech/astro.svg"
+      },
+      {
+        "id": "laravel",
+        "name": "Laravel",
+        "icon": "laravel",
+        "logo": "/tech/laravel.svg"
+      },
+      {
+        "id": "nginx",
+        "name": "NGINX",
+        "icon": "nginx",
+        "logo": "/tech/nginx.svg"
+      },
+      {
+        "id": "cloudflare",
+        "name": "Cloudflare",
+        "icon": "cloudflare",
+        "logo": "/tech/cloudflare.svg"
+      }
+    ],
+    "ctaTitle": "Construyamos algo excepcional",
+    "ctaBody": "Contáctanos hoy para explorar cómo GDT DevSur puede hacer que tu empresa destaque online.",
+    "ctaPrimary": {
+      "label": "Ver trabajos",
+      "href": "/#portfolio"
+    },
+    "ctaSecondary": {
+      "label": "Solicita presupuesto",
+      "href": "/#contacto"
+    },
+    "ctaImage": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=80"
+  },
+  "enabled": true,
+  "imageAlt": "Diseñador web con audífonos trabajando frente a un monitor curvo con una paleta de colores y tipografías en pantalla, en un escritorio blanco con lámpara y planta"
+}

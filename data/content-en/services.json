@@ -1,0 +1,37 @@
+{
+  "eyebrow": "Services",
+  "title": "Everything you need for your digital presence",
+  "subtitle": "Premium design, custom development, and continuous evolution — one specialized team.",
+  "items": [
+    {
+      "id": "diseno-web",
+      "title": "Custom premium web design",
+      "description": "Typography, spacing, fluid animations, and calls to action built from scratch. No templates."
+    },
+    {
+      "id": "web-apps",
+      "title": "Custom web apps and software",
+      "description": "Bookings, calculators, custom dashboards, CRM/ERP integrations, and platforms with users and databases."
+    },
+    {
+      "id": "multilang",
+      "title": "Multilingual websites",
+      "description": "Each language ranks separately on Google. Professional internationalization — not translator plugins."
+    },
+    {
+      "id": "admin",
+      "title": "Custom admin panels",
+      "description": "Edit all content without touching code. Flexible, secure, and ready to scale."
+    },
+    {
+      "id": "seo-geo",
+      "title": "Google and AI optimization",
+      "description": "Technical SEO + GEO: structure that ChatGPT, Gemini, and Claude can cite."
+    },
+    {
+      "id": "redesign",
+      "title": "Redesign, maintenance, and support",
+      "description": "We modernize existing sites and support ongoing evolution month after month."
+    }
+  ]
+}

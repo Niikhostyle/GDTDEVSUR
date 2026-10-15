@@ -1,0 +1,165 @@
+---
+---
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+  // Evita refresh en cada show/hide de la barra de direcciones móvil
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
+  function isMobile() {
+    return (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(max-width: 768px)").matches ||
+      "ontouchstart" in window
+    );
+  }
+
+  function showAll() {
+    document.querySelectorAll(".reveal-item, .vox-card").forEach((el) => {
+      el.classList.add("is-revealed");
+      (el as HTMLElement).style.opacity = "1";
+      (el as HTMLElement).style.transform = "none";
+    });
+  }
+
+  const SOFT = '[data-reveal="soft"]';
+
+  function isSoft(el: Element) {
+    return !!el.closest(SOFT);
+  }
+
+  /** Entrada suave (desktop y móvil): poco recorrido, fade largo, stagger en orden visual. */
+  function initSoft() {
+    const pending = [...document.querySelectorAll<HTMLElement>(`${SOFT} .reveal-item`)].filter(
+      (el) => !el.classList.contains("is-revealed"),
+    );
+    if (!pending.length) return;
+
+    gsap.set(pending, { opacity: 0, y: 28, force3D: true });
+
+    ScrollTrigger.batch(pending, {
+      start: "top 88%",
+      once: true,
+      onEnter: (batch) => {
+        const ordered = [...batch].sort((a, b) => {
+          const ra = a.getBoundingClientRect();
+          const rb = b.getBoundingClientRect();
+          return ra.top - rb.top || ra.left - rb.left;
+        });
+        gsap.to(ordered, {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power2.out",
+          stagger: 0.1,
+          overwrite: true,
+          onComplete: () => ordered.forEach((el) => el.classList.add("is-revealed")),
+        });
+      },
+    }).forEach((t, i) => {
+      (t.vars as { id?: string }).id = `reveal-soft-${i}`;
+    });
+  }
+
+  function initDesktop() {
+    document.querySelectorAll(".reveal-section").forEach((section, sIndex) => {
+      if (section.matches(SOFT)) return;
+      const items = section.querySelectorAll(".reveal-item:not(.vox-card)");
+      if (!items.length) return;
+
+      const pending = [...items].filter((el) => !el.classList.contains("is-revealed"));
+      if (!pending.length) return;
+
+      gsap.set(pending, { opacity: 0, y: 72, force3D: true });
+
+      gsap.to(pending, {
+        opacity: 1,
+        y: 0,
+        duration: 0.95,
+        ease: "power3.out",
+        stagger: 0.1,
+        onComplete: () => pending.forEach((el) => el.classList.add("is-revealed")),
+        scrollTrigger: {
+          id: `reveal-${sIndex}`,
+          trigger: section,
+          start: "top 82%",
+          once: true,
+        },
+      });
+    });
+
+    document.querySelectorAll(".vox-card").forEach((card, index) => {
+      if (card.classList.contains("is-revealed")) return;
+
+      gsap.set(card, { opacity: 0, y: 64, force3D: true });
+
+      gsap.to(card, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        delay: (index % 4) * 0.06,
+        onComplete: () => card.classList.add("is-revealed"),
+        scrollTrigger: {
+          id: `vox-card-${index}`,
+          trigger: card,
+          start: "top 90%",
+          once: true,
+        },
+      });
+    });
+  }
+
+  /** Móvil: misma animación, pero por elemento en lote (layouts apilados, menos triggers activos). */
+  function initMobile() {
+    const pending = [...document.querySelectorAll<HTMLElement>(".reveal-item, .vox-card")].filter(
+      (el) => !el.classList.contains("is-revealed") && !isSoft(el),
+    );
+    if (!pending.length) return;
+
+    gsap.set(pending, { opacity: 0, y: 40, force3D: true });
+
+    ScrollTrigger.batch(pending, {
+      start: "top 92%",
+      once: true,
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.08,
+          overwrite: true,
+          onComplete: () => batch.forEach((el) => el.classList.add("is-revealed")),
+        }),
+    }).forEach((t, i) => {
+      (t.vars as { id?: string }).id = `reveal-m-${i}`;
+    });
+  }
+
+  function initReveal() {
+    ScrollTrigger.getAll().forEach((t) => {
+      const id = (t.vars as { id?: string })?.id;
+      if (id?.startsWith("reveal-") || id?.startsWith("vox-card-")) t.kill();
+    });
+
+    document.documentElement.classList.add("reveal-ready");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      showAll();
+      return;
+    }
+
+    initSoft();
+    if (isMobile()) initMobile();
+    else initDesktop();
+  }
+
+  initReveal();
+  document.addEventListener("astro:page-load", initReveal);
+  window.addEventListener("load", () => ScrollTrigger.refresh());
+  window.addEventListener("lenis:ready", () => ScrollTrigger.refresh());
+</script>

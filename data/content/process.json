@@ -1,0 +1,56 @@
+{
+  "eyebrow": "Proceso",
+  "title": "Cómo trabajamos",
+  "subtitle": "De la consulta inicial al lanzamiento — con servidor de prueba y aprobación en cada etapa.",
+  "steps": [
+    {
+      "number": "01",
+      "title": "Consulta inicial",
+      "description": "Entendemos objetivos, público y requerimientos del proyecto."
+    },
+    {
+      "number": "02",
+      "title": "Propuesta y presupuesto",
+      "description": "Alcance, plazos e inversión a medida. Comenzamos tras tu aprobación."
+    },
+    {
+      "number": "03",
+      "title": "Briefing y estrategia",
+      "description": "Contenidos, estructura, marca y referencias de diseño."
+    },
+    {
+      "number": "04",
+      "title": "Diseño UX/UI",
+      "description": "Pantallas para aprobar el look antes de programar."
+    },
+    {
+      "number": "05",
+      "title": "Desarrollo",
+      "description": "Stack de alto rendimiento + avances en URL privada de prueba."
+    },
+    {
+      "number": "06",
+      "title": "Revisión y lanzamiento",
+      "description": "Ajustes, deploy en tu dominio, analítica y soporte."
+    }
+  ],
+  "stackEyebrow": "Stack",
+  "stackTitle": "Tecnologías que dominamos",
+  "stack": [
+    { "id": "react", "name": "React", "icon": "react", "logo": "/tech/react.svg" },
+    { "id": "node", "name": "Node.js", "icon": "nodedotjs", "logo": "/tech/nodedotjs.svg" },
+    { "id": "next", "name": "Next.js", "icon": "nextdotjs", "logo": "/tech/nextdotjs.svg" },
+    { "id": "tailwind", "name": "Tailwind CSS", "icon": "tailwindcss", "logo": "/tech/tailwindcss.svg" },
+    { "id": "payload", "name": "Payload", "icon": "payloadcms", "logo": "/tech/payloadcms.svg" },
+    { "id": "prisma", "name": "Prisma", "icon": "prisma", "logo": "/tech/prisma.svg" },
+    { "id": "astro", "name": "Astro", "icon": "astro", "logo": "/tech/astro.svg" },
+    { "id": "gsap", "name": "GSAP", "icon": "greensock", "logo": "/tech/greensock.svg" },
+    { "id": "ts", "name": "TypeScript", "icon": "typescript", "logo": "/tech/typescript.svg" },
+    { "id": "vite", "name": "Vite", "icon": "vite", "logo": "/tech/vite.svg" },
+    { "id": "lenis", "name": "Lenis", "icon": "lenis", "logo": "/tech/lenis.svg" },
+    { "id": "nginx", "name": "NGINX", "icon": "nginx", "logo": "/tech/nginx.svg" },
+    { "id": "laravel", "name": "Laravel", "icon": "laravel", "logo": "/tech/laravel.svg" },
+    { "id": "cloudflare", "name": "Cloudflare", "icon": "cloudflare", "logo": "/tech/cloudflare.svg" }
+  ],
+  "enabled": true
+}

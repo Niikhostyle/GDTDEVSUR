@@ -1,0 +1,129 @@
+---
+interface Props {
+  brandName: string;
+  footerNote: string;
+  emails: string[];
+  phones: string[];
+  nav: { label: string; href: string }[];
+  locale?: "es" | "en";
+}
+
+const { brandName, footerNote, emails, phones, nav, locale = "es" } = Astro.props;
+
+const serviceLinks =
+  locale === "en"
+    ? [
+        { label: "Premium web design", href: "/#servicios" },
+        { label: "Custom web apps", href: "/#servicios" },
+        { label: "Multilingual sites", href: "/#servicios" },
+        { label: "Admin panels", href: "/#servicios" },
+        { label: "SEO and GEO (AI)", href: "/#servicios" },
+        { label: "Redesign and maintenance", href: "/#servicios" },
+      ]
+    : [
+        { label: "Diseño web premium", href: "/#servicios" },
+        { label: "Web apps a medida", href: "/#servicios" },
+        { label: "Sitios multilenguaje", href: "/#servicios" },
+        { label: "Paneles de administración", href: "/#servicios" },
+        { label: "SEO y GEO (IA)", href: "/#servicios" },
+        { label: "Rediseño y mantenimiento", href: "/#servicios" },
+      ];
+
+const labels =
+  locale === "en"
+    ? { map: "Sitemap", services: "Services", contact: "Contact", support: "Technical support" }
+    : { map: "Mapa del sitio", services: "Servicios", contact: "Contacto", support: "Soporte técnico" };
+---
+
+<footer class="border-t border-white/10 bg-[#080a0e] text-white">
+  <div class="mx-auto grid max-w-[1200px] gap-10 px-5 py-14 md:grid-cols-2 md:px-8 lg:grid-cols-4 lg:gap-8 lg:py-16">
+    <div class="flex items-start">
+      <img
+        src="/logo-devsur.svg"
+        alt={brandName}
+        width="120"
+        height="120"
+        class="h-[120px] w-[120px] text-white"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <div>
+      <p class="mb-4 flex items-center gap-2 text-[11px] font-700 tracking-[0.18em] text-white uppercase">
+        <span class="inline-block h-4 w-[3px] bg-[var(--color-accent)]" aria-hidden="true"></span>
+        <span>{labels.map}</span>
+      </p>
+      <ul class="space-y-2 text-sm text-white/70">
+        {
+          nav.map((item) => (
+            <li>
+              <a class="transition hover:text-white" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <p class="mb-4 flex items-center gap-2 text-[11px] font-700 tracking-[0.18em] text-white uppercase">
+        <span class="inline-block h-4 w-[3px] bg-[var(--color-accent)]" aria-hidden="true"></span>
+        <span>{labels.services}</span>
+      </p>
+      <ul class="space-y-2 text-sm text-white/70">
+        {
+          serviceLinks.map((item) => (
+            <li>
+              <a class="transition hover:text-white" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <p class="mb-4 flex items-center gap-2 text-[11px] font-700 tracking-[0.18em] text-white uppercase">
+        <span class="inline-block h-4 w-[3px] bg-[var(--color-accent)]" aria-hidden="true"></span>
+        <span>{labels.contact}</span>
+      </p>
+      <ul class="space-y-2.5 text-sm text-white/70">
+        {
+          phones.map((phone) => (
+            <li class="flex items-center gap-2">
+              <span class="text-[var(--color-accent)]" aria-hidden="true">☎</span>
+              <a class="transition hover:text-white" href={`tel:${phone.replace(/\s/g, "")}`}>
+                {phone}
+              </a>
+            </li>
+          ))
+        }
+        {
+          emails.map((email) => (
+            <li class="flex items-center gap-2">
+              <span class="text-[var(--color-accent)]" aria-hidden="true">✉</span>
+              <a class="transition hover:text-white" href={`mailto:${email}`}>
+                {email}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a
+        href={`https://wa.me/${(phones[0] || "").replace(/\D/g, "")}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-5 inline-flex rounded-full border border-[var(--color-accent)] px-4 py-2 text-xs font-600 tracking-wide text-[var(--color-accent)] transition hover:bg-[var(--color-accent)] hover:text-black"
+      >
+        {labels.support}
+      </a>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10 px-5 py-4 text-center text-xs text-white/45 md:px-8">
+    {footerNote}
+  </div>
+</footer>

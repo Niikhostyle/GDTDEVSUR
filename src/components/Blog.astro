@@ -1,0 +1,73 @@
+---
+import { imageUrl, imageSrcset } from "../lib/utils";
+interface Item {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  slug: string;
+  image: string;
+  published: boolean;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  items: Item[];
+  locale?: "es" | "en";
+}
+
+const { eyebrow, title, items, locale = "es" } = Astro.props;
+const published = items.filter((i) => i.published);
+const dateLocale = locale === "en" ? "en-US" : "es-CL";
+---
+
+<section id="blog" class="reveal-section bg-white px-5 py-16 md:px-8 md:py-24">
+  <div class="mx-auto max-w-[1120px]">
+    <div class="reveal-item max-w-2xl">
+      <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+        {eyebrow}
+      </p>
+      <h2 class="font-display text-[1.75rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.35rem]">
+        {title}
+      </h2>
+    </div>
+
+    <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        published.map((item, index) => (
+          <article
+            class="reveal-item group"
+            style={`--stagger: ${index * 70}ms`}
+          >
+            <div class="aspect-[16/10] overflow-hidden bg-[var(--color-surface)]">
+              <img
+                src={imageUrl(item.image, 640, 65)}
+                srcset={imageSrcset(item.image, [400, 640, 960], 65)}
+                sizes="(min-width: 768px) 360px, 100vw"
+                alt=""
+                decoding="async"
+                class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+            </div>
+            <time
+              class="mt-4 block text-[11px] font-600 tracking-[0.14em] text-[var(--color-accent)] uppercase"
+              datetime={item.date}
+            >
+              {new Date(item.date).toLocaleDateString(dateLocale, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+            <h3 class="font-display mt-2 text-lg leading-snug font-600 text-[#2a2a2a] md:text-xl">
+              {item.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-[#6b6b6b]">{item.excerpt}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

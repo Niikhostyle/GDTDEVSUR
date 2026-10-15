@@ -1,0 +1,55 @@
+---
+interface Item {
+  id: string;
+  date: string;
+  title: string;
+  body: string;
+  published: boolean;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  items: Item[];
+  locale?: "es" | "en";
+}
+
+const { eyebrow, title, items, locale = "es" } = Astro.props;
+const published = items.filter((i) => i.published);
+const dateLocale = locale === "en" ? "en-US" : "es-CL";
+---
+
+<section id="actualidad" class="reveal-section bg-[var(--color-surface)] px-5 py-16 md:px-8 md:py-24">
+  <div class="mx-auto max-w-[1120px]">
+    <div class="reveal-item max-w-2xl">
+      <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+        {eyebrow}
+      </p>
+      <h2 class="font-display text-[1.75rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.35rem]">
+        {title}
+      </h2>
+    </div>
+
+    <div class="reveal-item mt-10 divide-y divide-[var(--color-line)] border-y border-[var(--color-line)] bg-white">
+      {
+        published.map((item) => (
+          <article class="grid gap-3 px-5 py-7 md:grid-cols-[160px_1fr] md:gap-10 md:px-7">
+            <time class="text-sm font-600 text-[var(--color-accent)]" datetime={item.date}>
+              {new Date(item.date).toLocaleDateString(dateLocale, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </time>
+            <div>
+              <h3 class="font-display text-lg font-600 text-[#2a2a2a] md:text-xl">{item.title}</h3>
+              <p class="mt-2 max-w-2xl text-sm leading-relaxed text-[#6b6b6b] md:text-[0.95rem]">
+                {item.body}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

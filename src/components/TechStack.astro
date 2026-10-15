@@ -1,0 +1,70 @@
+---
+import TechLogo from "./TechLogo.astro";
+
+interface Item {
+  id?: string;
+  name?: string;
+  label?: string;
+  logo?: string;
+  icon?: string;
+}
+
+interface Props {
+  items: Item[];
+  mode?: "row" | "marquee";
+  class?: string;
+}
+
+const { items, mode = "row", class: className = "" } = Astro.props;
+
+const normalized = items.map((item) => ({
+  id: (item.id || item.name || item.label || "").toString(),
+  label: (item.label || item.name || item.id || "").toString(),
+  name: item.name,
+  logo: item.logo,
+  icon: item.icon,
+}));
+
+const loop = mode === "marquee" ? [...normalized, ...normalized] : normalized;
+---
+
+{
+  mode === "marquee" ? (
+    <div class:list={["overflow-hidden", className]}>
+      <div class="marquee-track items-end gap-12 px-6 md:gap-16" aria-hidden="true">
+        {loop.map((item) => (
+          <TechLogo
+            id={item.id}
+            label={item.label}
+            name={item.name}
+            logo={item.logo}
+            icon={item.icon}
+            class="shrink-0 opacity-90"
+          />
+        ))}
+      </div>
+      <ul class="sr-only">
+        {normalized.map((item) => (
+          <li>{item.label}</li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <div
+      class:list={[
+        "flex flex-wrap items-end justify-center gap-x-10 gap-y-10 md:gap-x-14",
+        className,
+      ]}
+    >
+      {normalized.map((item) => (
+        <TechLogo
+          id={item.id}
+          label={item.label}
+          name={item.name}
+          logo={item.logo}
+          icon={item.icon}
+        />
+      ))}
+    </div>
+  )
+}

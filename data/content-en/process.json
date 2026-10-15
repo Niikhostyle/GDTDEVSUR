@@ -1,0 +1,52 @@
+{
+  "eyebrow": "Process",
+  "title": "How we work",
+  "subtitle": "From the first consultation to launch — with a staging server and approval at every stage.",
+  "steps": [
+    {
+      "number": "01",
+      "title": "Initial consultation",
+      "description": "We understand goals, audience, and project requirements."
+    },
+    {
+      "number": "02",
+      "title": "Proposal and budget",
+      "description": "Custom scope, timeline, and investment. We start after your approval."
+    },
+    {
+      "number": "03",
+      "title": "Briefing and strategy",
+      "description": "Content, structure, brand, and design references."
+    },
+    {
+      "number": "04",
+      "title": "UX/UI design",
+      "description": "Screens to approve the look before development."
+    },
+    {
+      "number": "05",
+      "title": "Development",
+      "description": "High-performance stack + progress on a private staging URL."
+    },
+    {
+      "number": "06",
+      "title": "Review and launch",
+      "description": "Adjustments, deploy to your domain, analytics, and support."
+    }
+  ],
+  "stackEyebrow": "Stack",
+  "stackTitle": "Technologies we master",
+  "stack": [
+    { "id": "react", "name": "React" },
+    { "id": "node", "name": "Node.js" },
+    { "id": "next", "name": "Next.js" },
+    { "id": "tailwind", "name": "Tailwind CSS" },
+    { "id": "payload", "name": "Payload" },
+    { "id": "prisma", "name": "Prisma" },
+    { "id": "astro", "name": "Astro" },
+    { "id": "gsap", "name": "GSAP" },
+    { "id": "ts", "name": "TypeScript" },
+    { "id": "vite", "name": "Vite" },
+    { "id": "lenis", "name": "Lenis" }
+  ]
+}

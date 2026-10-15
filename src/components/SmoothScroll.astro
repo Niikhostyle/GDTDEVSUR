@@ -1,0 +1,111 @@
+---
+---
+
+<script>
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import gsap from "gsap";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  declare global {
+    interface Window {
+      __lenis?: {
+        scroll: number;
+        on: (event: string, cb: () => void) => void;
+        scrollTo: (v: number | HTMLElement, opts?: Record<string, unknown>) => void;
+      };
+      __voxSmooth?: {
+        scrollTo: (y: number, immediate?: boolean) => void;
+        refresh: () => void;
+        destroy: () => void;
+      };
+    }
+  }
+
+  type ScrollOpts = { offset?: number; immediate?: boolean };
+
+  function bindHashLinks(scrollTo: (y: number | HTMLElement, opts?: ScrollOpts) => void) {
+    document.querySelectorAll<HTMLAnchorElement>('a[href*="#"]').forEach((anchor) => {
+      if (anchor.dataset.smoothBound === "1") return;
+      anchor.dataset.smoothBound = "1";
+      anchor.addEventListener("click", (e) => {
+        const href = anchor.getAttribute("href");
+        if (!href || href === "#") return;
+        const hashIndex = href.indexOf("#");
+        if (hashIndex < 0) return;
+        const path = href.slice(0, hashIndex) || "/";
+        const hash = href.slice(hashIndex);
+        const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+        const targetPath = path.replace(/\/$/, "") || "/";
+        if (targetPath !== currentPath && targetPath !== "") return;
+        const el = document.querySelector(hash);
+        if (!el) return;
+        e.preventDefault();
+        scrollTo(el as HTMLElement, { offset: -72 });
+        history.replaceState(null, "", hash);
+      });
+    });
+  }
+
+  function resetScrollOnReload() {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+    if (nav?.type === "reload") {
+      if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+      window.scrollTo(0, 0);
+    }
+  }
+
+  /**
+   * Scroll nativo en todos los dispositivos: el compositor del navegador mueve la página
+   * sin JS por frame. Expone window.__lenis para Header/Reveal.
+   */
+  function initSmoothScroll() {
+    window.__voxSmooth?.destroy?.();
+
+    const scrollListeners = new Set<() => void>();
+    const onScroll = () => scrollListeners.forEach((cb) => cb());
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const scrollTo = (y: number | HTMLElement, opts?: ScrollOpts) => {
+      let top = typeof y === "number" ? y : 0;
+      if (typeof y !== "number") {
+        top = y.getBoundingClientRect().top + window.scrollY + (opts?.offset ?? 0);
+      }
+      top = Math.max(0, top);
+      window.scrollTo({ top, behavior: opts?.immediate || reduce ? "auto" : "smooth" });
+    };
+
+    window.__lenis = {
+      get scroll() {
+        return window.scrollY || 0;
+      },
+      on(event, cb) {
+        if (event === "scroll") scrollListeners.add(cb);
+      },
+      scrollTo(v, opts) {
+        if (typeof v === "number") scrollTo(v, opts as ScrollOpts);
+        else scrollTo(v as HTMLElement, { offset: -72, ...(opts as ScrollOpts) });
+      },
+    };
+
+    window.__voxSmooth = {
+      scrollTo: (y, immediate) => scrollTo(y, { immediate }),
+      refresh: () => ScrollTrigger.refresh(),
+      destroy: () => window.removeEventListener("scroll", onScroll),
+    };
+
+    bindHashLinks(scrollTo);
+    resetScrollOnReload();
+
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+    window.dispatchEvent(new Event("lenis:ready"));
+  }
+
+  initSmoothScroll();
+  document.addEventListener("astro:page-load", initSmoothScroll);
+</script>

@@ -1,0 +1,129 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import Portfolio from "../components/Portfolio.astro";
+import Detail from "../components/Detail.astro";
+import Services from "../components/Services.astro";
+import Differentials from "../components/Differentials.astro";
+import Clients from "../components/Clients.astro";
+import Process from "../components/Process.astro";
+import CtaContact from "../components/CtaContact";
+import Blog from "../components/Blog.astro";
+import News from "../components/News.astro";
+import Faq from "../components/Faq";
+import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import SmoothScroll from "../components/SmoothScroll.astro";
+import Reveal from "../components/Reveal.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { getCollection } from "../lib/cms";
+import { getLocaleFromRequest } from "../lib/locale";
+import { filterNavByModules } from "../lib/nav";
+
+const locale = getLocaleFromRequest(Astro.request);
+const site = await getCollection<any>("site", locale);
+const hero = await getCollection<any>("hero", locale);
+const about = await getCollection<any>("about", locale);
+const services = await getCollection<any>("services", locale);
+const differentials = await getCollection<any>("differentials", locale);
+const portfolio = await getCollection<any>("portfolio", locale);
+const clients = await getCollection<any>("clients", locale);
+const process = await getCollection<any>("process", locale);
+const blog = await getCollection<any>("blog", locale);
+const news = await getCollection<any>("news", locale);
+const faq = await getCollection<any>("faq", locale);
+const contact = await getCollection<any>("contact", locale);
+const detail = about.detail;
+
+const nav = filterNavByModules(site.nav, {
+  hero,
+  about,
+  services,
+  differentials,
+  portfolio,
+  clients,
+  process,
+  blog,
+  news,
+  faq,
+  contact,
+});
+---
+
+<Layout
+  title={site.seo.title}
+  description={site.seo.description}
+  ogImage={site.seo.ogImage || "/og-default.jpg"}
+  locale={locale}
+  keywords={site.seo.keywords}
+>
+  <JsonLd
+    brandName={site.brandName}
+    description={site.seo.description}
+    emails={site.emails}
+    phones={site.phones}
+    faqItems={faq.items}
+    locale={locale}
+    social={site.social}
+    pageType="WebPage"
+    pageTitle={site.seo.title}
+    pageDescription={site.seo.description}
+    breadcrumbs={[
+      { name: locale === "en" ? "Home" : "Inicio", path: "/" },
+    ]}
+    services={(services.items || []).map((item: { title: string; description?: string }) => ({
+      name: item.title,
+      description: item.description,
+    }))}
+  />
+  <Header
+    brandName={site.brandName}
+    nav={nav}
+    cta={site.ctaPrimary}
+    locales={site.locales}
+    defaultLocale={locale}
+    phone={site.phones?.[0] || ""}
+  />
+  <main>
+    {hero.enabled !== false && <Hero {...hero} />}
+    {about.enabled !== false && <About {...about} />}
+    {portfolio.enabled !== false && <Portfolio {...portfolio} />}
+    {
+      detail && (
+        <Detail eyebrow={detail.eyebrow} title={detail.title} body={detail.body} />
+      )
+    }
+    {services.enabled !== false && <Services {...services} />}
+    {differentials.enabled !== false && <Differentials {...differentials} />}
+    {clients.enabled !== false && <Clients {...clients} locale={locale} />}
+    {process.enabled !== false && <Process {...process} />}
+    {
+      contact.enabled !== false && (
+        <CtaContact
+          client:load
+          title={contact.eyebrow || contact.title}
+          successMessage={contact.successMessage}
+          submitLabel={contact.submitLabel}
+          fields={contact.fields}
+          locale={locale}
+        />
+      )
+    }
+    {blog.enabled !== false && <Blog {...blog} locale={locale} />}
+    {news.enabled !== false && <News {...news} locale={locale} />}
+    {faq.enabled !== false && <Faq client:load {...faq} />}
+  </main>
+  <Footer
+    brandName={site.brandName}
+    footerNote={site.footerNote}
+    emails={site.emails}
+    phones={site.phones}
+    nav={nav}
+    locale={locale}
+  />
+  <WhatsAppFloat phone={site.phones?.[0] || ""} />
+  <SmoothScroll />
+  <Reveal />
+</Layout>
