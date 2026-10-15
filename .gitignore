@@ -17,3 +17,9 @@ data/*.db-wal
 data/*.db-shm
 .vscode/
 .idea/
+
+# Local DB artifacts
+prisma/data/
+scripts/__pycache__/
+**/__pycache__/
+*.pyc
