@@ -10,12 +10,16 @@ interface Step {
 interface StackItem {
   id: string;
   name: string;
+  icon?: string;
+  logo?: string;
 }
 
 interface Props {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
+  eyebrow?: string;
+  title?: string;
+  titleLight?: string;
+  titleBold?: string;
+  subtitle?: string;
   steps: Step[];
   stackEyebrow?: string;
   stackTitle?: string;
@@ -23,55 +27,211 @@ interface Props {
 }
 
 const {
-  eyebrow,
+  eyebrow = "",
+  titleLight = "",
+  titleBold = "",
   title,
-  subtitle,
   steps,
-  stackEyebrow = "Stack",
-  stackTitle = "Tecnologías que dominamos",
+  stackTitle = "",
   stack = [],
 } = Astro.props;
+
+const light = titleLight || title || "";
+const bold = titleBold || "";
 ---
 
-<section id="proceso" class="reveal-section bg-[var(--color-surface)] px-5 py-16 md:px-8 md:py-24">
-  <div class="mx-auto max-w-[1120px]">
-    <div class="reveal-item max-w-2xl">
-      <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
-        {eyebrow}
-      </p>
-      <h2 class="font-display text-[1.75rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.15rem]">
-        {title}
-      </h2>
-      <p class="mt-3 text-sm leading-relaxed text-[#6b6b6b] md:text-base">{subtitle}</p>
-    </div>
+<section
+  id="proceso"
+  class="proceso-mmd has-arc-exit reveal-section relative text-[var(--color-ink)]"
+  data-proceso
+>
+  <div class="proceso-mmd__lines" aria-hidden="true"></div>
 
-    <ol class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="proceso-mmd__wrap relative z-[2] mx-auto max-w-[1240px] px-5 md:px-8">
+    <span class="proceso-mmd__ey font-condensed">{eyebrow}</span>
+    <h2 class="proceso-mmd__cd font-condensed mmd-rv" data-split-words>
+      <span class="proceso-mmd__l">{light}</span>
+      {" "}
+      <b>{bold}</b>
+    </h2>
+
+    <div class="proceso-mmd__steps" data-steps>
       {
-        steps.map((step, index) => (
-          <li
-            class="reveal-item rounded-2xl bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
-            style={`--stagger: ${index * 70}ms`}
-          >
-            <span class="font-display text-2xl font-700 text-[var(--color-accent)]">{step.number}</span>
-            <h3 class="font-display mt-3 text-lg font-600 text-[#2a2a2a]">{step.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-[#6b6b6b]">{step.description}</p>
-          </li>
+        steps.map((step) => (
+          <div class="mmd-rv">
+            <b class="font-condensed">{step.number}</b>
+            <h3 class="font-condensed">{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
         ))
       }
-    </ol>
+    </div>
   </div>
 
   {
     stack.length > 0 && (
-      <div class="reveal-item mt-16 border-t border-[var(--color-line)] pt-12 md:mt-20 md:pt-14">
-        <div class="mx-auto mb-8 max-w-[1120px] text-center md:mb-10">
-          <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
-            {stackEyebrow}
-          </p>
-          <h3 class="font-display text-xl font-700 text-[#2a2a2a] md:text-2xl">{stackTitle}</h3>
-        </div>
+      <div class="proceso-mmd__stack relative z-[7] mx-auto mt-16 max-w-[1240px] border-t border-[var(--color-ink)]/15 px-5 pt-12 pb-4 md:mt-20 md:px-8 md:pt-14">
+        <h3 class="font-condensed mb-8 text-2xl font-700 uppercase tracking-tight md:mb-10 md:text-3xl">
+          {stackTitle}
+        </h3>
         <TechStack items={stack} mode="marquee" />
       </div>
     )
   }
 </section>
+
+<script>
+  function initProcessProgress() {
+    const root = document.querySelector("[data-proceso] [data-steps]");
+    if (!root || root.getAttribute("data-ready") === "1") return;
+    root.setAttribute("data-ready", "1");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      (root as HTMLElement).style.setProperty("--sp", "1");
+      return;
+    }
+    function tick() {
+      const r = root!.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (innerHeight * 0.75 - r.top) / (r.height * 0.85)));
+      (root as HTMLElement).style.setProperty("--sp", String(p));
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  initProcessProgress();
+  document.addEventListener("astro:page-load", initProcessProgress);
+</script>
+
+<style>
+  .proceso-mmd {
+    background: #f5f5f2;
+    isolation: isolate;
+    padding-top: clamp(5rem, 10vw, 8.5rem);
+    padding-bottom: 0; /* .has-arc-exit */
+  }
+
+  .proceso-mmd__wrap {
+    position: relative;
+    z-index: 7;
+  }
+
+  .proceso-mmd__lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: linear-gradient(90deg, currentColor 1px, transparent 1px);
+    background-size: calc(100% / 6) 100%;
+    opacity: 0.07;
+    color: var(--color-ink);
+  }
+
+  .proceso-mmd__ey {
+    display: block;
+    margin-bottom: 1.1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #666;
+  }
+
+  .proceso-mmd__cd {
+    max-width: 16ch;
+    margin: 0;
+    font-size: clamp(2.6rem, 6.5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .proceso-mmd__cd b {
+    font-weight: 800;
+  }
+
+  .proceso-mmd__l {
+    font-weight: 300;
+  }
+
+  .proceso-mmd__steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin-top: 4.25rem;
+    --sp: 0;
+  }
+
+  .proceso-mmd__steps::before {
+    content: "";
+    position: absolute;
+    top: 2.5rem;
+    left: 0;
+    z-index: 2;
+    height: 3px;
+    width: 100%;
+    background: var(--color-ink);
+    transform: scaleX(var(--sp, 0));
+    transform-origin: 0 50%;
+    pointer-events: none;
+  }
+
+  .proceso-mmd__steps > div {
+    position: relative;
+    z-index: 1;
+    padding: 0 1.25rem 0 1.35rem;
+    border-left: 1.5px solid currentColor;
+  }
+
+  .proceso-mmd__steps > div b {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: clamp(3rem, 5.5vw, 5rem);
+    font-weight: 800;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-ink);
+    transition: color 0.4s ease;
+  }
+
+  .proceso-mmd__steps > div:hover b {
+    color: var(--color-ink);
+  }
+
+  .proceso-mmd__steps > div h3 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .proceso-mmd__steps > div p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  @media (max-width: 1000px) {
+    .proceso-mmd__steps {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem 0;
+    }
+
+    .proceso-mmd__steps::before {
+      display: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .proceso-mmd__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .proceso-mmd__cd {
+      max-width: none;
+    }
+  }
+</style>

@@ -1,0 +1,317 @@
+---
+const palettes = [
+  {
+    id: "A",
+    name: "Carbón & Latón",
+    blurb: "Editorial oscura. Estudio premium, craft serio.",
+    recommended: false,
+    preview: { bg: "#0F0E0C", fg: "#F3EEE6" },
+    btn: { bg: "#C9A227", fg: "#0F0E0C" },
+    swatches: [
+      { role: "Fondo", hex: "#0F0E0C", fg: "#F3EEE6" },
+      { role: "Superficie", hex: "#1A1814", fg: "#F3EEE6" },
+      { role: "Texto", hex: "#F3EEE6", fg: "#0F0E0C" },
+      { role: "Acento", hex: "#C9A227", fg: "#0F0E0C" },
+    ],
+  },
+  {
+    id: "B",
+    name: "Pacífico",
+    blurb: "Teal costero. Tech chileno, limpio y confiable.",
+    recommended: false,
+    preview: { bg: "#F2F5F4", fg: "#0D1B1E" },
+    btn: { bg: "#0F766E", fg: "#F2F5F4" },
+    swatches: [
+      { role: "Fondo", hex: "#F2F5F4", fg: "#0D1B1E" },
+      { role: "Texto", hex: "#0D1B1E", fg: "#F2F5F4" },
+      { role: "Superficie", hex: "#E4EBE9", fg: "#0D1B1E" },
+      { role: "Acento", hex: "#0F766E", fg: "#F2F5F4" },
+    ],
+  },
+  {
+    id: "C",
+    name: "Óxido",
+    blurb: "Industrial cálido. Más adulto que el coral actual.",
+    recommended: false,
+    preview: { bg: "#F5F0E8", fg: "#1A1410" },
+    btn: { bg: "#B33A1A", fg: "#F5F0E8" },
+    swatches: [
+      { role: "Fondo", hex: "#F5F0E8", fg: "#1A1410" },
+      { role: "Texto", hex: "#1A1410", fg: "#F5F0E8" },
+      { role: "Superficie", hex: "#E8DFD2", fg: "#1A1410" },
+      { role: "Acento", hex: "#B33A1A", fg: "#F5F0E8" },
+    ],
+  },
+  {
+    id: "D",
+    name: "Nieve & Cobre",
+    blurb: "Minimalismo fuerte. Agencia cara, tipografía protagonista.",
+    recommended: true,
+    preview: { bg: "#FAFAF8", fg: "#0A0A0A" },
+    btn: { bg: "#B87333", fg: "#FAFAF8" },
+    swatches: [
+      { role: "Fondo", hex: "#FAFAF8", fg: "#0A0A0A" },
+      { role: "Texto", hex: "#0A0A0A", fg: "#FAFAF8" },
+      { role: "Muted", hex: "#E8E6E1", fg: "#0A0A0A" },
+      { role: "Acento", hex: "#B87333", fg: "#FAFAF8" },
+    ],
+  },
+];
+
+/** Alternativas de acento para Carbón (A) — mismos fondos */
+const carbonAccents = [
+  { id: "A1", name: "Latón (original)", hex: "#C9A227", fg: "#0F0E0C", note: "El que no te convenció" },
+  { id: "A2", name: "Bronce", hex: "#B87333", fg: "#0F0E0C", note: "Más cobre, menos mostaza" },
+  { id: "A3", name: "Ámbar", hex: "#E6A817", fg: "#0F0E0C", note: "Más vivo, CTA fuerte" },
+  { id: "A4", name: "Champagne", hex: "#D4C4A0", fg: "#0F0E0C", note: "Suave, lujo quieto" },
+  { id: "A5", name: "Terracota", hex: "#D4724A", fg: "#0F0E0C", note: "Cálido sin ser coral flat" },
+  { id: "A6", name: "Óxido oscuro", hex: "#C45C2A", fg: "#0F0E0C", note: "Fuerza industrial" },
+  { id: "A7", name: "Crema", hex: "#F3EEE6", fg: "#0F0E0C", note: "Sin color: solo papel sobre carbón" },
+  { id: "A8", name: "Salvia", hex: "#7A9E8A", fg: "#0F0E0C", note: "Frío-cálido, distinto" },
+];
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DevSur — Paletas propuestas</title>
+    <style>
+      body {
+        margin: 0;
+        background: #111;
+        color: #f5f5f5;
+        font-family: "IBM Plex Sans", system-ui, sans-serif;
+        padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
+      }
+      h1 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.5rem;
+      }
+      h2.section {
+        font-size: 1.15rem;
+        margin: 2.75rem 0 0.75rem;
+        letter-spacing: -0.01em;
+      }
+      .lead {
+        color: #a3a3a3;
+        margin: 0 0 2.5rem;
+        max-width: 48ch;
+        line-height: 1.5;
+      }
+      .grid {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+      .card {
+        border-radius: 1rem;
+        overflow: hidden;
+        border: 1px solid #2a2a2a;
+        background: #181818;
+      }
+      .preview {
+        padding: 1.25rem 1.25rem 1.5rem;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1.25rem;
+      }
+      .preview h2 {
+        margin: 0;
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+      .preview p {
+        margin: 0.35rem 0 0;
+        font-size: 0.875rem;
+        line-height: 1.45;
+        opacity: 0.75;
+        max-width: 28ch;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        align-self: flex-start;
+        padding: 0.7rem 1.1rem;
+        border-radius: 0.4rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: 1.5px solid transparent;
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .swatch {
+        padding: 0.85rem 0.6rem 0.7rem;
+        min-height: 88px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 0.15rem;
+      }
+      .swatch span {
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        opacity: 0.7;
+      }
+      .swatch code {
+        font-size: 0.7rem;
+        font-family: ui-monospace, monospace;
+      }
+      .pick {
+        padding: 0.85rem 1.25rem 1.1rem;
+        font-size: 0.8rem;
+        color: #a3a3a3;
+        border-top: 1px solid #2a2a2a;
+        margin: 0;
+      }
+      .pick strong {
+        color: #fff;
+      }
+      a.home {
+        color: #a3a3a3;
+        font-size: 0.85rem;
+        text-decoration: none;
+      }
+      a.home:hover {
+        color: #fff;
+      }
+      .accent-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      .accent-card {
+        border-radius: 0.85rem;
+        overflow: hidden;
+        border: 1px solid #2a2a2a;
+        background: #181818;
+      }
+      .accent-preview {
+        background: #0f0e0c;
+        color: #f3eee6;
+        padding: 1.1rem;
+        min-height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.85rem;
+      }
+      .accent-preview h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+      .accent-preview .note {
+        margin: 0.25rem 0 0;
+        font-size: 0.75rem;
+        opacity: 0.65;
+      }
+      .accent-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-top: 1px solid #2a2a2a;
+      }
+      .chip {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.35rem;
+        border: 1px solid #333;
+        flex-shrink: 0;
+      }
+      .accent-meta code {
+        font-size: 0.75rem;
+        font-family: ui-monospace, monospace;
+      }
+      .accent-meta .id {
+        margin-left: auto;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .strike {
+        opacity: 0.45;
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <p><a class="home" href="/">← Volver al sitio</a></p>
+    <h1>Paletas propuestas — DevSur</h1>
+    <p class="lead">
+      El latón <code>#C9A227</code> no convenció. Abajo: variantes de acento sobre el mismo Carbón (A).
+      Respondé con la letra (A–D) o código de acento (A2–A8).
+    </p>
+
+    <h2 class="section">Acentos para Carbón (fondo #0F0E0C)</h2>
+    <div class="accent-grid">
+      {
+        carbonAccents.map((a) => (
+          <article class={`accent-card${a.id === "A1" ? " strike" : ""}`}>
+            <div class="accent-preview">
+              <div>
+                <h3>
+                  {a.id} · {a.name}
+                </h3>
+                <p class="note">{a.note}</p>
+              </div>
+              <span class="btn" style={`background:${a.hex};color:${a.fg};border-color:${a.hex}`}>
+                Solicita presupuesto →
+              </span>
+            </div>
+            <div class="accent-meta">
+              <div class="chip" style={`background:${a.hex}`} />
+              <code>{a.hex}</code>
+              <span class="id">{a.id}</span>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <h2 class="section">Paletas completas</h2>
+    <div class="grid">
+      {
+        palettes.map((p) => (
+          <article class="card">
+            <div class="preview" style={`background:${p.preview.bg};color:${p.preview.fg}`}>
+              <div>
+                <h2>
+                  {p.id} · {p.name}
+                </h2>
+                <p>{p.blurb}</p>
+              </div>
+              <span
+                class="btn"
+                style={`background:${p.btn.bg};color:${p.btn.fg};border-color:${p.btn.bg}`}
+              >
+                Solicita presupuesto →
+              </span>
+            </div>
+            <div class="swatches">
+              {p.swatches.map((s) => (
+                <div class="swatch" style={`background:${s.hex};color:${s.fg}`}>
+                  <span>{s.role}</span>
+                  <code>{s.hex}</code>
+                </div>
+              ))}
+            </div>
+            <p class="pick">
+              Respondé <strong>{p.id}</strong> en el chat
+              {p.recommended ? " · recomendada" : ""}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </body>
+</html>

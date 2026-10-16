@@ -1,0 +1,78 @@
+---
+/**
+ * Arco semicircular MMD entre secciones.
+ * `to` = color del mundo que empieza debajo (el arco sube sobre la sección anterior).
+ */
+interface Props {
+  to: "paper" | "ink" | "white";
+}
+
+const { to } = Astro.props;
+const bg =
+  to === "ink" ? "var(--color-ink)" : to === "white" ? "#f5f5f2" : "var(--color-paper)";
+---
+
+<div
+  class:list={[
+    "sec-arc",
+    to === "ink" ? "sec-arc--ink" : to === "white" ? "sec-arc--white" : "sec-arc--paper",
+  ]}
+  data-arc
+  data-arc-to={to}
+  aria-hidden="true"
+  style={`--arc-bg: ${bg}`}
+>
+  <i class="sec-arc__shape"></i>
+</div>
+
+<style is:global>
+  :root {
+    --arc-base-h: 40px;
+    --arc-grow-h: 120px;
+    --arc-grow-w: 0.48;
+    --arc-exit-pad: clamp(6.5rem, 12vw, 10rem);
+  }
+
+  .sec-arc {
+    position: relative;
+    z-index: 3; /* bajo la cinta .mmd-mq (z-index 8), como MMD */
+    height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    --a: 0.55;
+  }
+
+  .sec-arc__shape {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    display: block;
+    width: calc(100% + (var(--a, 0.55) * var(--arc-grow-w) * 100%));
+    height: calc(var(--arc-base-h) + (var(--a, 0.55) * min(var(--arc-grow-h), 11vw)));
+    transform: translate3d(-50%, 0, 0);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    background: var(--arc-bg);
+  }
+
+  /* Reserva inferior en la sección que “entrega” el arco */
+  .has-arc-exit {
+    overflow: visible;
+    padding-bottom: var(--arc-exit-pad) !important;
+  }
+
+  @media (max-width: 700px) {
+    :root {
+      --arc-base-h: 32px;
+      --arc-grow-h: 88px;
+      --arc-grow-w: 0.28;
+      --arc-exit-pad: clamp(5.5rem, 22vw, 8.5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sec-arc {
+      --a: 0.55 !important;
+    }
+  }
+</style>

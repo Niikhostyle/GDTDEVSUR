@@ -22,6 +22,7 @@ interface Props {
   noindex?: boolean;
   locale?: Locale;
   keywords?: string[];
+  brandName?: string;
   type?: "website" | "article";
   publishedTime?: string;
   modifiedTime?: string;
@@ -35,6 +36,7 @@ const {
   noindex = false,
   locale = "es",
   keywords,
+  brandName: brandNameProp,
   type = "website",
   publishedTime,
   modifiedTime,
@@ -57,11 +59,15 @@ const robots = noindex
   : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
 let siteSeo: { googleSiteVerification?: string; bingSiteVerification?: string } = {};
+let siteBrand = brandNameProp || "";
 try {
-  siteSeo = (await getCollection<any>("site", "es"))?.seo || {};
+  const siteDoc = await getCollection<any>("site", locale);
+  siteSeo = siteDoc?.seo || {};
+  if (!siteBrand) siteBrand = siteDoc?.brandName || "";
 } catch {
   /* sin CMS: solo variables de entorno */
 }
+const brandMeta = siteBrand || "GDT DevSur";
 const verificationToken = (value?: string) =>
   String(value || "").replace(/.*content=["']?([^"'\s>]+).*/s, "$1").trim();
 const googleVerification = verificationToken(
@@ -80,9 +86,9 @@ const bingVerification = verificationToken(
     <title>{title}</title>
     <meta name="description" content={metaDescription} />
     <meta name="keywords" content={keywordList} />
-    <meta name="author" content="GDT DevSur" />
-    <meta name="creator" content="GDT DevSur" />
-    <meta name="publisher" content="GDT DevSur" />
+    <meta name="author" content={brandMeta} />
+    <meta name="creator" content={brandMeta} />
+    <meta name="publisher" content={brandMeta} />
     <meta name="robots" content={robots} />
     <meta name="googlebot" content={robots} />
     <meta name="format-detection" content="telephone=yes" />
@@ -103,7 +109,7 @@ const bingVerification = verificationToken(
     <meta property="og:description" content={metaDescription} />
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="GDT DevSur" />
+    <meta property="og:site_name" content={brandMeta} />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:locale:alternate" content={ogLocaleAlt} />
     <meta property="og:image" content={absoluteOg} />
@@ -123,7 +129,6 @@ const bingVerification = verificationToken(
 
     <link rel="preload" href="/fonts/Montserrat-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/Renogare-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />

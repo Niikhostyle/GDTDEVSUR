@@ -1,14 +1,22 @@
 {
-  "eyebrow": "Premium web design",
-  "headline": "Your next digital step",
-  "headlineAccent": "starts with a vision.",
-  "subheadline": "We combine strategy, design, and technology to build custom web solutions and support your company's growth.",
-  "primaryCta": { "label": "Request a quote", "href": "/#contacto" },
-  "secondaryCta": { "label": "Learn more", "href": "/#nosotros" },
-  "stats": [
-    { "value": "+200", "label": "projects delivered" },
-    { "value": "16+", "label": "years of experience" },
-    { "value": "2.5s", "label": "target LCP" }
-  ],
-  "trustLabel": "High-performance technology"
+  "headline": "Web design in Chile that",
+  "headlineBold": "turns",
+  "headlineRest": "visits into",
+  "headlineAccent": "clients.",
+  "subheadline": "We specialize in custom web design in Chile. At DevSur we build professional sites for companies and businesses: fast, clear, and ready to show up on Google and answer the questions your future clients ask.",
+  "primaryCta": {
+    "label": "Request a quote",
+    "href": "/#contacto"
+  },
+  "secondaryCta": {
+    "label": "See the method",
+    "href": "/#proceso"
+  },
+  "stats": [],
+  "trustLabel": "",
+  "eyebrow": "",
+  "backgroundImage": "",
+  "enabled": true,
+  "brandTitle": "DevSur",
+  "metaLine": "Technological Development Group · Chile"
 }

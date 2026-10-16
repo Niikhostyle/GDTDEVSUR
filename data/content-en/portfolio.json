@@ -14,5 +14,9 @@
       "category": "E-commerce"
     }
   ],
-  "cta": { "label": "See more work", "href": "#contacto" }
+  "cta": {
+    "label": "See more work",
+    "href": "#contacto"
+  },
+  "enabled": false
 }

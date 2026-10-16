@@ -1,15 +1,15 @@
 {
-  "eyebrow": "Specialists in website design",
+  "eyebrow": "Custom design & development",
   "title": "GDT DevSur",
-  "body": "**GDT DevSur** is a Chilean agency for **premium web design** and custom development. We build high-impact websites focused on results. We specialize in custom solutions and personalized design for every client — typography, spacing, animations, and micro-interactions without templates.",
+  "body": "**GDT DevSur** is a Chilean agency for **premium web design** and custom development. We work without templates: typography, spacing, animation, and micro-interactions defined for each brand. Modern stack, proprietary CMS, and a clear focus on performance, SEO, and GEO.",
   "highlights": [
-    "100% custom UX/UI design",
-    "High-performance stack (Astro / Next.js)",
-    "Professional CMS, no WordPress",
-    "SEO + GEO (AI) optimization"
+    "100% custom UX/UI, no templates",
+    "High-performance Astro / Next.js",
+    "Professional CMS — no WordPress",
+    "Technical SEO + GEO (AI)"
   ],
   "cta": {
-    "label": "Learn more",
+    "label": "About the agency",
     "href": "/acerca-de"
   },
   "detail": {
@@ -24,7 +24,7 @@
     "heroTitle": "About GDT DevSur",
     "heroSubtitle": "Technological Development Group",
     "experienceEyebrow": "Experience",
-    "experienceTitle": "+3 years building premium websites",
+    "experienceTitle": "+10 years building premium websites",
     "experienceBody": "GDT DevSur is a Chilean web design and development agency. We build your website with Astro and Next.js — **cutting-edge technology trusted by global brands.** Faster, more secure, future-ready sites with an exceptional user experience.",
     "pillars": [
       {

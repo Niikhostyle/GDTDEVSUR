@@ -38,6 +38,14 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
       { key: "logoText", label: "Texto logo", type: "text" },
       { key: "primaryColor", label: "Color primario", type: "text" },
       { key: "footerNote", label: "Nota footer", type: "text" },
+      { key: "footerBlurb", label: "Texto bajo el logo (footer)", type: "textarea" },
+      { key: "footerMapLabel", label: "Label columna mapa (footer)", type: "text" },
+      { key: "footerContactLabel", label: "Label columna contacto (footer)", type: "text" },
+      {
+        key: "whatsappPrefill",
+        label: "Texto precargado WhatsApp (header)",
+        type: "text",
+      },
     ],
     objects: [
       {
@@ -112,9 +120,16 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
       },
       {
         key: "emails",
-        label: "Emails",
+        label: "Emails del sitio (footer + SEO; respaldo si Contacto no tiene email)",
         itemLabel: "Email",
-        fields: [{ key: "value", label: "Email", type: "text" }],
+        fields: [{ key: "value", label: "Dirección de email", type: "text" }],
+        create: () => ({ value: "" }),
+      },
+      {
+        key: "marquee",
+        label: "Cinta animada (home)",
+        itemLabel: "Ítem",
+        fields: [{ key: "value", label: "Texto", type: "text" }],
         create: () => ({ value: "" }),
       },
     ],
@@ -123,12 +138,13 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
     id: "hero",
     hasEnabled: true,
     fields: [
-      { key: "eyebrow", label: "Eyebrow", type: "text" },
-      { key: "headline", label: "Titular", type: "text" },
-      { key: "headlineAccent", label: "Titular acento", type: "text" },
-      { key: "subheadline", label: "Subtítulo", type: "textarea" },
-      { key: "trustLabel", label: "Texto de confianza", type: "text" },
-      { key: "backgroundImage", label: "Imagen de fondo", type: "url" },
+      { key: "brandTitle", label: "Marca grande (hero H1)", type: "text" },
+      { key: "metaLine", label: "Línea meta bajo CTAs", type: "text" },
+      { key: "headline", label: "Titular (parte light)", type: "text" },
+      { key: "headlineBold", label: "Titular negrita (ej. convierten)", type: "text" },
+      { key: "headlineRest", label: "Titular resto (ej. visitas en)", type: "text" },
+      { key: "headlineAccent", label: "Titular acento / degradado (ej. clientes.)", type: "text" },
+      { key: "subheadline", label: "Párrafo de apoyo", type: "textarea" },
     ],
     objects: [
       {
@@ -148,18 +164,6 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
         ],
       },
     ],
-    lists: [
-      {
-        key: "stats",
-        label: "Estadísticas",
-        itemLabel: "Stat",
-        fields: [
-          { key: "value", label: "Valor", type: "text" },
-          { key: "label", label: "Etiqueta", type: "text" },
-        ],
-        create: () => ({ value: "0", label: "Nuevo dato" }),
-      },
-    ],
   },
   about: {
     id: "about",
@@ -168,7 +172,6 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
       { key: "eyebrow", label: "Eyebrow", type: "text" },
       { key: "title", label: "Título", type: "text" },
       { key: "body", label: "Texto (usa **negrita**)", type: "textarea" },
-      { key: "image", label: "Imagen", type: "url" },
     ],
     objects: [
       {
@@ -183,10 +186,10 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
     lists: [
       {
         key: "highlights",
-        label: "Highlights",
-        itemLabel: "Highlight",
+        label: "Bullets / highlights",
+        itemLabel: "Punto",
         fields: [{ key: "value", label: "Texto", type: "text" }],
-        create: () => ({ value: "Nuevo highlight" }),
+        create: () => ({ value: "Nuevo punto" }),
       },
     ],
   },
@@ -194,25 +197,97 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
     id: "services",
     hasEnabled: true,
     fields: [
-      { key: "eyebrow", label: "Eyebrow", type: "text" },
-      { key: "title", label: "Título", type: "text" },
-      { key: "subtitle", label: "Subtítulo", type: "textarea" },
+      { key: "eyebrow", label: "Eyebrow (Qué hacemos)", type: "text" },
+      { key: "titleLight", label: "Titular light", type: "text" },
+      { key: "titleBold", label: "Titular bold", type: "text" },
+      { key: "title", label: "Título completo (SEO)", type: "text" },
+      { key: "subtitle", label: "Lead / subtítulo", type: "textarea" },
+      { key: "detailEyebrow", label: "Detalle · Eyebrow (Servicios)", type: "text" },
+      { key: "detailTitleLight", label: "Detalle · Titular light", type: "text" },
+      { key: "detailTitleBold", label: "Detalle · Titular bold", type: "text" },
+      { key: "detailSubtitle", label: "Detalle · Lead", type: "textarea" },
     ],
     lists: [
       {
         key: "items",
-        label: "Servicios",
-        itemLabel: "Servicio",
+        label: "Grid Qué hacemos",
+        itemLabel: "Celda",
         fields: [
+          { key: "id", label: "ID / ancla", type: "text" },
           { key: "title", label: "Título", type: "text" },
-          { key: "description", label: "Descripción", type: "textarea" },
-          { key: "icon", label: "Icono (id)", type: "text" },
+          { key: "description", label: "Descripción corta", type: "textarea" },
+          { key: "href", label: "Enlace", type: "text" },
         ],
         create: () => ({
           id: slugId("svc"),
           title: "Nuevo servicio",
           description: "",
-          icon: "sparkles",
+          href: "#contacto",
+        }),
+      },
+      {
+        key: "detailItems",
+        label: "Bloques detalle Servicios",
+        itemLabel: "Servicio",
+        fields: [
+          { key: "id", label: "ID / ancla", type: "text" },
+          { key: "label", label: "Label (01 — …)", type: "text" },
+          { key: "title", label: "Título", type: "text" },
+          { key: "body", label: "Párrafo", type: "textarea" },
+          { key: "note", label: "Nota (**negrita** ok)", type: "textarea" },
+          { key: "ctaLabel", label: "Texto CTA", type: "text" },
+          { key: "href", label: "Enlace CTA", type: "text" },
+        ],
+        create: () => ({
+          id: slugId("svc-d"),
+          label: "01 — Nuevo",
+          title: "Nuevo servicio",
+          body: "",
+          note: "",
+          ctaLabel: "Conocer →",
+          href: "#contacto",
+        }),
+      },
+    ],
+  },
+  why: {
+    id: "why",
+    hasEnabled: true,
+    fields: [
+      { key: "eyebrow", label: "Eyebrow", type: "text" },
+      { key: "titleLight", label: "Titular light", type: "text" },
+      { key: "titleBold", label: "Titular bold", type: "text" },
+      { key: "body", label: "Párrafo", type: "textarea" },
+    ],
+    lists: [
+      {
+        key: "items",
+        label: "Checklist",
+        itemLabel: "Punto",
+        fields: [{ key: "value", label: "Texto", type: "text" }],
+        create: () => ({ value: "Nuevo punto" }),
+      },
+      {
+        key: "stats",
+        label: "Estadísticas (franja inferior)",
+        itemLabel: "Stat",
+        fields: [
+          { key: "value", label: "Valor numérico (vacío si usas texto fijo)", type: "number" },
+          { key: "prefix", label: "Prefijo (ej. +)", type: "text" },
+          { key: "text", label: "Texto fijo (ej. CL; tiene prioridad sobre número)", type: "text" },
+          { key: "label", label: "Etiqueta / leyenda", type: "text" },
+          {
+            key: "invert",
+            label: "Destacado (tarjeta blanca inclinada)",
+            type: "boolean",
+          },
+        ],
+        create: () => ({
+          value: 0,
+          prefix: "+",
+          text: "",
+          label: "Nuevo dato",
+          invert: false,
         }),
       },
     ],
@@ -292,10 +367,11 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
     hasEnabled: true,
     fields: [
       { key: "eyebrow", label: "Eyebrow", type: "text" },
-      { key: "title", label: "Título", type: "text" },
+      { key: "titleLight", label: "Titular light", type: "text" },
+      { key: "titleBold", label: "Titular bold", type: "text" },
+      { key: "title", label: "Título completo", type: "text" },
       { key: "subtitle", label: "Subtítulo", type: "textarea" },
-      { key: "stackEyebrow", label: "Eyebrow stack", type: "text" },
-      { key: "stackTitle", label: "Título stack", type: "text" },
+      { key: "stackTitle", label: "Título stack (Con qué construimos)", type: "text" },
     ],
     lists: [
       {
@@ -404,8 +480,12 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
     hasEnabled: true,
     fields: [
       { key: "eyebrow", label: "Eyebrow", type: "text" },
-      { key: "title", label: "Título", type: "text" },
+      { key: "titleOutline", label: "Título outline", type: "text" },
+      { key: "titleSolid", label: "Título sólido", type: "text" },
+      { key: "title", label: "Título completo", type: "text" },
       { key: "subtitle", label: "Subtítulo", type: "textarea" },
+      { key: "ctaLabel", label: "Texto CTA", type: "text" },
+      { key: "ctaHref", label: "Enlace CTA", type: "text" },
     ],
     lists: [
       {
@@ -429,10 +509,63 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
     hasEnabled: true,
     fields: [
       { key: "eyebrow", label: "Eyebrow", type: "text" },
-      { key: "title", label: "Título", type: "text" },
+      { key: "titleLight", label: "Titular light", type: "text" },
+      { key: "titleBold", label: "Titular bold", type: "text" },
+      { key: "title", label: "Título completo", type: "text" },
       { key: "subtitle", label: "Subtítulo", type: "textarea" },
+      { key: "location", label: "Ubicación", type: "text" },
+      { key: "locationLabel", label: "Etiqueta de la columna Ubicación (ej. Ubicación)", type: "text" },
+      {
+        key: "email",
+        label: "Email de contacto (dirección mostrada en la landing)",
+        type: "text",
+      },
+      {
+        key: "emailLabel",
+        label: "Etiqueta de la columna Correo (texto, ej. Correo — NO el email)",
+        type: "text",
+      },
+      { key: "whatsappLabel", label: "Etiqueta de la columna WhatsApp", type: "text" },
+      { key: "serviceLabel", label: "Etiqueta del campo Servicio", type: "text" },
+      { key: "budgetLabel", label: "Etiqueta del campo Presupuesto", type: "text" },
+      { key: "whatsappHint", label: "Nota bajo el botón", type: "text" },
       { key: "successMessage", label: "Mensaje de éxito", type: "text" },
       { key: "submitLabel", label: "Texto del botón", type: "text" },
+    ],
+    objects: [
+      {
+        key: "fields",
+        label: "Etiquetas del formulario",
+        fields: [
+          { key: "nameLabel", label: "Etiqueta campo Nombre", type: "text" },
+          { key: "companyLabel", label: "Etiqueta campo Empresa", type: "text" },
+          { key: "emailLabel", label: "Etiqueta campo Email del formulario", type: "text" },
+          { key: "phoneLabel", label: "Etiqueta campo Teléfono", type: "text" },
+          { key: "messageLabel", label: "Etiqueta campo Proyecto", type: "text" },
+        ],
+      },
+    ],
+    lists: [
+      {
+        key: "serviceOptions",
+        label: "Opciones de servicio (select)",
+        itemLabel: "Opción",
+        fields: [
+          { key: "value", label: "Valor", type: "text" },
+          { key: "label", label: "Etiqueta", type: "text" },
+        ],
+        create: () => ({ value: "", label: "Nueva opción" }),
+      },
+      {
+        key: "budgetOptions",
+        label: "Opciones de presupuesto (select)",
+        itemLabel: "Opción",
+        fields: [
+          { key: "value", label: "Valor", type: "text" },
+          { key: "label", label: "Etiqueta", type: "text" },
+        ],
+        create: () => ({ value: "", label: "Nueva opción" }),
+      },
     ],
   },
   news: {
@@ -465,7 +598,7 @@ export const SCHEMAS: Record<CollectionId, CollectionSchema> = {
   },
 };
 
-/** Normaliza arrays de strings (phones/emails/highlights) a objetos {value} para el editor */
+/** Normaliza datos CMS → modelo editable en el panel */
 export function toEditorModel(id: CollectionId, data: Record<string, unknown>) {
   const next = structuredClone(data);
   if (id === "site") {
@@ -475,7 +608,42 @@ export function toEditorModel(id: CollectionId, data: Record<string, unknown>) {
   if (id === "about") {
     next.highlights = ((data.highlights as string[]) || []).map((value) => ({ value }));
   }
+  if (id === "why") {
+    const items = data.items;
+    next.items = Array.isArray(items)
+      ? items.map((v) => (typeof v === "string" ? { value: v } : v))
+      : [];
+  }
+  if (id === "services") {
+    const detail = (data.detail as Record<string, unknown>) || {};
+    next.detailEyebrow = detail.eyebrow ?? "";
+    next.detailTitleLight = detail.titleLight ?? "";
+    next.detailTitleBold = detail.titleBold ?? "";
+    next.detailSubtitle = detail.subtitle ?? "";
+    next.detailItems = Array.isArray(detail.items) ? detail.items : [];
+  }
+  if (id === "contact") {
+    const fields = (data.fields as Record<string, { label?: string; required?: boolean }>) || {};
+    next.fields = {
+      nameLabel: fields.name?.label ?? "Nombre",
+      companyLabel: fields.company?.label ?? "Empresa",
+      emailLabel: fields.email?.label ?? "Correo electrónico",
+      phoneLabel: fields.phone?.label ?? "Teléfono / WhatsApp",
+      messageLabel: fields.message?.label ?? "Proyecto",
+    };
+    // Si alguien pegó un email en la etiqueta de columna, muévelo al campo real.
+    const label = String(next.emailLabel ?? "");
+    const contactEmail = String(next.email ?? "").trim();
+    if (!contactEmail && looksLikeEmail(label)) {
+      next.email = label.trim();
+      next.emailLabel = "Correo";
+    }
+  }
   return next;
+}
+
+function looksLikeEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 }
 
 /** Vuelve del modelo editor al JSON real de la web */
@@ -489,6 +657,43 @@ export function fromEditorModel(id: CollectionId, data: Record<string, unknown>)
     next.highlights = ((data.highlights as { value: string }[]) || [])
       .map((i) => i.value)
       .filter(Boolean);
+  }
+  if (id === "why") {
+    next.items = ((data.items as { value: string }[]) || []).map((i) => i.value).filter(Boolean);
+  }
+  if (id === "services") {
+    next.detail = {
+      eyebrow: data.detailEyebrow ?? "",
+      titleLight: data.detailTitleLight ?? "",
+      titleBold: data.detailTitleBold ?? "",
+      subtitle: data.detailSubtitle ?? "",
+      items: Array.isArray(data.detailItems) ? data.detailItems : [],
+    };
+    delete next.detailEyebrow;
+    delete next.detailTitleLight;
+    delete next.detailTitleBold;
+    delete next.detailSubtitle;
+    delete next.detailItems;
+  }
+  if (id === "contact") {
+    const flat = (data.fields as Record<string, string>) || {};
+    const prev = (data as { _fieldsRaw?: Record<string, { label: string; required: boolean }> })._fieldsRaw;
+    next.fields = {
+      name: { label: flat.nameLabel || "Nombre", required: true },
+      company: { label: flat.companyLabel || "Empresa", required: false },
+      email: { label: flat.emailLabel || "Correo electrónico", required: true },
+      phone: { label: flat.phoneLabel || "Teléfono / WhatsApp", required: true },
+      message: { label: flat.messageLabel || "Proyecto", required: true },
+    };
+    const label = String(next.emailLabel ?? "");
+    const contactEmail = String(next.email ?? "").trim();
+    if (!contactEmail && looksLikeEmail(label)) {
+      next.email = label.trim();
+      next.emailLabel = "Correo";
+    } else if (typeof next.email === "string") {
+      next.email = next.email.trim();
+    }
+    void prev;
   }
   return next;
 }

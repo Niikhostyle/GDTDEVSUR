@@ -1,79 +1,87 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { cn } from "../lib/utils";
 
 type FaqItem = {
-  id: string;
+  id?: string;
   question: string;
   answer: string;
 };
 
 type Props = {
   eyebrow?: string;
-  title: string;
+  title?: string;
+  titleOutline?: string;
+  titleSolid?: string;
   subtitle: string;
+  ctaLabel?: string;
+  ctaHref?: string;
   items: FaqItem[];
 };
 
-export default function Faq({ eyebrow, title, subtitle, items }: Props) {
-  const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
+export default function Faq({
+  eyebrow = "",
+  titleOutline = "",
+  titleSolid = "",
+  title,
+  subtitle,
+  ctaLabel = "",
+  ctaHref = "#contacto",
+  items,
+}: Props) {
+  const uid = useId();
+  const [openId, setOpenId] = useState<string | null>(null);
+  const outline = titleOutline || (title ? title.split(" ")[0] : "");
+  const solid = titleSolid || (title ? title.split(" ").slice(1).join(" ") : "");
 
   return (
-    <section id="faq" className="reveal-section bg-[var(--color-surface)] px-5 py-16 md:px-8 md:py-24">
-      <div className="mx-auto max-w-[820px]">
-        <div className="reveal-item text-center">
-          {eyebrow ? (
-            <p className="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
-              {eyebrow}
-            </p>
-          ) : null}
-          <h2 className="font-display text-[1.85rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.35rem]">
-            {title}
+    <section
+      id="faq"
+      className="faq-mmd reveal-section relative overflow-hidden bg-[var(--color-ink)] px-5 py-20 text-[var(--color-paper)] md:px-8 md:py-28"
+    >
+      <div className="faq-mmd__lines" aria-hidden="true" />
+
+      <div className="relative z-[2] mx-auto grid max-w-[1240px] gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:items-start">
+        <div className="mmd-rv">
+          <span className="faq-mmd__ey font-condensed">{eyebrow}</span>
+          <h2 className="faq-mmd__cd font-condensed" data-split-words>
+            <span className="faq-mmd__out">{outline}</span>{" "}
+            <b>{solid}</b>
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#6b6b6b] md:text-base">
+          <p className="mt-5 max-w-[32ch] text-[0.975rem] leading-relaxed text-[var(--color-paper)]/65">
             {subtitle}
           </p>
+          <a href={ctaHref} className="btn-solid mt-8 inline-flex">
+            {ctaLabel}
+          </a>
         </div>
 
-        <div className="mt-10 space-y-3">
+        <div className="faq-mmd__list">
           {items.map((item, index) => {
-            const open = openId === item.id;
+            const id = item.id || `${uid}-${index}`;
+            const open = openId === id;
+            const panelId = `${id}-panel`;
             return (
-              <div
-                key={item.id}
-                className="reveal-item overflow-hidden rounded-2xl bg-white shadow-[0_10px_28px_rgba(0,0,0,0.06)]"
-                style={{ "--stagger": `${index * 60}ms` } as React.CSSProperties}
-              >
+              <div key={id} className="faq-mmd__item mmd-rv">
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5"
+                  className="faq-mmd__q"
                   aria-expanded={open}
-                  onClick={() => setOpenId(open ? null : item.id)}
+                  aria-controls={panelId}
+                  onClick={() => setOpenId(open ? null : id)}
                 >
-                  <span className="pr-2 text-sm font-600 text-[#2a2a2a] md:text-base">
-                    {item.question}
-                  </span>
-                  <span
-                    className={cn(
-                      "grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[var(--color-accent)] text-white transition-transform duration-300",
-                      open && "rotate-180",
-                    )}
-                    aria-hidden
-                  >
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.4">
-                      <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  <span className="font-condensed">{item.question}</span>
+                  <span className={cn("faq-mmd__icon", open && "is-open")} aria-hidden="true">
+                    +
                   </span>
                 </button>
                 <div
-                  className={cn(
-                    "grid transition-[grid-template-rows] duration-350",
-                    open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
-                  )}
+                  id={panelId}
+                  className={cn("faq-mmd__panel", open && "is-open")}
+                  role="region"
+                  aria-hidden={!open}
                 >
-                  <div className="overflow-hidden">
-                    <p className="border-t border-[#f0f0f0] px-5 pt-3 pb-5 text-sm leading-relaxed text-[#6b6b6b] md:px-6 md:text-[0.95rem]">
-                      {item.answer}
-                    </p>
+                  <div className="faq-mmd__panel-inner">
+                    <p>{item.answer}</p>
                   </div>
                 </div>
               </div>
@@ -81,6 +89,120 @@ export default function Faq({ eyebrow, title, subtitle, items }: Props) {
           })}
         </div>
       </div>
+
+      <style>{`
+        .faq-mmd__lines {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 1;
+          background-image: linear-gradient(90deg, currentColor 1px, transparent 1px);
+          background-size: calc(100% / 6) 100%;
+          opacity: 0.07;
+          color: var(--color-paper);
+        }
+        .faq-mmd__ey {
+          display: block;
+          margin-bottom: 1.1rem;
+          font-size: 0.8125rem;
+          font-weight: 600;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: color-mix(in oklab, var(--color-paper) 55%, transparent);
+        }
+        .faq-mmd__cd {
+          margin: 0;
+          font-size: clamp(3rem, 8vw, 6rem);
+          font-weight: 800;
+          line-height: 0.95;
+          letter-spacing: -0.01em;
+          text-transform: uppercase;
+        }
+        .faq-mmd__out {
+          color: transparent;
+          -webkit-text-stroke: 1.5px var(--color-paper);
+        }
+        .faq-mmd__cd b {
+          font-weight: 800;
+        }
+        .faq-mmd__list {
+          border-top: 1px solid color-mix(in oklab, var(--color-paper) 16%, transparent);
+        }
+        .faq-mmd__item {
+          border-bottom: 1px solid color-mix(in oklab, var(--color-paper) 16%, transparent);
+        }
+        .faq-mmd__q {
+          display: flex;
+          width: 100%;
+          min-height: 3.5rem;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1.25rem;
+          padding: 1.5rem 0;
+          text-align: left;
+          color: inherit;
+          cursor: pointer;
+          background: transparent;
+          border: 0;
+        }
+        .faq-mmd__q > span:first-child {
+          font-size: clamp(1rem, 2.2vw, 1.5rem);
+          font-weight: 700;
+          line-height: 1.2;
+          letter-spacing: 0.01em;
+          text-transform: uppercase;
+        }
+        .faq-mmd__icon {
+          flex-shrink: 0;
+          display: grid;
+          place-items: center;
+          width: 1.75rem;
+          height: 1.75rem;
+          font-size: 1.875rem;
+          font-weight: 400;
+          line-height: 0.8;
+          transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq-mmd__icon.is-open {
+          transform: rotate(45deg);
+        }
+        .faq-mmd__panel {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq-mmd__panel.is-open {
+          grid-template-rows: 1fr;
+        }
+        .faq-mmd__panel-inner {
+          overflow: hidden;
+          min-height: 0;
+        }
+        .faq-mmd__panel-inner p {
+          max-width: 54ch;
+          margin: 0;
+          padding: 0 2.5rem 1.5rem 0;
+          font-size: 1rem;
+          line-height: 1.55;
+          color: color-mix(in oklab, var(--color-paper) 70%, transparent);
+          opacity: 0;
+          transform: translateY(-6px);
+          transition:
+            opacity 0.35s ease 0.05s,
+            transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+        }
+        .faq-mmd__panel.is-open .faq-mmd__panel-inner p {
+          opacity: 1;
+          transform: none;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .faq-mmd__icon,
+          .faq-mmd__panel,
+          .faq-mmd__panel-inner p {
+            transition: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

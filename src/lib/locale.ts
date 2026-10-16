@@ -34,27 +34,43 @@ export function localeCookieHeader(locale: Locale) {
 
 export function deepMerge<T>(base: T, overlay: unknown): T {
   if (overlay === null || overlay === undefined) return base;
-  if (Array.isArray(base)) {
-    if (!Array.isArray(overlay)) return base;
+  // Arrays: overlay wins entirely (including []). Never resurrect base items.
+  if (Array.isArray(overlay)) {
+    if (!Array.isArray(base) || overlay.length === 0) return overlay as T;
     const baseArr = base as unknown[];
     const overArr = overlay as unknown[];
-    const baseHasIds = baseArr.every(
-      (item) => item && typeof item === "object" && "id" in (item as object),
-    );
-    if (baseHasIds) {
-      return baseArr.map((item) => {
+    const baseHasIds =
+      baseArr.length > 0 &&
+      baseArr.every((item) => item && typeof item === "object" && "id" in (item as object));
+    const overHasIds =
+      overArr.length > 0 &&
+      overArr.every((item) => item && typeof item === "object" && "id" in (item as object));
+    // Merge by id only when both sides are id-keyed lists; otherwise replace.
+    if (baseHasIds && overHasIds) {
+      return overArr.map((item) => {
         const id = (item as { id: string }).id;
-        const match = overArr.find(
-          (o) => o && typeof o === "object" && (o as { id?: string }).id === id,
+        const match = baseArr.find(
+          (b) => b && typeof b === "object" && (b as { id?: string }).id === id,
         );
-        return match ? deepMerge(item, match) : item;
+        return match ? deepMerge(match, item) : item;
       }) as T;
     }
-    return (overArr.length ? overArr : baseArr) as T;
+    return overArr as T;
   }
+  if (Array.isArray(base)) return base;
   if (typeof base === "object" && base && typeof overlay === "object" && !Array.isArray(overlay)) {
     const out: Record<string, unknown> = { ...(base as Record<string, unknown>) };
     for (const [key, value] of Object.entries(overlay as Record<string, unknown>)) {
+      // Explicit empty object in overlay means empty (do not keep base keys).
+      if (
+        value &&
+        typeof value === "object" &&
+        !Array.isArray(value) &&
+        Object.keys(value as object).length === 0
+      ) {
+        out[key] = {};
+        continue;
+      }
       out[key] = key in out ? deepMerge(out[key], value) : value;
     }
     return out as T;

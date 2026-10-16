@@ -1,165 +1,94 @@
 ---
+/**
+ * Reveal fiel a MMD: .rv → opacity/translateY(40px) → .in
+ * Re-observa islas React que montan después del primer pass.
+ */
 ---
 
+<style is:global>
+  html.reveal-ready .mmd-rv,
+  html.reveal-ready .reveal-item {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  html.reveal-ready .mmd-rv.in,
+  html.reveal-ready .reveal-item.in,
+  html.reveal-ready .reveal-item.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.reveal-ready .mmd-rv,
+    html.reveal-ready .reveal-item {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
 <script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  let io = null;
+  let mo = null;
 
-  gsap.registerPlugin(ScrollTrigger);
-  // Evita refresh en cada show/hide de la barra de direcciones móvil
-  ScrollTrigger.config({ ignoreMobileResize: true });
-
-  function isMobile() {
-    return (
-      window.matchMedia("(pointer: coarse)").matches ||
-      window.matchMedia("(max-width: 768px)").matches ||
-      "ontouchstart" in window
-    );
+  function revealEl(el) {
+    el.classList.add("in", "is-revealed");
+    if (io) io.unobserve(el);
   }
 
-  function showAll() {
-    document.querySelectorAll(".reveal-item, .vox-card").forEach((el) => {
-      el.classList.add("is-revealed");
-      (el as HTMLElement).style.opacity = "1";
-      (el as HTMLElement).style.transform = "none";
-    });
-  }
-
-  const SOFT = '[data-reveal="soft"]';
-
-  function isSoft(el: Element) {
-    return !!el.closest(SOFT);
-  }
-
-  /** Entrada suave (desktop y móvil): poco recorrido, fade largo, stagger en orden visual. */
-  function initSoft() {
-    const pending = [...document.querySelectorAll<HTMLElement>(`${SOFT} .reveal-item`)].filter(
-      (el) => !el.classList.contains("is-revealed"),
-    );
-    if (!pending.length) return;
-
-    gsap.set(pending, { opacity: 0, y: 28, force3D: true });
-
-    ScrollTrigger.batch(pending, {
-      start: "top 88%",
-      once: true,
-      onEnter: (batch) => {
-        const ordered = [...batch].sort((a, b) => {
-          const ra = a.getBoundingClientRect();
-          const rb = b.getBoundingClientRect();
-          return ra.top - rb.top || ra.left - rb.left;
-        });
-        gsap.to(ordered, {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power2.out",
-          stagger: 0.1,
-          overwrite: true,
-          onComplete: () => ordered.forEach((el) => el.classList.add("is-revealed")),
-        });
-      },
-    }).forEach((t, i) => {
-      (t.vars as { id?: string }).id = `reveal-soft-${i}`;
-    });
-  }
-
-  function initDesktop() {
-    document.querySelectorAll(".reveal-section").forEach((section, sIndex) => {
-      if (section.matches(SOFT)) return;
-      const items = section.querySelectorAll(".reveal-item:not(.vox-card)");
-      if (!items.length) return;
-
-      const pending = [...items].filter((el) => !el.classList.contains("is-revealed"));
-      if (!pending.length) return;
-
-      gsap.set(pending, { opacity: 0, y: 72, force3D: true });
-
-      gsap.to(pending, {
-        opacity: 1,
-        y: 0,
-        duration: 0.95,
-        ease: "power3.out",
-        stagger: 0.1,
-        onComplete: () => pending.forEach((el) => el.classList.add("is-revealed")),
-        scrollTrigger: {
-          id: `reveal-${sIndex}`,
-          trigger: section,
-          start: "top 82%",
-          once: true,
-        },
-      });
-    });
-
-    document.querySelectorAll(".vox-card").forEach((card, index) => {
-      if (card.classList.contains("is-revealed")) return;
-
-      gsap.set(card, { opacity: 0, y: 64, force3D: true });
-
-      gsap.to(card, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        delay: (index % 4) * 0.06,
-        onComplete: () => card.classList.add("is-revealed"),
-        scrollTrigger: {
-          id: `vox-card-${index}`,
-          trigger: card,
-          start: "top 90%",
-          once: true,
-        },
-      });
-    });
-  }
-
-  /** Móvil: misma animación, pero por elemento en lote (layouts apilados, menos triggers activos). */
-  function initMobile() {
-    const pending = [...document.querySelectorAll<HTMLElement>(".reveal-item, .vox-card")].filter(
-      (el) => !el.classList.contains("is-revealed") && !isSoft(el),
-    );
-    if (!pending.length) return;
-
-    gsap.set(pending, { opacity: 0, y: 40, force3D: true });
-
-    ScrollTrigger.batch(pending, {
-      start: "top 92%",
-      once: true,
-      onEnter: (batch) =>
-        gsap.to(batch, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.08,
-          overwrite: true,
-          onComplete: () => batch.forEach((el) => el.classList.add("is-revealed")),
-        }),
-    }).forEach((t, i) => {
-      (t.vars as { id?: string }).id = `reveal-m-${i}`;
-    });
-  }
-
-  function initReveal() {
-    ScrollTrigger.getAll().forEach((t) => {
-      const id = (t.vars as { id?: string })?.id;
-      if (id?.startsWith("reveal-") || id?.startsWith("vox-card-")) t.kill();
-    });
-
-    document.documentElement.classList.add("reveal-ready");
+  function watch(el) {
+    if (!(el instanceof HTMLElement)) return;
+    if (el.classList.contains("in") || el.classList.contains("is-revealed")) return;
+    if (el.dataset.revealWatch === "1") return;
+    el.dataset.revealWatch = "1";
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      showAll();
+      revealEl(el);
       return;
     }
 
-    initSoft();
-    if (isMobile()) initMobile();
-    else initDesktop();
+    /* Ya en viewport (isla React montada tarde): revelar al toque */
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight || 0;
+    if (r.top < vh * 0.92 && r.bottom > 0) {
+      revealEl(el);
+      return;
+    }
+
+    if (io) io.observe(el);
   }
 
-  initReveal();
-  document.addEventListener("astro:page-load", initReveal);
-  window.addEventListener("load", () => ScrollTrigger.refresh());
-  window.addEventListener("lenis:ready", () => ScrollTrigger.refresh());
+  function scan() {
+    document.querySelectorAll(".mmd-rv, .reveal-item").forEach(watch);
+  }
+
+  function initMmdReveal() {
+    document.documentElement.classList.add("reveal-ready");
+
+    if (io) io.disconnect();
+    io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          revealEl(entry.target);
+        });
+      },
+      { threshold: 0.12 },
+    );
+
+    scan();
+
+    if (mo) mo.disconnect();
+    mo = new MutationObserver(() => scan());
+    mo.observe(document.body, { childList: true, subtree: true });
+  }
+
+  initMmdReveal();
+  document.addEventListener("astro:page-load", initMmdReveal);
 </script>

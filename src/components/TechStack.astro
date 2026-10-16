@@ -25,14 +25,13 @@ const normalized = items.map((item) => ({
   icon: item.icon,
 }));
 
-const loop = mode === "marquee" ? [...normalized, ...normalized] : normalized;
 ---
 
 {
   mode === "marquee" ? (
     <div class:list={["overflow-hidden", className]}>
       <div class="marquee-track items-end gap-12 px-6 md:gap-16" aria-hidden="true">
-        {loop.map((item) => (
+        {normalized.map((item) => (
           <TechLogo
             id={item.id}
             label={item.label}
@@ -40,6 +39,16 @@ const loop = mode === "marquee" ? [...normalized, ...normalized] : normalized;
             logo={item.logo}
             icon={item.icon}
             class="shrink-0 opacity-90"
+          />
+        ))}
+        {normalized.map((item) => (
+          <TechLogo
+            id={`${item.id}-clone`}
+            label={item.label}
+            name={item.name}
+            logo={item.logo}
+            icon={item.icon}
+            class="marquee-clone shrink-0 opacity-90"
           />
         ))}
       </div>

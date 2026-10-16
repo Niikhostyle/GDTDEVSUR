@@ -1,52 +1,213 @@
 {
-  "eyebrow": "Process",
-  "title": "How we work",
-  "subtitle": "From the first consultation to launch — with a staging server and approval at every stage.",
+  "eyebrow": "Work process",
+  "titleLight": "How we work,",
+  "titleBold": "step by step.",
+  "title": "How we work, step by step.",
+  "subtitle": "",
   "steps": [
     {
       "number": "01",
-      "title": "Initial consultation",
-      "description": "We understand goals, audience, and project requirements."
+      "title": "We understand your business",
+      "description": "We define goals, audience, priority services and the actions you want from the site."
     },
     {
       "number": "02",
-      "title": "Proposal and budget",
-      "description": "Custom scope, timeline, and investment. We start after your approval."
+      "title": "Strategy and structure",
+      "description": "We organize information so people and search engines grasp your offer quickly."
     },
     {
       "number": "03",
-      "title": "Briefing and strategy",
-      "description": "Content, structure, brand, and design references."
+      "title": "Design and development",
+      "description": "We craft a visual experience consistent with your brand, adaptable to every device."
     },
     {
       "number": "04",
-      "title": "UX/UI design",
-      "description": "Screens to approve the look before development."
+      "title": "Optimize and launch",
+      "description": "We check speed, basic SEO, forms, tracking and behavior before go-live."
     },
     {
       "number": "05",
-      "title": "Development",
-      "description": "High-performance stack + progress on a private staging URL."
-    },
-    {
-      "number": "06",
-      "title": "Review and launch",
-      "description": "Adjustments, deploy to your domain, analytics, and support."
+      "title": "We support growth",
+      "description": "We can help maintain, update and improve the site after launch."
     }
   ],
-  "stackEyebrow": "Stack",
-  "stackTitle": "Technologies we master",
+  "stackEyebrow": "",
+  "stackTitle": "What we build with",
   "stack": [
-    { "id": "react", "name": "React" },
-    { "id": "node", "name": "Node.js" },
-    { "id": "next", "name": "Next.js" },
-    { "id": "tailwind", "name": "Tailwind CSS" },
-    { "id": "payload", "name": "Payload" },
-    { "id": "prisma", "name": "Prisma" },
-    { "id": "astro", "name": "Astro" },
-    { "id": "gsap", "name": "GSAP" },
-    { "id": "ts", "name": "TypeScript" },
-    { "id": "vite", "name": "Vite" },
-    { "id": "lenis", "name": "Lenis" }
-  ]
+    {
+      "id": "html5",
+      "name": "HTML5",
+      "icon": "html5",
+      "logo": "/tech/html5.svg"
+    },
+    {
+      "id": "css",
+      "name": "CSS",
+      "icon": "css",
+      "logo": "/tech/css.svg"
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript",
+      "icon": "javascript",
+      "logo": "/tech/javascript.svg"
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "icon": "typescript",
+      "logo": "/tech/typescript.svg"
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "icon": "react",
+      "logo": "/tech/react.svg"
+    },
+    {
+      "id": "next",
+      "name": "Next.js",
+      "icon": "nextdotjs",
+      "logo": "/tech/nextdotjs.svg"
+    },
+    {
+      "id": "astro",
+      "name": "Astro",
+      "icon": "astro",
+      "logo": "/tech/astro.svg"
+    },
+    {
+      "id": "angular",
+      "name": "Angular",
+      "icon": "angular",
+      "logo": "/tech/angular.svg"
+    },
+    {
+      "id": "vue",
+      "name": "Vue",
+      "icon": "vuedotjs",
+      "logo": "/tech/vuedotjs.svg"
+    },
+    {
+      "id": "tailwind",
+      "name": "Tailwind",
+      "icon": "tailwindcss",
+      "logo": "/tech/tailwindcss.svg"
+    },
+    {
+      "id": "vite",
+      "name": "Vite",
+      "icon": "vite",
+      "logo": "/tech/vite.svg"
+    },
+    {
+      "id": "node",
+      "name": "Node.js",
+      "icon": "nodedotjs",
+      "logo": "/tech/nodedotjs.svg"
+    },
+    {
+      "id": "php",
+      "name": "PHP",
+      "icon": "php",
+      "logo": "/tech/php.svg"
+    },
+    {
+      "id": "laravel",
+      "name": "Laravel",
+      "icon": "laravel",
+      "logo": "/tech/laravel.svg"
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "icon": "python",
+      "logo": "/tech/python.svg"
+    },
+    {
+      "id": "mysql",
+      "name": "MySQL",
+      "icon": "mysql",
+      "logo": "/tech/mysql.svg"
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "icon": "mongodb",
+      "logo": "/tech/mongodb.svg"
+    },
+    {
+      "id": "redis",
+      "name": "Redis",
+      "icon": "redis",
+      "logo": "/tech/redis.svg"
+    },
+    {
+      "id": "prisma",
+      "name": "Prisma",
+      "icon": "prisma",
+      "logo": "/tech/prisma.svg"
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "icon": "supabase",
+      "logo": "/tech/supabase.svg"
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "icon": "docker",
+      "logo": "/tech/docker.svg"
+    },
+    {
+      "id": "nginx",
+      "name": "Nginx",
+      "icon": "nginx",
+      "logo": "/tech/nginx.svg"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "icon": "cloudflare",
+      "logo": "/tech/cloudflare.svg"
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "icon": "vercel",
+      "logo": "/tech/vercel.svg"
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase",
+      "icon": "firebase",
+      "logo": "/tech/firebase.svg"
+    },
+    {
+      "id": "git",
+      "name": "Git",
+      "icon": "git",
+      "logo": "/tech/git.svg"
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "icon": "github",
+      "logo": "/tech/github.svg"
+    },
+    {
+      "id": "figma",
+      "name": "Figma",
+      "icon": "figma",
+      "logo": "/tech/figma.svg"
+    },
+    {
+      "id": "shopify",
+      "name": "Shopify",
+      "icon": "shopify",
+      "logo": "/tech/shopify.svg"
+    }
+  ],
+  "enabled": true
 }

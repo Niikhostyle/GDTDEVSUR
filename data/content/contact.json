@@ -1,15 +1,96 @@
 {
-  "eyebrow": "Construyamos algo excepcional",
-  "title": "Consulta ahora",
-  "subtitle": "Envíanos una consulta o solicita un presupuesto. Pronto nos pondremos en contacto.",
-  "successMessage": "Mensaje enviado. Te contactaremos pronto.",
+  "eyebrow": "Contacto",
+  "titleLight": "Hablemos de tu próximo",
+  "titleBold": "sitio web.",
+  "title": "Hablemos de tu próximo sitio web.",
+  "subtitle": "Describe tu negocio, el objetivo y el tipo de sitio que necesitas. Te devolvemos una orientación clara y una propuesta ajustada a tu proyecto.",
+  "location": "Cauquenes · Atención remota",
+  "locationLabel": "Ubicación",
+  "email": "nfigueroa@gdtdevsur.cl",
+  "emailLabel": "Correo",
+  "whatsappLabel": "WhatsApp",
+  "serviceLabel": "Servicio de interés",
+  "budgetLabel": "Presupuesto estimado",
+  "whatsappHint": "Al enviar se abre WhatsApp con tu mensaje preparado.",
+  "successMessage": "WhatsApp listo. Completa el envío desde ahí.",
   "fields": {
-    "name": { "label": "Nombre", "required": true },
-    "phone": { "label": "Teléfono", "required": true },
-    "email": { "label": "Email", "required": true },
-    "company": { "label": "Empresa", "required": false },
-    "message": { "label": "Mensaje", "required": true }
+    "name": {
+      "label": "Nombre",
+      "required": true
+    },
+    "company": {
+      "label": "Empresa",
+      "required": false
+    },
+    "email": {
+      "label": "Correo electrónico",
+      "required": true
+    },
+    "phone": {
+      "label": "Teléfono / WhatsApp",
+      "required": true
+    },
+    "message": {
+      "label": "Cuéntanos sobre tu proyecto",
+      "required": true
+    }
   },
-  "submitLabel": "Enviar mensaje",
-  "enabled": true
+  "submitLabel": "Solicitar cotización",
+  "enabled": true,
+  "serviceOptions": [
+    {
+      "value": "",
+      "label": "Selecciona un servicio"
+    },
+    {
+      "value": "diseno-web",
+      "label": "Diseño de páginas web"
+    },
+    {
+      "value": "tienda-online",
+      "label": "Tienda online"
+    },
+    {
+      "value": "landing",
+      "label": "Landing page"
+    },
+    {
+      "value": "seo-geo",
+      "label": "SEO / GEO"
+    },
+    {
+      "value": "mantencion",
+      "label": "Mantención"
+    },
+    {
+      "value": "otro",
+      "label": "Otro"
+    }
+  ],
+  "budgetOptions": [
+    {
+      "value": "",
+      "label": "Selecciona un rango"
+    },
+    {
+      "value": "500-1000",
+      "label": "$500.000 – $1.000.000"
+    },
+    {
+      "value": "1000-2000",
+      "label": "$1.000.000 – $2.000.000"
+    },
+    {
+      "value": "2000-4000",
+      "label": "$2.000.000 – $4.000.000"
+    },
+    {
+      "value": "4000+",
+      "label": "Más de $4.000.000"
+    },
+    {
+      "value": "consultar",
+      "label": "Prefiero consultarlo"
+    }
+  ]
 }

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DevSur — Paletas propuestas</title>
+    <style>
+      :root {
+        font-family: "IBM Plex Sans", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #111;
+        color: #f5f5f5;
+        padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
+      }
+      h1 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.5rem;
+      }
+      .lead {
+        color: #a3a3a3;
+        margin: 0 0 2.5rem;
+        max-width: 42ch;
+        line-height: 1.5;
+      }
+      .grid {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+      .card {
+        border-radius: 1rem;
+        overflow: hidden;
+        border: 1px solid #2a2a2a;
+        background: #181818;
+      }
+      .preview {
+        padding: 1.25rem 1.25rem 1.5rem;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1.25rem;
+      }
+      .preview h2 {
+        margin: 0;
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+      .preview p {
+        margin: 0.35rem 0 0;
+        font-size: 0.875rem;
+        line-height: 1.45;
+        opacity: 0.75;
+        max-width: 28ch;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        align-self: flex-start;
+        padding: 0.7rem 1.1rem;
+        border-radius: 0.4rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: 1.5px solid currentColor;
+        text-decoration: none;
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+      }
+      .swatch {
+        padding: 0.85rem 0.6rem 0.7rem;
+        min-height: 88px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 0.15rem;
+      }
+      .swatch span {
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        opacity: 0.7;
+      }
+      .swatch code {
+        font-size: 0.7rem;
+        font-family: ui-monospace, monospace;
+      }
+      .pick {
+        padding: 0.85rem 1.25rem 1.1rem;
+        font-size: 0.8rem;
+        color: #a3a3a3;
+        border-top: 1px solid #2a2a2a;
+      }
+      .pick strong {
+        color: #fff;
+      }
+      a.home {
+        color: #a3a3a3;
+        font-size: 0.85rem;
+      }
+      a.home:hover {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <p><a class="home" href="/">← Volver al sitio</a></p>
+    <h1>Paletas propuestas — DevSur</h1>
+    <p class="lead">Elegí A, B, C o D y decime la letra en el chat para aplicarla a toda la web.</p>
+
+    <div class="grid">
+      <!-- A -->
+      <article class="card">
+        <div class="preview" style="background: #0f0e0c; color: #f3eee6">
+          <div>
+            <h2>A · Carbón & Latón</h2>
+            <p>Editorial oscura. Estudio premium, craft serio.</p>
+          </div>
+          <span class="btn" style="background: #c9a227; color: #0f0e0c; border-color: #c9a227"
+            >Solicita presupuesto →</span
+          >
+        </div>
+        <div class="swatches">
+          <div class="swatch" style="background: #0f0e0c; color: #f3eee6">
+            <span>Fondo</span>
+            <code>#0F0E0C</code>
+          </div>
+          <div class="swatch" style="background: #1a1814; color: #f3eee6">
+            <span>Superficie</span>
+            <code>#1A1814</code>
+          </div>
+          <div class="swatch" style="background: #f3eee6; color: #0f0e0c">
+            <span>Texto</span>
+            <code>#F3EEE6</code>
+          </div>
+          <div class="swatch" style="background: #c9a227; color: #0f0e0c">
+            <span>Acento</span>
+            <code>#C9A227</code>
+          </div>
+        </div>
+        <p class="pick">Respondé <strong>A</strong> en el chat</p>
+      </article>
+
+      <!-- B -->
+      <article class="card">
+        <div class="preview" style="background: #f2f5f4; color: #0d1b1e">
+          <div>
+            <h2>B · Pacífico</h2>
+            <p>Teal costero. Tech chileno, limpio y confiable.</p>
+          </div>
+          <span class="btn" style="background: #0f766e; color: #f2f5f4; border-color: #0f766e"
+            >Solicita presupuesto →</span
+          >
+        </div>
+        <div class="swatches">
+          <div class="swatch" style="background: #f2f5f4; color: #0d1b1e">
+            <span>Fondo</span>
+            <code>#F2F5F4</code>
+          </div>
+          <div class="swatch" style="background: #0d1b1e; color: #f2f5f4">
+            <span>Texto</span>
+            <code>#0D1B1E</code>
+          </div>
+          <div class="swatch" style="background: #e4ebe9; color: #0d1b1e">
+            <span>Superficie</span>
+            <code>#E4EBE9</code>
+          </div>
+          <div class="swatch" style="background: #0f766e; color: #f2f5f4">
+            <span>Acento</span>
+            <code>#0F766E</code>
+          </div>
+        </div>
+        <p class="pick">Respondé <strong>B</strong> en el chat</p>
+      </article>
+
+      <!-- C -->
+      <article class="card">
+        <div class="preview" style="background: #f5f0e8; color: #1a1410">
+          <div>
+            <h2>C · Óxido</h2>
+            <p>Industrial cálido. Más adulto que el coral actual.</p>
+          </div>
+          <span class="btn" style="background: #b33a1a; color: #f5f0e8; border-color: #b33a1a"
+            >Solicita presupuesto →</span
+          >
+        </div>
+        <div class="swatches">
+          <div class="swatch" style="background: #f5f0e8; color: #1a1410">
+            <span>Fondo</span>
+            <code>#F5F0E8</code>
+          </div>
+          <div class="swatch" style="background: #1a1410; color: #f5f0e8">
+            <span>Texto</span>
+            <code>#1A1410</code>
+          </div>
+          <div class="swatch" style="background: #e8dfd2; color: #1a1410">
+            <span>Superficie</span>
+            <code>#E8DFD2</code>
+          </div>
+          <div class="swatch" style="background: #b33a1a; color: #f5f0e8">
+            <span>Acento</span>
+            <code>#B33A1A</code>
+          </div>
+        </div>
+        <p class="pick">Respondé <strong>C</strong> en el chat</p>
+      </article>
+
+      <!-- D -->
+      <article class="card">
+        <div class="preview" style="background: #fafaf8; color: #0a0a0a">
+          <div>
+            <h2>D · Nieve & Cobre</h2>
+            <p>Minimalismo fuerte. Agencia cara, tipografía protagonista.</p>
+          </div>
+          <span class="btn" style="background: #b87333; color: #fafaf8; border-color: #b87333"
+            >Solicita presupuesto →</span
+          >
+        </div>
+        <div class="swatches">
+          <div class="swatch" style="background: #fafaf8; color: #0a0a0a">
+            <span>Fondo</span>
+            <code>#FAFAF8</code>
+          </div>
+          <div class="swatch" style="background: #0a0a0a; color: #fafaf8">
+            <span>Texto</span>
+            <code>#0A0A0A</code>
+          </div>
+          <div class="swatch" style="background: #e8e6e1; color: #0a0a0a">
+            <span>Muted</span>
+            <code>#E8E6E1</code>
+          </div>
+          <div class="swatch" style="background: #b87333; color: #fafaf8">
+            <span>Acento</span>
+            <code>#B87333</code>
+          </div>
+        </div>
+        <p class="pick">Respondé <strong>D</strong> en el chat · recomendada</p>
+      </article>
+    </div>
+  </body>
+</html>

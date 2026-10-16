@@ -8,7 +8,7 @@
     "+56 9 95995720"
   ],
   "emails": [
-    "info@gdtdevsur.cl"
+    "nfigueroa@gdtdevsur.cl"
   ],
   "social": {
     "instagram": "https://instagram.com/gdtdevsur",
@@ -38,24 +38,16 @@
       "href": "/#inicio"
     },
     {
-      "label": "Acerca de",
-      "href": "/acerca-de"
-    },
-    {
-      "label": "Portfolio",
-      "href": "/#portfolio"
-    },
-    {
-      "label": "Clientes",
-      "href": "/#clientes"
+      "label": "Nosotros",
+      "href": "/#nosotros"
     },
     {
       "label": "Servicios",
       "href": "/#servicios"
     },
     {
-      "label": "Blog",
-      "href": "/#blog"
+      "label": "Proceso",
+      "href": "/#proceso"
     },
     {
       "label": "FAQ",
@@ -79,5 +71,32 @@
     "en"
   ],
   "defaultLocale": "es",
-  "enabled": true
+  "enabled": true,
+  "footerBlurb": "Estudio tecnológico chileno. Diseño y desarrollo web a medida.",
+  "footerMapLabel": "Mapa",
+  "footerContactLabel": "Contacto",
+  "marquee": [
+    {
+      "value": "Páginas web"
+    },
+    {
+      "value": "Tiendas online"
+    },
+    {
+      "value": "Landing pages"
+    },
+    {
+      "value": "SEO"
+    },
+    {
+      "value": "GEO"
+    },
+    {
+      "value": "Google Ads"
+    },
+    {
+      "value": "Mantención"
+    }
+  ],
+  "whatsappPrefill": "Hola, quiero hablar de un proyecto"
 }

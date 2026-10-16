@@ -1,242 +1,205 @@
 ---
-import { imageUrl, imageSrcset } from "../lib/utils";
 interface Props {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
+  titleLight?: string;
+  titleBold?: string;
   body: string;
-  highlights: string[];
+  highlights?: string[];
   cta: { label: string; href: string };
   image?: string;
   imageAlt?: string;
 }
 
 const {
-  eyebrow,
+  eyebrow = "",
   title,
+  titleLight = "",
+  titleBold = "",
   body,
   cta,
-  image = "/about/about-designer-1400.webp",
-  imageAlt = "",
+  highlights = [],
 } = Astro.props;
 
-// Imagen local versionada por ancho (nombre-<w>.webp): srcset con la variante de 800w
-const localWidth = image.match(/-(\d+)\.webp$/)?.[1];
-const imgSrc = localWidth ? image : imageUrl(image, 900, 65);
-const imgSrcset = localWidth
-  ? `${image.replace(/-\d+\.webp$/, "-800.webp")} 800w, ${image} ${localWidth}w`
-  : imageSrcset(image, [640, 900, 1200], 65);
-const htmlBody = body.replace(
-  /\*\*(.*?)\*\*/g,
-  "<strong class='font-600 text-[#1a1a1a]'>$1</strong>",
-);
+const light = titleLight || "";
+const bold = titleBold || (!titleLight ? title : "");
+
+const htmlBody = body.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
 ---
 
-<section id="nosotros" class="about-vox reveal-section bg-white" data-reveal="soft">
-  <div class="about-vox__shell mx-auto grid items-center">
-    <div class="about-vox__copy order-2 lg:order-1">
-      <p class="reveal-item about-vox__eyebrow">{eyebrow}</p>
-      <h2 class="reveal-item about-vox__title font-display">{title}</h2>
-      <p class="reveal-item about-vox__body" set:html={htmlBody} />
-      <a href={cta.href} class="reveal-item about-vox__cta">
-        {cta.label}
-      </a>
-    </div>
+<section id="nosotros" class="about-mmd reveal-section relative text-[var(--color-ink)]" data-reveal="soft">
+  <div class="about-mmd__lines" aria-hidden="true"></div>
 
-    <div class="reveal-item about-vox__media order-1 lg:order-2">
-      <figure class="about-vox__frame">
-        <img
-          src={imgSrc}
-          srcset={imgSrcset}
-          sizes="(min-width: 1024px) 45vw, calc(100vw - 2.5rem)"
-          width="1400"
-          height="1050"
-          alt={imageAlt}
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
+  <div class="about-mmd__inner relative z-[2] mx-auto max-w-[1240px] px-5 md:px-8">
+    {
+      eyebrow ? (
+        <span class="about-mmd__ey reveal-item font-condensed">{eyebrow}</span>
+      ) : null
+    }
+
+    <h2 class="about-mmd__cd reveal-item font-condensed" data-split-words>
+      {
+        light ? (
+          <>
+            <span class="about-mmd__l">{light}</span>{" "}
+          </>
+        ) : null
+      }
+      {bold ? <b>{bold}</b> : null}
+    </h2>
+
+    <div class="about-mmd__content">
+      <div class="about-mmd__copy">
+        <p class="about-mmd__lead reveal-item" set:html={htmlBody} />
+        <a href={cta.href} class="reveal-item btn-ink about-mmd__cta">
+          {cta.label}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      {
+        highlights.length > 0 ? (
+          <ul class="reveal-item about-mmd__list">
+            {highlights.map((item) => (
+              <li>
+                <span class="about-mmd__dot" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null
+      }
     </div>
   </div>
 </section>
 
 <style>
-  .about-vox {
-    --about-fade: 40vh;
+  .about-mmd {
     position: relative;
-    padding-block: clamp(4.5rem, 9vw, 7.5rem);
-    padding-top: calc(var(--about-fade) * 0.6 + clamp(3rem, 6vw, 5rem));
-    padding-inline: clamp(1.25rem, 4vw, 3rem);
+    z-index: 2;
+    isolation: isolate;
+    background: #f5f5f2;
+    padding-top: clamp(5rem, 10vw, 8.5rem);
+    padding-bottom: clamp(4.5rem, 9vw, 7.5rem);
   }
 
-  @media (max-width: 768px) {
-    .about-vox {
-      --about-fade: 28vh;
-      --about-fade: 28svh;
-    }
-  }
-
-  /* Fundido #06080d → blanco: easing seno, colores interpolados en OKLab (sin grises sucios) */
-  .about-vox::before {
-    content: "";
+  .about-mmd__lines {
     position: absolute;
-    inset: 0 0 auto;
-    height: var(--about-fade);
-    background: linear-gradient(
-      to bottom,
-      #06080d 0%,
-      #080b10 8.3%,
-      #12141a 16.7%,
-      #222429 25%,
-      #383b40 33.3%,
-      #54575b 41.7%,
-      #75767a 50%,
-      #97989b 58.3%,
-      #b7b8ba 66.7%,
-      #d5d5d6 75%,
-      #ebecec 83.3%,
-      #fafafa 91.7%,
-      #fff 100%
-    );
+    inset: 0;
     pointer-events: none;
+    z-index: 1;
+    background-image: linear-gradient(90deg, currentColor 1px, transparent 1px);
+    background-size: calc(100% / 6) 100%;
+    opacity: 0.07;
+    color: var(--color-ink);
   }
 
-  .about-vox__shell {
-    position: relative;
-  }
-
-  .about-vox__shell {
-    width: min(1320px, 100%);
-    gap: clamp(2.5rem, 5vw, 5rem);
-  }
-
-  @media (min-width: 1024px) {
-    .about-vox__shell {
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-      gap: clamp(3.5rem, 6vw, 6.5rem);
-    }
-  }
-
-  .about-vox__eyebrow {
-    margin: 0 0 1.1rem;
-    font-family: var(--font-sans);
-    font-size: 0.72rem;
+  .about-mmd__ey {
+    display: block;
+    margin-bottom: 1.1rem;
+    font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #1a1a1a;
+    color: #666;
   }
 
-  .about-vox__title {
-    margin: 0;
-    max-width: 14ch;
-    color: #121212;
-    font-size: clamp(1.85rem, 7.5vw, 4.15rem);
-    font-weight: 700;
-    line-height: 1.02;
-    letter-spacing: 0.01em;
+  .about-mmd__cd {
+    max-width: min(16ch, 100%);
+    margin: 0 0 1.5rem;
+    font-size: clamp(2.85rem, 7vw, 6.5rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
     text-wrap: balance;
   }
 
-  @media (max-width: 640px) {
-    .about-vox {
-      padding-top: calc(var(--about-fade) * 0.6 + 3rem);
-      padding-bottom: 3.25rem;
+  .about-mmd__cd b {
+    display: inline;
+    font-weight: 800;
+  }
+
+  .about-mmd__l {
+    font-weight: 300;
+  }
+
+  .about-mmd__content {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: 0.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .about-mmd__content {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 3rem 3.5rem;
+      align-items: start;
     }
-
-    .about-vox__title {
-      max-width: 11ch;
-    }
-
-    .about-vox__body {
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
   }
 
-  .about-vox__body {
-    margin: 1.35rem 0 0;
-    max-width: 36rem;
-    color: #5c5c5c;
-    font-family: var(--font-sans);
-    font-size: clamp(0.98rem, 1.15vw, 1.08rem);
-    font-weight: 400;
-    line-height: 1.85;
-    letter-spacing: 0.02em;
-  }
-
-  .about-vox__cta {
-    margin-top: 2rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    background: #111;
-    color: #fff;
-    padding: 0.85rem 1.85rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    transition: background 0.25s ease, transform 0.25s ease;
-  }
-
-  .about-vox__cta:hover {
-    background: #000;
-    transform: translateY(-1px);
-  }
-
-  .about-vox__media {
+  .about-mmd__copy {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .about-vox__frame {
-    position: relative;
+  .about-mmd__lead {
+    max-width: 42rem;
     margin: 0;
-    width: 100%;
-    max-width: 620px;
-    overflow: hidden;
-    border-radius: 18px;
-    background: #f4f4f4;
-    box-shadow:
-      0 1px 0 rgba(0, 0, 0, 0.04),
-      0 12px 40px rgba(0, 0, 0, 0.08);
-    transition:
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: #666;
   }
 
-  /* Detalle de acento: línea naranja en el borde inferior */
-  .about-vox__frame::after {
-    content: "";
-    position: absolute;
-    left: 1.5rem;
-    bottom: 0;
-    width: 3.5rem;
-    height: 3px;
-    border-radius: 3px 3px 0 0;
-    background: var(--color-accent);
+  .about-mmd__lead b {
+    font-weight: 800;
+    color: var(--color-ink);
   }
 
-  .about-vox__frame img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+  .about-mmd__cta {
+    margin-top: 2rem;
   }
 
-  @media (hover: hover) {
-    .about-vox__media:hover .about-vox__frame {
-      transform: translateY(-4px);
-      box-shadow:
-        0 1px 0 rgba(0, 0, 0, 0.04),
-        0 22px 55px rgba(0, 0, 0, 0.14);
+  .about-mmd__list {
+    margin: 0;
+    padding: 1.5rem 0 0;
+    list-style: none;
+    border-top: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+  }
+
+  @media (min-width: 768px) {
+    .about-mmd__list {
+      padding: 0 0 0 2.5rem;
+      border-top: 0;
+      border-left: 1.5px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
     }
   }
 
-  @media (min-width: 1024px) {
-    .about-vox__frame {
+  .about-mmd__list li {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.45;
+    color: #666;
+  }
+
+  .about-mmd__list li + li {
+    margin-top: 1rem;
+  }
+
+  .about-mmd__dot {
+    flex-shrink: 0;
+    width: 0.375rem;
+    height: 0.375rem;
+    margin-top: 0.55em;
+    border-radius: 999px;
+    background: var(--color-ink);
+  }
+
+  @media (max-width: 700px) {
+    .about-mmd__cd {
       max-width: none;
     }
   }

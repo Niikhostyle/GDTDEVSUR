@@ -1,14 +1,96 @@
 {
-  "eyebrow": "Let's build something exceptional",
-  "title": "Get in touch",
-  "subtitle": "Send us a message or request a quote. We'll get back to you soon.",
-  "successMessage": "Message sent. We'll contact you soon.",
+  "eyebrow": "Contact",
+  "titleLight": "Let's talk about your next",
+  "titleBold": "website.",
+  "title": "Let's talk about your next website.",
+  "subtitle": "Share your business, goal, and the kind of site you need. You'll get clear initial guidance and a proposal tailored to your project.",
+  "location": "Cauquenes · Remote",
+  "locationLabel": "Location",
+  "email": "nfigueroa@gdtdevsur.cl",
+  "emailLabel": "Email",
+  "whatsappLabel": "WhatsApp",
+  "serviceLabel": "Service of interest",
+  "budgetLabel": "Estimated budget",
+  "whatsappHint": "On submit, WhatsApp opens with your message prepared.",
+  "successMessage": "WhatsApp is ready. Finish sending from there.",
   "fields": {
-    "name": { "label": "Name", "required": true },
-    "phone": { "label": "Phone", "required": true },
-    "email": { "label": "Email", "required": true },
-    "company": { "label": "Company", "required": false },
-    "message": { "label": "Message", "required": true }
+    "name": {
+      "label": "Name",
+      "required": true
+    },
+    "phone": {
+      "label": "Phone / WhatsApp",
+      "required": true
+    },
+    "email": {
+      "label": "Email",
+      "required": true
+    },
+    "company": {
+      "label": "Company",
+      "required": false
+    },
+    "message": {
+      "label": "Tell us about your project",
+      "required": true
+    }
   },
-  "submitLabel": "Send message"
+  "submitLabel": "Request a quote",
+  "enabled": true,
+  "serviceOptions": [
+    {
+      "value": "",
+      "label": "Select a service"
+    },
+    {
+      "value": "diseno-web",
+      "label": "Website design"
+    },
+    {
+      "value": "tienda-online",
+      "label": "Online store"
+    },
+    {
+      "value": "landing",
+      "label": "Landing page"
+    },
+    {
+      "value": "seo-geo",
+      "label": "SEO / GEO"
+    },
+    {
+      "value": "mantencion",
+      "label": "Maintenance"
+    },
+    {
+      "value": "otro",
+      "label": "Other"
+    }
+  ],
+  "budgetOptions": [
+    {
+      "value": "",
+      "label": "Select a range"
+    },
+    {
+      "value": "500-1000",
+      "label": "$500,000 – $1,000,000"
+    },
+    {
+      "value": "1000-2000",
+      "label": "$1,000,000 – $2,000,000"
+    },
+    {
+      "value": "2000-4000",
+      "label": "$2,000,000 – $4,000,000"
+    },
+    {
+      "value": "4000+",
+      "label": "Over $4,000,000"
+    },
+    {
+      "value": "consultar",
+      "label": "Prefer to discuss"
+    }
+  ]
 }

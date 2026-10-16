@@ -1,47 +1,52 @@
 {
   "eyebrow": "FAQ",
-  "title": "Frequently Asked Questions",
-  "subtitle": "Find answers to the most common questions about our web design services and process.",
+  "titleOutline": "Good",
+  "titleSolid": "questions.",
+  "title": "Good questions.",
+  "subtitle": "Another doubt? Write us and we'll reply.",
+  "ctaLabel": "Request a quote →",
+  "ctaHref": "#contacto",
   "items": [
     {
       "id": "f1",
-      "question": "What is GDT DevSur and what projects do you develop?",
-      "answer": "GDT DevSur (Grupo Desarrollo Tecnológico DevSur) is a Chilean web design, web development, and IT agency. We build institutional sites, landing pages, self-manageable platforms, web apps, and AI integrations — always custom, with no templates or WordPress."
-    },
-    {
-      "id": "f7",
-      "question": "What services does GDT DevSur offer?",
-      "answer": "Custom premium web design, custom web apps and software, multilingual websites, custom admin panels, Google and AI optimization (technical SEO + GEO), and redesign, maintenance, and support for existing sites."
+      "question": "How much does a website cost in Chile?",
+      "answer": "It depends on scope. After a short call we send a concrete quote — no commitment."
     },
     {
       "id": "f2",
-      "question": "What makes GDT DevSur different from other agencies?",
-      "answer": "High-impact custom design, top-tier technology (Astro/Next.js), and proven experience. Faster, more secure sites ready for Google and AI assistants."
+      "question": "How long does it take to build a website?",
+      "answer": "Landing: 2–3 weeks. Institutional site: 4–6. Custom features: 6–10. Confirmed in the proposal."
     },
     {
       "id": "f3",
-      "question": "How much does a professional website cost?",
-      "answer": "It depends on scope. Landing pages, institutional sites, and custom platforms have different ranges. We work in the premium segment: a concrete proposal after a no-obligation consultation."
+      "question": "Will the site show up on Google?",
+      "answer": "Yes. We deliver technical structure, clear URLs, metadata and an SEO base ready to index and grow."
     },
     {
       "id": "f4",
-      "question": "How long does it take to develop a website?",
-      "answer": "Landing: 2–3 weeks. Institutional site: 4–6 weeks. Corporate with custom features: 6–10 weeks. Complex platforms: 8–14 weeks."
+      "question": "Can I update my website later?",
+      "answer": "Yes. We include a custom panel for texts, images and common sections — no code required."
     },
     {
       "id": "f5",
-      "question": "Where is GDT DevSur based and where do you work?",
-      "answer": "GDT DevSur is an agency based in Chile. We work remotely with companies across Chile and abroad. Video calls, shared staging servers, and direct communication."
+      "question": "Do I need copy and images before we start?",
+      "answer": "It helps, but it isn't mandatory. We can advance with structure and placeholders while you define content."
     },
     {
       "id": "f6",
-      "question": "Can I edit content without coding?",
-      "answer": "Yes. Each project can include a custom admin panel to configure, add, and edit all content without touching code."
+      "question": "What do I need for an online store?",
+      "answer": "Catalog, payments, logistics and shipping rules. We guide you on tech and scope."
+    },
+    {
+      "id": "f7",
+      "question": "Do you offer Google ranking?",
+      "answer": "Yes: technical SEO on the site and, if needed, content and campaign support."
     },
     {
       "id": "f8",
-      "question": "How do I contact GDT DevSur?",
-      "answer": "Email us at info@gdtdevsur.cl, call or message us on WhatsApp at +56 9 95995720, or fill out the contact form at gdtdevsur.cl to request a no-obligation quote."
+      "question": "Do you work with clients outside Chile?",
+      "answer": "Yes. We work remotely with clients in Chile and Spanish-speaking markets."
     }
-  ]
+  ],
+  "enabled": true
 }

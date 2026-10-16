@@ -12,3 +12,10 @@ export const POST: APIRoute = async ({ request }) => {
     },
   });
 };
+
+/** Evita 502 en el proxy PHP cuando el CDN/monitores hacen HEAD. */
+export const HEAD: APIRoute = async () =>
+  new Response(null, {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });

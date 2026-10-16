@@ -1,22 +1,26 @@
 ---
+/**
+ * Home GDT DevSur — Carbón & Crema + motion MMD
+ */
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import About from "../components/About.astro";
 import Portfolio from "../components/Portfolio.astro";
-import Detail from "../components/Detail.astro";
 import Services from "../components/Services.astro";
-import Differentials from "../components/Differentials.astro";
+import ServicesDetail from "../components/ServicesDetail.astro";
+import WhyWeb from "../components/WhyWeb.astro";
+import SectionArc from "../components/SectionArc.astro";
+import MarqueeBand from "../components/MarqueeBand.astro";
 import Clients from "../components/Clients.astro";
 import Process from "../components/Process.astro";
 import CtaContact from "../components/CtaContact";
-import Blog from "../components/Blog.astro";
-import News from "../components/News.astro";
 import Faq from "../components/Faq";
 import Footer from "../components/Footer.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 import SmoothScroll from "../components/SmoothScroll.astro";
 import Reveal from "../components/Reveal.astro";
+import MotionCraft from "../components/MotionCraft.astro";
 import JsonLd from "../components/JsonLd.astro";
 import { getCollection } from "../lib/cms";
 import { getLocaleFromRequest } from "../lib/locale";
@@ -27,29 +31,44 @@ const site = await getCollection<any>("site", locale);
 const hero = await getCollection<any>("hero", locale);
 const about = await getCollection<any>("about", locale);
 const services = await getCollection<any>("services", locale);
-const differentials = await getCollection<any>("differentials", locale);
+/** Stats strip: CMS only (colección `why.stats`). Empty array = hidden, no hardcoded fallback. */
+const why = await getCollection<any>("why", locale);
 const portfolio = await getCollection<any>("portfolio", locale);
 const clients = await getCollection<any>("clients", locale);
 const process = await getCollection<any>("process", locale);
-const blog = await getCollection<any>("blog", locale);
-const news = await getCollection<any>("news", locale);
 const faq = await getCollection<any>("faq", locale);
 const contact = await getCollection<any>("contact", locale);
-const detail = about.detail;
 
 const nav = filterNavByModules(site.nav, {
   hero,
   about,
   services,
-  differentials,
   portfolio,
   clients,
   process,
-  blog,
-  news,
   faq,
   contact,
+  differentials: { enabled: false },
+  blog: { enabled: false },
+  news: { enabled: false },
 });
+
+const asStrings = (list: unknown): string[] =>
+  Array.isArray(list)
+    ? list
+        .map((item) =>
+          typeof item === "string"
+            ? item
+            : item && typeof item === "object" && "value" in item
+              ? String((item as { value?: unknown }).value ?? "")
+              : "",
+        )
+        .filter(Boolean)
+    : [];
+
+const marqueeItems = asStrings(site.marquee);
+const sitePhones = asStrings(site.phones).length ? asStrings(site.phones) : (site.phones || []);
+const siteEmails = asStrings(site.emails).length ? asStrings(site.emails) : (site.emails || []);
 ---
 
 <Layout
@@ -58,12 +77,13 @@ const nav = filterNavByModules(site.nav, {
   ogImage={site.seo.ogImage || "/og-default.jpg"}
   locale={locale}
   keywords={site.seo.keywords}
+  brandName={site.brandName}
 >
   <JsonLd
     brandName={site.brandName}
     description={site.seo.description}
-    emails={site.emails}
-    phones={site.phones}
+    emails={siteEmails}
+    phones={sitePhones}
     faqItems={faq.items}
     locale={locale}
     social={site.social}
@@ -80,50 +100,140 @@ const nav = filterNavByModules(site.nav, {
   />
   <Header
     brandName={site.brandName}
+    logoText={site.logoText || site.brandName}
     nav={nav}
     cta={site.ctaPrimary}
     locales={site.locales}
     defaultLocale={locale}
-    phone={site.phones?.[0] || ""}
+    phone={sitePhones[0] || ""}
+    whatsappPrefill={site.whatsappPrefill || ""}
   />
-  <main>
-    {hero.enabled !== false && <Hero {...hero} />}
-    {about.enabled !== false && <About {...about} />}
-    {portfolio.enabled !== false && <Portfolio {...portfolio} />}
+  <main class="overflow-x-clip">
     {
-      detail && (
-        <Detail eyebrow={detail.eyebrow} title={detail.title} body={detail.body} />
+      hero.enabled !== false && (
+        <Hero
+          {...hero}
+          brandTitle={hero.brandTitle || site.logoText || site.brandName}
+          metaLine={hero.metaLine || hero.trustLabel || site.tagline}
+        />
       )
     }
-    {services.enabled !== false && <Services {...services} />}
-    {differentials.enabled !== false && <Differentials {...differentials} />}
+    {hero.enabled !== false && <MarqueeBand items={marqueeItems} />}
+    {
+      hero.enabled !== false && (about.enabled !== false || services.enabled !== false) && (
+        <SectionArc to="paper" />
+      )
+    }
+    {about.enabled !== false && <About {...about} />}
+    {
+      services.enabled !== false && (
+        <Services
+          eyebrow={services.eyebrow}
+          title={services.title}
+          titleLight={services.titleLight}
+          titleBold={services.titleBold}
+          subtitle={services.subtitle}
+          items={services.items}
+        />
+      )
+    }
+
+    {why?.enabled !== false && (
+      <>
+        <SectionArc to="ink" />
+        <WhyWeb {...why} />
+        <SectionArc to="paper" />
+      </>
+    )}
+
+    {
+      services.enabled !== false && services.detail?.items?.length > 0 && (
+        <ServicesDetail
+          eyebrow={services.detail.eyebrow}
+          titleLight={services.detail.titleLight}
+          titleBold={services.detail.titleBold}
+          subtitle={services.detail.subtitle}
+          items={services.detail.items}
+        />
+      )
+    }
+
+    {portfolio.enabled !== false && <Portfolio {...portfolio} />}
     {clients.enabled !== false && <Clients {...clients} locale={locale} />}
-    {process.enabled !== false && <Process {...process} />}
+    {
+      process.enabled !== false && (
+        <Process
+          eyebrow={process.eyebrow}
+          title={process.title}
+          titleLight={process.titleLight}
+          titleBold={process.titleBold}
+          subtitle={process.subtitle}
+          steps={process.steps}
+          stackTitle={process.stackTitle}
+          stack={process.stack}
+        />
+      )
+    }
+
+    <SectionArc to="ink" />
+
+    {
+      faq.enabled !== false && (
+        <Faq
+          client:load
+          eyebrow={faq.eyebrow}
+          title={faq.title}
+          titleOutline={faq.titleOutline}
+          titleSolid={faq.titleSolid}
+          subtitle={faq.subtitle}
+          ctaLabel={faq.ctaLabel}
+          ctaHref={faq.ctaHref}
+          items={faq.items}
+        />
+      )
+    }
+
     {
       contact.enabled !== false && (
         <CtaContact
           client:load
-          title={contact.eyebrow || contact.title}
+          title={contact.title}
+          titleLight={contact.titleLight}
+          titleBold={contact.titleBold}
+          eyebrow={contact.eyebrow}
+          subtitle={contact.subtitle}
           successMessage={contact.successMessage}
           submitLabel={contact.submitLabel}
+          whatsappHint={contact.whatsappHint}
+          serviceLabel={contact.serviceLabel}
+          budgetLabel={contact.budgetLabel}
+          serviceOptions={contact.serviceOptions || []}
+          budgetOptions={contact.budgetOptions || []}
+          phone={sitePhones[0] || ""}
           fields={contact.fields}
           locale={locale}
         />
       )
     }
-    {blog.enabled !== false && <Blog {...blog} locale={locale} />}
-    {news.enabled !== false && <News {...news} locale={locale} />}
-    {faq.enabled !== false && <Faq client:load {...faq} />}
   </main>
   <Footer
     brandName={site.brandName}
     footerNote={site.footerNote}
-    emails={site.emails}
-    phones={site.phones}
+    footerBlurb={site.footerBlurb || ""}
+    emails={siteEmails}
+    phones={sitePhones}
     nav={nav}
     locale={locale}
+    mapLabel={site.footerMapLabel}
+    contactLabel={site.footerContactLabel}
+    location={contact.location || ""}
+    locationLabel={contact.locationLabel}
+    emailLabel={contact.emailLabel}
+    whatsappLabel={contact.whatsappLabel}
+    contactEmail={(typeof contact.email === "string" && contact.email.trim()) || siteEmails[0] || ""}
   />
-  <WhatsAppFloat phone={site.phones?.[0] || ""} />
+  <WhatsAppFloat phone={sitePhones[0] || ""} />
   <SmoothScroll />
   <Reveal />
+  <MotionCraft />
 </Layout>

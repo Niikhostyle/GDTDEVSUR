@@ -1,604 +1,309 @@
 ---
 interface Props {
-  eyebrow: string;
+  eyebrow?: string;
+  brandTitle?: string;
   headline: string;
-  headlineAccent: string;
+  headlineBold?: string;
+  headlineRest?: string;
+  headlineAccent?: string;
   subheadline: string;
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
-  stats: { value: string; label: string }[];
-  trustLabel: string;
+  stats?: { value: string; label: string }[];
+  trustLabel?: string;
+  metaLine?: string;
   backgroundImage?: string;
 }
 
 const {
-  eyebrow,
+  brandTitle = "",
   headline,
-  headlineAccent,
+  headlineBold = "",
+  headlineRest = "",
+  headlineAccent = "",
   subheadline,
+  primaryCta,
   secondaryCta,
-  backgroundImage = "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=70",
+  trustLabel = "",
+  metaLine = "",
 } = Astro.props;
 
-const isUnsplash = backgroundImage.includes("images.unsplash.com");
-
-/** Unsplash (imgix) redimensiona y aplica el gris en servidor: sin filtros CSS en el navegador. */
-function unsplash(width: number, quality: number, gray = false) {
-  const url = new URL(backgroundImage);
-  url.searchParams.delete("auto");
-  url.searchParams.set("fm", "webp");
-  url.searchParams.set("fit", "crop");
-  url.searchParams.set("w", String(width));
-  url.searchParams.set("q", String(quality));
-  if (gray) {
-    url.searchParams.set("sat", "-100");
-    url.searchParams.set("con", "10");
-  } else {
-    url.searchParams.delete("sat");
-    url.searchParams.delete("con");
-  }
-  return url.toString();
-}
-
-const mobileSrcset = isUnsplash
-  ? `${unsplash(640, 60)} 640w, ${unsplash(960, 60)} 960w`
-  : undefined;
-const desktopSrcset = isUnsplash
-  ? `${unsplash(1280, 65, true)} 1280w, ${unsplash(1920, 65, true)} 1920w`
-  : undefined;
-const heroSrc = isUnsplash ? unsplash(960, 60) : backgroundImage;
+const brand = brandTitle.trim();
+const meta = (metaLine || trustLabel).trim();
 ---
 
 <section
   id="inicio"
-  class="hero-section relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-[#06080d] text-white"
+  class="hero-sur relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-[var(--color-ink)] text-[var(--color-paper)]"
   data-hero
 >
-  <div class="pointer-events-none absolute inset-0 overflow-hidden">
-    <picture>
-      {desktopSrcset && <source media="(min-width: 768px)" srcset={desktopSrcset} sizes="100vw" />}
-      <img
-        src={heroSrc}
-        srcset={mobileSrcset}
-        sizes="100vw"
-        alt=""
-        class:list={[
-          "hero-parallax h-full w-full object-cover object-center md:h-[120%] md:scale-110 md:will-change-transform",
-          !isUnsplash && "md:grayscale md:contrast-110",
-        ]}
-        data-hero-media
-        fetchpriority="high"
-        decoding="async"
-      />
-    </picture>
-    <canvas class="hero-sky absolute inset-0 h-full w-full" data-hero-sky aria-hidden="true"></canvas>
-    <div class="absolute inset-0 bg-black/55" data-hero-veil></div>
-    <div class="pointer-events-none absolute inset-x-0 top-[18%] bottom-[12%] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.55)_0%,transparent_70%)]"></div>
-    <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/90 to-transparent"></div>
-    <div class="hero-bottom-scrim absolute inset-x-0 -bottom-px h-64 md:h-72"></div>
+  <div class="hero-sur__fx" aria-hidden="true">
+    <div class="hero-sur__lines"></div>
+    <div class="hero-sur__glow"></div>
+    <div class="hero-sur__glow hero-sur__glow--soft"></div>
+    <div class="hero-sur__veil" data-hero-veil></div>
   </div>
 
   <div
-    class="hero-content relative z-10 mx-auto w-full max-w-4xl px-5 pt-28 pb-16 text-center md:px-8 md:py-28"
+    class="relative z-10 mx-auto flex w-full max-w-[1240px] flex-col gap-0 px-5 pb-10 pt-28 md:px-8 md:pb-14 lg:px-8 lg:pb-16"
     data-hero-content
   >
-    <p class="hero-text-shadow eyebrow mb-5 text-white" data-hero-eyebrow>{eyebrow}</p>
+    <div class="max-w-[48rem]" data-hero-copy-block>
+      {
+        brand ? (
+          <h1
+            class="w-fit max-w-full font-display text-[clamp(3.5rem,13vw,7.5rem)] leading-[0.88] tracking-[-0.035em] text-[var(--color-paper)]"
+            data-hero-title
+            data-hero-brand
+            data-cursor-text
+          >
+            {brand}
+          </h1>
+        ) : null
+      }
 
-    <h1
-      class="animated-title hero-text-shadow font-display text-balance text-[1.75rem] leading-[1.1] font-700 tracking-tight sm:text-4xl md:text-6xl lg:text-[4.25rem]"
-      aria-label={`${headline} ${headlineAccent}`}
-      data-hero-title
-    >
-      <span class="block text-white" data-hero-line data-line-text={headline}>{headline}</span>
-      <span class="mt-1 block text-[var(--color-accent)]" data-hero-line data-line-text={headlineAccent}
-        >{headlineAccent}</span
+      <p
+        class="hero-sur__line mt-6 w-fit max-w-[22ch] font-condensed text-[clamp(1.65rem,4.2vw,2.85rem)] leading-[1.05] tracking-[-0.01em] text-[var(--color-paper)] uppercase"
+        data-hero-line
+        data-cursor-text
       >
-    </h1>
+        <span class="hero-sur__l">{headline}</span>
+        {headlineBold ? (
+          <>
+            {" "}
+            <b class="hero-sur__b">{headlineBold}</b>
+          </>
+        ) : null}
+        {headlineRest ? (
+          <>
+            {" "}
+            <span class="hero-sur__l">{headlineRest}</span>
+          </>
+        ) : null}
+        {headlineAccent ? (
+          <>
+            {" "}
+            <span class="hero-sur__grad">{headlineAccent}</span>
+          </>
+        ) : null}
+      </p>
 
-    <p
-      class="hero-text-shadow mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-white md:text-base lg:text-lg"
-      data-hero-copy
-    >
-      {subheadline}
-    </p>
-
-    <div class="mt-9" data-hero-cta-wrap>
-      <a
-        href={secondaryCta.href}
-        class="hero-cta btn-outline inline-flex border-white text-white"
-        data-hero-cta
+      <p
+        class="mt-5 w-fit max-w-[42ch] text-[0.975rem] leading-relaxed text-[var(--color-paper)]/75 md:text-base"
+        data-hero-copy
+        data-cursor-text
       >
-        {secondaryCta.label}
-      </a>
+        {subheadline}
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3" data-hero-cta-wrap>
+        <a href={primaryCta.href} class="btn-solid hero-sur__cta" data-hero-cta>
+          {primaryCta.label}
+          <span aria-hidden="true">→</span>
+        </a>
+        <a href={secondaryCta.href} class="btn-outline btn-outline-on-dark" data-hero-cta-secondary>
+          {secondaryCta.label}
+        </a>
+      </div>
     </div>
+
+    {
+      meta ? (
+        <div class="mt-14 border-t border-[var(--color-paper)]/15 pt-5" data-hero-meta>
+          <p class="font-mono text-[11px] tracking-[0.14em] text-[var(--color-paper)]/55 uppercase">
+            {meta}
+          </p>
+        </div>
+      ) : null
+    }
   </div>
 </section>
 
 <script>
   import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-  ScrollTrigger.config({ ignoreMobileResize: true });
-
-  type Star = {
-    x: number;
-    y: number;
-    r: number;
-    base: number;
-    twinkle: number;
-    speed: number;
-    phase: number;
-    drift: number;
-    layer: number;
-  };
-
-  type Comet = {
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-    life: number;
-    maxLife: number;
-    length: number;
-    width: number;
-    bright: number;
-  };
-
-  function splitLine(line: HTMLElement) {
-    const text = line.getAttribute("data-line-text") || line.textContent || "";
-    line.textContent = "";
-    const words = text.trim().split(/\s+/);
-    const chars: HTMLElement[] = [];
-
-    words.forEach((word, wIndex) => {
-      const wordEl = document.createElement("span");
-      wordEl.className = "hero-word";
-      wordEl.setAttribute("aria-hidden", "true");
-
-      [...word].forEach((char) => {
-        const charEl = document.createElement("span");
-        charEl.className = "hero-char";
-        charEl.setAttribute("aria-hidden", "true");
-        charEl.textContent = char;
-        wordEl.appendChild(charEl);
-        chars.push(charEl);
-      });
-
-      line.appendChild(wordEl);
-      if (wIndex < words.length - 1) {
-        const space = document.createElement("span");
-        space.className = "hero-space";
-        space.setAttribute("aria-hidden", "true");
-        // Espacio normal (no &nbsp;) para que el título pueda hacer wrap en móvil
-        space.textContent = " ";
-        line.appendChild(space);
-      }
-    });
-
-    return chars;
-  }
-
-  function initSky(root: Element) {
-    const canvas = root.querySelector<HTMLCanvasElement>("[data-hero-sky]");
-    if (!canvas || canvas.dataset.ready === "1") return;
-    canvas.dataset.ready = "1";
-
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      canvas.style.display = "none";
-      return;
-    }
-
-    const mobile =
-      window.matchMedia("(pointer: coarse)").matches ||
-      window.matchMedia("(max-width: 768px)").matches ||
-      "ontouchstart" in window;
-
-    const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
-    if (!ctx) return;
-
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let stars: Star[] = [];
-    let comets: Comet[] = [];
-    let raf = 0;
-    let running = true;
-    let last = performance.now();
-    let cometCooldown = 1.4;
-    let frameSkip = 0;
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const nextWidth = Math.max(1, Math.floor(rect.width));
-      const nextHeight = Math.max(1, Math.floor(rect.height));
-      // Móvil: la barra de direcciones cambia solo el alto; no regenerar estrellas por eso
-      if (mobile && stars.length && nextWidth === width && Math.abs(nextHeight - height) < 160) return;
-
-      dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.5);
-      width = nextWidth;
-      height = nextHeight;
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      // Desktop ~90–140 estrellas; móvil ~50–70. Sin gradiente por estrella.
-      const count = mobile
-        ? Math.round(Math.min(70, Math.max(50, (width * height) / 5000)))
-        : Math.round(Math.min(140, Math.max(90, (width * height) / 14000)));
-      stars = Array.from({ length: count }, () => {
-        const layer = Math.random();
-        return {
-          x: Math.random() * width,
-          y: Math.random() * height * 0.82,
-          r: layer > 0.9 ? Math.random() * 1.4 + 0.9 : Math.random() * 0.9 + 0.25,
-          base: layer > 0.9 ? 0.55 + Math.random() * 0.35 : 0.2 + Math.random() * 0.45,
-          twinkle: 0.4 + Math.random() * 0.6,
-          speed: 0.5 + Math.random() * 2.2,
-          phase: Math.random() * Math.PI * 2,
-          drift: (Math.random() - 0.5) * (0.5 + layer),
-          layer,
-        };
-      });
-    };
-
-    const spawnComet = () => {
-      const fromLeft = Math.random() > 0.3;
-      const startX = fromLeft ? -40 : width * (0.1 + Math.random() * 0.8);
-      const startY = fromLeft ? height * Math.random() * 0.4 : -30;
-      const speed = 280 + Math.random() * 260;
-      const angle = fromLeft ? 0.25 + Math.random() * 0.35 : 0.5 + Math.random() * 0.4;
-      const bright = Math.random() > 0.5 ? 1.1 : 0.85;
-
-      comets.push({
-        x: startX,
-        y: startY,
-        vx: Math.cos(angle) * speed * (fromLeft ? 1 : 0.6),
-        vy: Math.sin(angle) * speed,
-        life: 0,
-        maxLife: 0.8 + Math.random() * 0.9,
-        length: (90 + Math.random() * 120) * bright,
-        width: 1.2 + Math.random() * 1.6,
-        bright,
-      });
-    };
-
-    const draw = (now: number) => {
-      if (!running) return;
-
-      // ~30fps en desktop también (suficiente para twinkle)
-      frameSkip ^= 1;
-      if (frameSkip) {
-        raf = requestAnimationFrame(draw);
-        return;
-      }
-
-      const dt = Math.min(0.04, (now - last) / 1000);
-      last = now;
-
-      ctx.clearRect(0, 0, width, height);
-
-      // Un solo path batch de puntos (sin createRadialGradient)
-      for (const star of stars) {
-        star.x += star.drift * dt * 3;
-        if (star.x < -4) star.x = width + 4;
-        if (star.x > width + 4) star.x = -4;
-
-        const pulse = 0.5 + 0.5 * Math.sin(now * 0.001 * star.speed + star.phase);
-        const alpha = Math.min(1, star.base * (0.35 + star.twinkle * pulse));
-        ctx.fillStyle = `rgba(255,248,235,${alpha})`;
-        ctx.fillRect(star.x, star.y, star.r * (0.9 + pulse * 0.5), star.r * (0.9 + pulse * 0.5));
-      }
-
-      cometCooldown -= dt;
-      if (cometCooldown <= 0 && comets.length < (mobile ? 1 : 2)) {
-        spawnComet();
-        if (!mobile && Math.random() > 0.7) spawnComet();
-        cometCooldown = 2.2 + Math.random() * 3.2;
-      }
-
-      comets = comets.filter((comet) => {
-        comet.life += dt;
-        comet.x += comet.vx * dt;
-        comet.y += comet.vy * dt;
-        const t = comet.life / comet.maxLife;
-        if (t >= 1 || comet.x > width + 160 || comet.y > height + 100) return false;
-
-        const fade = t < 0.12 ? t / 0.12 : t > 0.65 ? (1 - t) / 0.35 : 1;
-        const len = Math.hypot(comet.vx, comet.vy) || 1;
-        const tailX = comet.x - (comet.vx / len) * comet.length;
-        const tailY = comet.y - (comet.vy / len) * comet.length;
-
-        ctx.strokeStyle = `rgba(255,230,190,${0.7 * fade * comet.bright})`;
-        ctx.lineWidth = comet.width;
-        ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(comet.x, comet.y);
-        ctx.lineTo(tailX, tailY);
-        ctx.stroke();
-        ctx.fillStyle = `rgba(255,255,255,${0.9 * fade})`;
-        ctx.beginPath();
-        ctx.arc(comet.x, comet.y, 2.5 + comet.bright, 0, Math.PI * 2);
-        ctx.fill();
-        return true;
-      });
-
-      raf = requestAnimationFrame(draw);
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-
-    let inView = true;
-    const sync = () => {
-      const next = inView && !document.hidden;
-      if (next === running) return;
-      running = next;
-      cancelAnimationFrame(raf);
-      if (running) {
-        last = performance.now();
-        raf = requestAnimationFrame(draw);
-      }
-    };
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        inView = entry.isIntersecting;
-        sync();
-      },
-      { threshold: 0.08 },
-    );
-    observer.observe(root);
-    document.addEventListener("visibilitychange", sync);
-
-    raf = requestAnimationFrame(draw);
-  }
 
   function initHero() {
     const root = document.querySelector("[data-hero]");
-    if (!root) return;
-
-    initSky(root);
-
-    if (root.getAttribute("data-hero-ready") === "1") return;
+    if (!root || root.getAttribute("data-hero-ready") === "1") return;
     root.setAttribute("data-hero-ready", "1");
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const media = root.querySelector("[data-hero-media]");
     const veil = root.querySelector("[data-hero-veil]");
-    const eyebrow = root.querySelector("[data-hero-eyebrow]");
-    const lines = root.querySelectorAll<HTMLElement>("[data-hero-line]");
+    const brand = root.querySelector("[data-hero-title]");
+    const line = root.querySelector("[data-hero-line]");
     const copy = root.querySelector("[data-hero-copy]");
-    const cta = root.querySelector("[data-hero-cta]");
-    const content = root.querySelector<HTMLElement>("[data-hero-content]");
+    const ctas = root.querySelectorAll("[data-hero-cta], [data-hero-cta-secondary]");
+    const meta = root.querySelector("[data-hero-meta]");
 
     if (reduce) {
-      if (content) content.style.opacity = "1";
-      root.setAttribute("data-hero-boot", "1");
+      root.classList.add("is-hero-ready");
       return;
     }
 
-    const allChars: HTMLElement[] = [];
-    lines.forEach((line) => {
-      if (line.querySelector(".hero-char")) return;
-      allChars.push(...splitLine(line));
-    });
-
-    // Móvil/touch: foto fija al scrollear (sin parallax); solo un zoom corto de entrada
-    const staticMedia =
-      window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(max-width: 768px)").matches;
-
-    if (staticMedia) gsap.set(media, { scale: 1.08, transformOrigin: "50% 50%" });
-    else gsap.set(media, { scale: 1.22, yPercent: -6, transformOrigin: "50% 40%" });
-    gsap.set(veil, { opacity: 0.88 });
-    gsap.set(eyebrow, { y: 28, opacity: 0 });
-    gsap.set(allChars, { yPercent: 120, opacity: 0, rotate: 0.001 });
-    gsap.set(copy, { y: 40, opacity: 0 });
-    gsap.set(cta, { y: 32, opacity: 0 });
-
-    if (content) content.style.opacity = "1";
-    root.setAttribute("data-hero-boot", "1");
-
+    const ease = "cubic-bezier(0.16, 1, 0.3, 1)";
     const tl = gsap.timeline({
-      defaults: { ease: "power3.out" },
-      delay: 0.15,
+      defaults: { ease },
+      onComplete: () => root.classList.add("is-hero-ready"),
     });
 
-    if (staticMedia) {
-      const zoom = gsap.to(media, { scale: 1, duration: 1.4, ease: "power2.out", delay: 0.15 });
-      // Si el usuario scrollea antes de que termine, cerrar el zoom rápido para que la foto quede quieta
-      const finish = () => zoom.isActive() && zoom.timeScale(6);
-      window.addEventListener("touchmove", finish, { passive: true, once: true });
-      window.addEventListener("wheel", finish, { passive: true, once: true });
-    } else {
+    if (veil) {
+      gsap.set(veil, { opacity: 0.4 });
+      tl.to(veil, { opacity: 1, duration: 1.1 }, 0);
+    }
+
+    if (brand) gsap.set(brand, { opacity: 1 });
+    if (line) gsap.set(line, { opacity: 1 });
+
+    if (copy) {
+      gsap.set(copy, { y: 22, opacity: 0 });
+      tl.to(copy, { y: 0, opacity: 1, duration: 0.7, clearProps: "transform" }, 0.4);
+    }
+
+    if (ctas.length) {
+      gsap.set(ctas, { y: 18, opacity: 0 });
       tl.to(
-        media,
+        ctas,
         {
-          scale: 1.06,
-          yPercent: 0,
-          duration: 2.8,
-          ease: "power2.out",
+          y: 0,
+          opacity: 1,
+          duration: 0.65,
+          stagger: 0.08,
+          clearProps: "transform",
         },
-        0,
+        0.52,
       );
     }
 
-    tl.to(veil, { opacity: 0.55, duration: 1.8, ease: "power2.out" }, 0.15)
-      .to(eyebrow, { y: 0, opacity: 1, duration: 1.05 }, 0.45)
-      .to(
-        allChars,
-        {
-          yPercent: 0,
-          opacity: 1,
-          duration: 1.35,
-          stagger: 0.042,
-          ease: "power3.out",
-        },
-        0.7,
-      )
-      .to(copy, { y: 0, opacity: 1, duration: 1.1 }, "-=0.55")
-      .to(cta, { y: 0, opacity: 1, duration: 1 }, "-=0.5");
-
-    ScrollTrigger.create({
-      trigger: root,
-      start: "top top",
-      end: "bottom top",
-      scrub: true,
-      onUpdate: (self) => {
-        if (!staticMedia) {
-          gsap.set(media, {
-            yPercent: self.progress * 22,
-            scale: 1.06 + self.progress * 0.1,
-          });
-        }
-        gsap.set(veil, { opacity: 0.55 + self.progress * 0.35 });
-      },
-    });
+    if (meta) {
+      gsap.set(meta, { y: 20, opacity: 0 });
+      tl.to(meta, { y: 0, opacity: 1, duration: 0.7, clearProps: "transform" }, 0.68);
+    }
   }
 
   initHero();
   document.addEventListener("astro:page-load", initHero);
-
-  // Failsafe móvil: si GSAP no bootea, mostrar copy igual
-  window.setTimeout(() => {
-    const root = document.querySelector<HTMLElement>("[data-hero]");
-    const content = document.querySelector<HTMLElement>("[data-hero-content]");
-    if (root && content && root.getAttribute("data-hero-boot") !== "1") {
-      root.setAttribute("data-hero-boot", "1");
-      content.style.opacity = "1";
-    }
-  }, 1800);
 </script>
 
 <style>
-  /* Contenido visible por defecto; GSAP anima al cargar. No ocultar con CSS. */
-  [data-hero-content] {
-    opacity: 1;
-  }
-
-  .hero-sky {
-    opacity: 0.9;
+  /* Contiene el glow para que no se filtre a la sección blanca */
+  .hero-sur__fx {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
     pointer-events: none;
   }
 
-  /* Scrim con easing: la foto se funde en #06080d sin banda (continúa en About) */
-  .hero-bottom-scrim {
-    background: linear-gradient(
-      to bottom,
-      rgba(6, 8, 13, 0) 0%,
-      rgba(6, 8, 13, 0.017) 8.3%,
-      rgba(6, 8, 13, 0.067) 16.7%,
-      rgba(6, 8, 13, 0.146) 25%,
-      rgba(6, 8, 13, 0.25) 33.3%,
-      rgba(6, 8, 13, 0.371) 41.7%,
-      rgba(6, 8, 13, 0.5) 50%,
-      rgba(6, 8, 13, 0.629) 58.3%,
-      rgba(6, 8, 13, 0.75) 66.7%,
-      rgba(6, 8, 13, 0.854) 75%,
-      rgba(6, 8, 13, 0.933) 83.3%,
-      rgba(6, 8, 13, 0.983) 91.7%,
-      #06080d 100%
-    );
+  .hero-sur__lines {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image: linear-gradient(90deg, currentColor 1px, transparent 1px);
+    background-size: calc(100% / 6) 100%;
+    opacity: 0.07;
+    color: var(--color-paper);
   }
 
-  @media (max-width: 768px), (pointer: coarse) {
-    .hero-parallax {
-      /* sin grayscale/contrast en móvil: filtros CSS pesan mucho */
-      filter: none;
+  /* Glow detrás del copy — más bajo para no chocar con el navbar */
+  .hero-sur__glow {
+    --hero-gr: linear-gradient(90deg, #5cf2ff, #8b5cff);
+    position: absolute;
+    z-index: 1;
+    left: 18%;
+    top: 58%;
+    width: 65vw;
+    height: 65vw;
+    max-width: 820px;
+    max-height: 820px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(90px);
+    opacity: 0.38;
+    background: var(--hero-gr);
+    transform: translate(-28%, -42%);
+    animation: hero-glow 12s ease-in-out infinite alternate;
+  }
+
+  .hero-sur__glow--soft {
+    left: 48%;
+    top: 62%;
+    width: 50vw;
+    height: 50vw;
+    max-width: 640px;
+    max-height: 640px;
+    opacity: 0.22;
+    transform: translate(-35%, -35%);
+    animation-duration: 14s;
+    animation-direction: alternate-reverse;
+  }
+
+  @keyframes hero-glow {
+    to {
+      transform: translate(-16%, -48%) scale(1.12);
     }
   }
 
-  .hero-text-shadow {
-    text-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.85),
-      0 8px 28px rgba(0, 0, 0, 0.75),
-      0 0 40px rgba(0, 0, 0, 0.45);
-  }
-
-  .animated-title {
-    opacity: 1;
-  }
-
-  .animated-title [data-hero-line]:last-child {
-    text-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.9),
-      0 6px 24px rgba(0, 0, 0, 0.7),
-      0 0 36px rgba(250, 150, 88, 0.35);
-  }
-
-  .hero-word {
-    position: relative;
-    display: inline-block;
-    vertical-align: bottom;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 100%;
-    padding-bottom: 0.08em;
-    margin-bottom: -0.08em;
-  }
-
-  .hero-space {
-    display: inline;
-    white-space: normal;
-  }
-
-  .hero-char {
-    position: relative;
-    display: inline-block;
-  }
-
-
-  .hero-cta {
-    position: relative;
-    overflow: hidden;
-    transition:
-      color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .hero-cta::before {
-    content: "";
+  /* Fade negro arriba → glow abajo: transición suave bajo el navbar */
+  .hero-sur__veil {
     position: absolute;
     inset: 0;
-    background: #fff;
-    transform: translateY(101%);
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: -1;
+    z-index: 2;
+    background:
+      linear-gradient(
+        to bottom,
+        var(--color-ink) 0%,
+        color-mix(in oklab, var(--color-ink) 88%, transparent) 12%,
+        color-mix(in oklab, var(--color-ink) 45%, transparent) 32%,
+        transparent 52%
+      ),
+      radial-gradient(ellipse 85% 55% at 28% 62%, rgba(92, 242, 255, 0.08), transparent 58%),
+      radial-gradient(ellipse 70% 50% at 62% 68%, rgba(139, 92, 255, 0.07), transparent 60%),
+      linear-gradient(to top, rgba(10, 10, 10, 0.4) 0%, transparent 42%);
   }
 
-  .hero-cta:hover {
-    color: #06080d;
-    border-color: #fff;
-    transform: translateY(-2px);
+  [data-hero-content] {
+    z-index: 3;
   }
 
-  .hero-cta:hover::before {
-    transform: translateY(0);
+  .hero-sur__l {
+    font-weight: 300;
+  }
+
+  .hero-sur__b {
+    font-weight: 800;
+  }
+
+  .hero-sur__grad {
+    font-weight: 800;
+    background: linear-gradient(90deg, #5cf2ff, #8b5cff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sur__cta {
+    background-image: linear-gradient(90deg, #5cf2ff, #8b5cff);
+    border-color: transparent;
+    color: #0a0a0a;
+  }
+
+  .hero-sur__cta:hover {
+    background-image: none;
+    background-color: transparent;
+    border-color: var(--color-paper);
+    color: var(--color-paper);
+  }
+
+  [data-hero-copy] {
+    color: color-mix(in oklab, var(--color-paper) 78%, transparent);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    [data-hero]:not([data-hero-boot]) [data-hero-content] {
-      opacity: 1;
-    }
-
-    .hero-cta,
-    .hero-cta::before {
-      transition: none;
-    }
-
-    .hero-sky {
-      display: none;
+    .hero-sur__glow {
+      animation: none;
+      filter: blur(70px);
+      opacity: 0.38;
     }
   }
 </style>
-
-<noscript>
-  <style>
-    [data-hero] [data-hero-content] {
-      opacity: 1 !important;
-    }
-  </style>
-</noscript>

@@ -50,13 +50,34 @@ async function readFromDb(name: CollectionId, locale: Locale) {
   return row ? (row.data as unknown) : null;
 }
 
+/** Evita que Prisma cuelgue la SSR cuando MySQL (:3307) está caído. */
+const DB_READ_TIMEOUT_MS = 1200;
+let dbUnreachableUntil = 0;
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error(`DB timeout after ${ms}ms`)), ms);
+    promise.then(
+      (v) => {
+        clearTimeout(t);
+        resolve(v);
+      },
+      (e) => {
+        clearTimeout(t);
+        reject(e);
+      },
+    );
+  });
+}
+
 async function readCollectionRaw(name: CollectionId, locale: Locale): Promise<unknown | null> {
-  if (hasDatabase()) {
+  if (hasDatabase() && Date.now() > dbUnreachableUntil) {
     try {
-      const fromDb = await readFromDb(name, locale);
+      const fromDb = await withTimeout(readFromDb(name, locale), DB_READ_TIMEOUT_MS);
       if (fromDb != null) return structuredClone(fromDb);
     } catch (err) {
-      console.warn(`[cms] DB read failed for ${name}/${locale}, fallback JSON:`, err);
+      dbUnreachableUntil = Date.now() + 30_000;
+      console.warn(`[cms] DB read failed for ${name}/${locale}, fallback JSON (skip DB 30s):`, err);
     }
   }
 
@@ -73,13 +94,30 @@ export async function getCollection<T = unknown>(
 ): Promise<T> {
   if (!isCollection(name)) throw new Error(`Colección inválida: ${name}`);
 
-  const base = await readCollectionRaw(name, "es");
-  if (base == null) throw new Error(`No se pudo leer colección: ${name}`);
+  /** Defaults del repo + datos guardados (BD/JSON): campos nuevos de la web no se pierden. */
+  const defaultsEs = bundled(name, "es") || {};
+  const storedEs = await readCollectionRaw(name, "es");
+  const base = deepMerge(defaultsEs, storedEs ?? {});
+  if (base == null || (typeof base === "object" && !Object.keys(base as object).length && !storedEs)) {
+    throw new Error(`No se pudo leer colección: ${name}`);
+  }
 
   if (locale !== "en") return base as T;
 
-  const en = await readCollectionRaw(name, "en");
-  return (en ? deepMerge(base, en) : base) as T;
+  const defaultsEn = bundled(name, "en") || {};
+  const storedEn = await readCollectionRaw(name, "en");
+  const en = deepMerge(defaultsEn, storedEn ?? {});
+  return deepMerge(base, en) as T;
+}
+
+async function writeCollectionJson(name: CollectionId, data: unknown, locale: Locale) {
+  const dir = locale === "en" ? contentEnDir : contentDir;
+  await fs.mkdir(dir, { recursive: true });
+  await fs.writeFile(
+    path.join(dir, `${name}.json`),
+    `${JSON.stringify(data, null, 2)}\n`,
+    "utf-8",
+  );
 }
 
 export async function saveCollection(name: string, data: unknown, locale: Locale = "es") {
@@ -93,17 +131,22 @@ export async function saveCollection(name: string, data: unknown, locale: Locale
         create: { collection: name, locale, data: data as object },
         update: { data: data as object },
       });
+      // Admin edits are source of truth: keep disk JSON in sync for fallbacks/seeds.
+      try {
+        await writeCollectionJson(name, data, locale);
+      } catch (err) {
+        console.warn(`[cms] DB saved but JSON sync failed for ${name}/${locale}:`, err);
+      }
+      dbUnreachableUntil = 0;
       return;
     }
   }
 
   try {
-    const dir = locale === "en" ? contentEnDir : contentDir;
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(path.join(dir, `${name}.json`), JSON.stringify(data, null, 2), "utf-8");
+    await writeCollectionJson(name, data, locale);
   } catch {
     throw new Error(
-      "No se pudo guardar. Configurá DATABASE_URL (PostgreSQL) o editá en un entorno con disco.",
+      "No se pudo guardar. Configurá DATABASE_URL (MySQL) o editá en un entorno con disco.",
     );
   }
 }

@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 import SmoothScroll from "../components/SmoothScroll.astro";
 import Reveal from "../components/Reveal.astro";
+import MotionCraft from "../components/MotionCraft.astro";
 import JsonLd from "../components/JsonLd.astro";
 import TechStack from "../components/TechStack.astro";
 import { getCollection } from "../lib/cms";
@@ -239,12 +240,27 @@ const experienceHtml = String(page.experienceBody || "").replace(
   <Footer
     brandName={site.brandName}
     footerNote={site.footerNote}
-    emails={site.emails}
-    phones={site.phones}
+    footerBlurb={site.footerBlurb || ""}
+    emails={Array.isArray(site.emails) ? site.emails.map((e: any) => (typeof e === "string" ? e : e?.value)).filter(Boolean) : []}
+    phones={Array.isArray(site.phones) ? site.phones.map((p: any) => (typeof p === "string" ? p : p?.value)).filter(Boolean) : []}
     nav={nav}
     locale={locale}
+    mapLabel={site.footerMapLabel}
+    contactLabel={site.footerContactLabel}
+    location={contact.location || ""}
+    locationLabel={contact.locationLabel}
+    emailLabel={contact.emailLabel}
+    whatsappLabel={contact.whatsappLabel}
+    contactEmail={(typeof contact.email === "string" && contact.email.trim()) || (Array.isArray(site.emails) ? site.emails.map((e: any) => (typeof e === "string" ? e : e?.value)).filter(Boolean)[0] : "") || ""}
   />
-  <WhatsAppFloat phone={site.phones?.[0] || ""} />
+  <WhatsAppFloat
+    phone={
+      (Array.isArray(site.phones)
+        ? site.phones.map((p: any) => (typeof p === "string" ? p : p?.value)).filter(Boolean)
+        : [])[0] || ""
+    }
+  />
   <SmoothScroll />
   <Reveal />
+  <MotionCraft />
 </Layout>

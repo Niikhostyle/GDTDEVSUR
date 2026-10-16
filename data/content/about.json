@@ -1,15 +1,15 @@
 {
-  "eyebrow": "Especialistas en diseño de páginas web",
+  "eyebrow": "Diseño y desarrollo a medida",
   "title": "GDT DevSur",
-  "body": "**GDT DevSur** es una agencia chilena de **diseño web premium** y desarrollo a medida. Desarrollamos páginas de alto impacto orientadas a maximizar resultados. Somos especialistas en soluciones a medida y diseño personalizado para cada cliente — tipografía, espaciado, animaciones y microanimaciones sin plantillas.",
+  "body": "**GDT DevSur** es una agencia chilena de **diseño web premium** y desarrollo a medida. Trabajamos sin plantillas: tipografía, espaciado, animaciones y microinteracciones definidas para cada marca. Stack moderno, CMS propio y criterio claro en performance, SEO y GEO.",
   "highlights": [
-    "Diseño UX/UI 100% a medida",
-    "Stack de alto rendimiento (Astro / Next.js)",
-    "CMS profesional, sin WordPress",
-    "Optimización SEO + GEO (IA)"
+    "UX/UI 100% a medida, sin plantillas",
+    "Astro / Next.js de alto rendimiento",
+    "CMS profesional — sin WordPress",
+    "SEO técnico + GEO (IA)"
   ],
   "cta": {
-    "label": "Conoce más",
+    "label": "Conoce la agencia",
     "href": "/acerca-de"
   },
   "image": "/about/about-designer-1400.webp",
@@ -26,7 +26,7 @@
     "heroSubtitle": "Grupo Desarrollo Tecnológico",
     "heroImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80",
     "experienceEyebrow": "Experiencia",
-    "experienceTitle": "+3 años desarrollando sitios web premium",
+    "experienceTitle": "+10 años desarrollando sitios web premium",
     "experienceBody": "GDT DevSur es una agencia chilena de diseño y desarrollo web. Creamos tu sitio web usando Astro y Next.js, una **tecnología de vanguardia en la que confían marcas globales.** Sitios más rápidos, seguros y preparados para el futuro, que ofrecen una experiencia de usuario excepcional.",
     "pillars": [
       {
@@ -123,6 +123,6 @@
     },
     "ctaImage": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=80"
   },
-  "enabled": true,
+  "enabled": false,
   "imageAlt": "Diseñador web con audífonos trabajando frente a un monitor curvo con una paleta de colores y tipografías en pantalla, en un escritorio blanco con lámpara y planta"
 }

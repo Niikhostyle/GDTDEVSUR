@@ -1,0 +1,433 @@
+---
+interface Stat {
+  value?: number | null;
+  text?: string;
+  prefix?: string;
+  label: string;
+  invert?: boolean;
+  featured?: boolean;
+}
+
+interface Props {
+  eyebrow?: string;
+  titleLight?: string;
+  titleBold?: string;
+  body?: string;
+  items?: (string | { value?: string })[];
+  stats?: Stat[];
+}
+
+const {
+  eyebrow = "",
+  titleLight = "",
+  titleBold = "",
+  body = "",
+  items = [],
+  stats = [],
+} = Astro.props;
+
+const checklist = items
+  .map((item) =>
+    typeof item === "string" ? item : String(item?.value ?? "").trim(),
+  )
+  .filter(Boolean);
+
+const liveStats = Array.isArray(stats) ? stats.filter((s) => s && (s.label || s.text || s.value != null)) : [];
+---
+
+<section id="por-que" class="why-web has-arc-exit reveal-section relative bg-[var(--color-ink)] text-[var(--color-paper)]" data-why>
+  <div class="why-web__lines" aria-hidden="true"></div>
+
+  <div class="why-web__wrap relative z-[2] mx-auto max-w-[1240px] px-5 md:px-8">
+    <div class="why-web__grid">
+      <div>
+        <span class="why-web__ey font-condensed">{eyebrow}</span>
+        <h2 class="why-web__cd font-condensed mmd-rv" data-split-words>
+          <span class="why-web__l">{titleLight}</span>
+          {" "}
+          <b>{titleBold}</b>
+        </h2>
+        <p class="why-web__lead mmd-rv">{body}</p>
+      </div>
+
+      <ul class="why-web__ck mmd-rv">
+        {
+          checklist.map((item, i) => (
+            <li>
+              <span class="font-condensed">{String(i + 1).padStart(2, "0")}</span>
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    {
+      liveStats.length > 0 && (
+        <div class="why-web__stats" data-why-stats>
+          <span class="why-web__stats-bg font-condensed" aria-hidden="true" data-why-bg>
+            CÓDIGO
+          </span>
+          {liveStats.map((s, i) => {
+            const featured = Boolean(s.invert || s.featured);
+            const hasNum =
+              typeof s.value === "number" && Number.isFinite(s.value);
+            const prefix = s.text?.trim() ? "" : (s.prefix ?? "+");
+            const display = s.text?.trim()
+              ? s.text
+              : `${prefix}${s.value ?? 0}`;
+            return (
+              <div
+                class:list={["why-web__stat", { inv: featured }]}
+                data-why-stat
+                style={`--i: ${i}`}
+              >
+                <b
+                  class:list={["font-condensed", { "why-web__stat-val--feat": featured }]}
+                  data-n={hasNum && !s.text ? String(s.value) : undefined}
+                  data-prefix={hasNum && !s.text ? prefix : undefined}
+                >
+                  {display}
+                </b>
+                <span class="font-condensed">{s.label}</span>
+              </div>
+            );
+          })}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function animateCount(el: HTMLElement, to: number, prefix: string, duration = 1.6) {
+    const obj = { n: 0 };
+    gsap.to(obj, {
+      n: to,
+      duration,
+      ease: "power3.out",
+      onUpdate: () => {
+        el.textContent = `${prefix}${Math.round(obj.n)}`;
+      },
+    });
+  }
+
+  function initWhyStats() {
+    const roots = document.querySelectorAll<HTMLElement>("[data-why-stats]");
+    roots.forEach((root) => {
+      if (root.dataset.animBound === "1") return;
+      root.dataset.animBound = "1";
+
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const cards = root.querySelectorAll<HTMLElement>("[data-why-stat]");
+      const featured = root.querySelector<HTMLElement>("[data-why-stat].inv");
+      const bg = root.querySelector<HTMLElement>("[data-why-bg]");
+      const counters = root.querySelectorAll<HTMLElement>("[data-n]");
+
+      if (reduce) {
+        cards.forEach((c) => {
+          c.style.opacity = "1";
+          c.style.transform = "";
+        });
+        if (bg) bg.style.opacity = "";
+        return;
+      }
+
+      gsap.set(cards, { opacity: 0, y: 42 });
+      if (featured) gsap.set(featured, { rotation: -10, scale: 0.88 });
+      if (bg) gsap.set(bg, { opacity: 0, scale: 0.94, xPercent: -4 });
+
+      counters.forEach((el) => {
+        const prefix = el.dataset.prefix ?? "+";
+        el.textContent = `${prefix}0`;
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: root,
+          start: "top 78%",
+          once: true,
+        },
+        onComplete: () => {
+          requestAnimationFrame(() => ScrollTrigger.refresh());
+        },
+      });
+
+      if (bg) {
+        tl.to(
+          bg,
+          { opacity: 0.32, scale: 1, xPercent: 0, duration: 1.05, ease: "power2.out" },
+          0,
+        );
+      }
+
+      tl.to(
+        cards,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.14,
+          ease: "power3.out",
+        },
+        0.08,
+      );
+
+      if (featured) {
+        tl.to(
+          featured,
+          {
+            rotation: -2.5,
+            scale: 1,
+            duration: 0.95,
+            ease: "back.out(1.55)",
+          },
+          0.18,
+        );
+      }
+
+      tl.add(() => {
+        counters.forEach((el) => {
+          const n = Number(el.dataset.n || 0);
+          const prefix = el.dataset.prefix ?? "+";
+          if (!n) return;
+          animateCount(el, n, prefix, 1.55);
+        });
+      }, 0.28);
+
+      if (bg) {
+        gsap.to(bg, {
+          yPercent: -18,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.55,
+          },
+        });
+      }
+    });
+  }
+
+  initWhyStats();
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll<HTMLElement>("[data-why-stats]").forEach((el) => {
+      delete el.dataset.animBound;
+    });
+    ScrollTrigger.getAll().forEach((t) => {
+      const trig = t.trigger;
+      if (trig instanceof HTMLElement && trig.hasAttribute("data-why-stats")) t.kill();
+    });
+    initWhyStats();
+  });
+</script>
+
+<style>
+  .why-web {
+    padding-top: clamp(5.5rem, 11vw, 9rem);
+    padding-bottom: 0; /* .has-arc-exit define el aire del arco */
+    overflow: clip;
+  }
+
+  .why-web__lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: linear-gradient(90deg, currentColor 1px, transparent 1px);
+    background-size: calc(100% / 6) 100%;
+    opacity: 0.07;
+    color: var(--color-paper);
+  }
+
+  .why-web__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .why-web__ey {
+    display: block;
+    margin-bottom: 1.1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-paper) 55%, transparent);
+  }
+
+  .why-web__cd {
+    max-width: 14ch;
+    margin: 0 0 1.4rem;
+    font-size: clamp(2.6rem, 6.2vw, 5.75rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .why-web__cd b {
+    font-weight: 800;
+  }
+
+  .why-web__l {
+    font-weight: 300;
+  }
+
+  .why-web__lead {
+    max-width: 36rem;
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--color-paper) 72%, transparent);
+  }
+
+  .why-web__ck {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid color-mix(in oklab, var(--color-paper) 16%, transparent);
+  }
+
+  .why-web__ck li {
+    display: flex;
+    align-items: center;
+    gap: 1.35rem;
+    padding: 1.35rem 0;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-paper) 16%, transparent);
+    font-size: 1.05rem;
+    line-height: 1.35;
+    transition: transform 0.4s ease, padding 0.4s ease;
+  }
+
+  .why-web__ck li:hover {
+    transform: translateX(14px);
+  }
+
+  .why-web__ck li span {
+    min-width: 2.85rem;
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--color-paper);
+  }
+
+  /* Stats strip — open columns + featured tilt card + CÓDIGO bg */
+  .why-web__stats {
+    position: relative;
+    z-index: 7;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(0.75rem, 2.5vw, 1.75rem);
+    margin-top: clamp(3.5rem, 7vw, 5.5rem);
+    padding: clamp(2.75rem, 6vw, 4.75rem) 0;
+    isolation: isolate;
+  }
+
+  .why-web__stats-bg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    font-size: clamp(5.5rem, 22vw, 14rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 1.5px color-mix(in oklab, var(--color-paper) 18%, transparent);
+    opacity: 0.32;
+    pointer-events: none;
+    white-space: nowrap;
+    user-select: none;
+    will-change: transform, opacity;
+  }
+
+  .why-web__stat {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: clamp(1.25rem, 3vw, 2rem) clamp(0.75rem, 2vw, 1.5rem);
+    will-change: transform, opacity;
+  }
+
+  .why-web__stat.inv {
+    z-index: 2;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    padding: clamp(2rem, 4.5vw, 3.25rem) clamp(1.25rem, 3vw, 2.5rem);
+    transform: rotate(-2.5deg);
+  }
+
+  .why-web__stat b {
+    display: block;
+    font-size: clamp(3.25rem, 8.5vw, 6.75rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+
+  .why-web__stat-val--feat {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+  }
+
+  .why-web__stat span {
+    display: block;
+    margin-top: 0.7rem;
+    font-size: clamp(0.85rem, 1.45vw, 1.15rem);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 900px) {
+    .why-web__grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .why-web__cd {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .why-web__stats {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      padding: 2rem 0 1rem;
+    }
+
+    .why-web__stats-bg {
+      font-size: clamp(4.5rem, 28vw, 7rem);
+    }
+
+    .why-web__stat.inv {
+      transform: rotate(-1.5deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .why-web__ck li,
+    .why-web__stat {
+      transition: none !important;
+    }
+
+    .why-web__stats-bg {
+      opacity: 0.28 !important;
+      transform: translate(-50%, -50%) !important;
+    }
+  }
+</style>

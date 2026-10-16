@@ -1,0 +1,67 @@
+---
+/**
+ * Cinta degradada MMD (.mq) — textos desde CMS (site.marquee).
+ */
+interface Props {
+  items?: string[];
+}
+
+const { items = [] } = Astro.props;
+const resolved = Array.isArray(items) ? items.filter(Boolean) : [];
+const loop = resolved.length ? [...resolved, ...resolved] : [];
+---
+
+{
+  loop.length > 0 && (
+    <div class="mmd-mq" aria-hidden="true">
+      <div>
+        {loop.map((item) => (
+          <>
+            <em>{item}</em>
+            ✦
+          </>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .mmd-mq {
+    overflow: hidden;
+    white-space: nowrap;
+    background: linear-gradient(90deg, #5cf2ff, #8b5cff);
+    color: #050505;
+    padding: 18px 0;
+    transform: rotate(-2deg);
+    margin: -20px -2% 0;
+    position: relative;
+    z-index: 8;
+  }
+
+  .mmd-mq > div {
+    display: inline-block;
+    font-family: var(--font-condensed);
+    font-size: 34px;
+    font-weight: 800;
+    text-transform: uppercase;
+    animation: mmd-mq 30s linear infinite;
+  }
+
+  .mmd-mq em {
+    font-style: normal;
+    margin: 0 26px;
+  }
+
+  @keyframes mmd-mq {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mmd-mq > div {
+      animation: none;
+    }
+  }
+</style>

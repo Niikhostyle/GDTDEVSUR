@@ -6,33 +6,39 @@ interface NavItem {
 
 interface Props {
   brandName: string;
+  logoText?: string;
   nav: NavItem[];
   cta: { label: string; href: string };
   locales?: string[];
   defaultLocale?: string;
   phone?: string;
+  whatsappPrefill?: string;
 }
 
 const {
   brandName,
+  logoText = "",
   nav,
   cta,
   locales = ["es", "en"],
   defaultLocale = "es",
   phone = "",
+  whatsappPrefill = "",
 } = Astro.props;
 
 const isEn = defaultLocale === "en";
-const waText = isEn
-  ? "Hi, I'd like to request a quote"
-  : "Hola, quiero solicitar un presupuesto";
+const langAria = isEn ? "Change language" : "Cambiar idioma";
+const waLabel = isEn ? "Contact us" : "Contáctanos";
+const logoLabel = (logoText || brandName || "").trim();
+const waText =
+  whatsappPrefill.trim() ||
+  (isEn ? "Hi, I'd like to talk about a project" : "Hola, quiero hablar de un proyecto");
 const phoneDigits = phone.replace(/\D/g, "");
 const phoneIsPlaceholder =
   !phoneDigits || phoneDigits.includes("00000000") || /^56?0+$/.test(phoneDigits);
 const waHref = !phoneIsPlaceholder
   ? `https://wa.me/${phoneDigits}?text=${encodeURIComponent(waText)}`
   : cta.href;
-const langAria = isEn ? "Change language" : "Cambiar idioma";
 const menuClose = isEn ? "Close" : "Cerrar";
 const menuOpen = isEn ? "Open menu" : "Abrir menú";
 const menuAria = isEn ? "Mobile menu" : "Menú móvil";
@@ -56,7 +62,7 @@ const navKeyMap: Record<string, string> = {
 ---
 
 <header
-  class="site-header fixed inset-x-0 top-0 z-50 border-b border-white/0 transition-[background,border-color] duration-300"
+  class="site-header fixed inset-x-0 top-0 z-50 border-b border-[var(--color-paper)]/12 bg-[var(--color-ink)]/88 text-[var(--color-paper)] backdrop-blur-xl transition-[background,border-color] duration-300"
   data-site-header
 >
   <div
@@ -65,7 +71,7 @@ const navKeyMap: Record<string, string> = {
   >
     <a
       href="/"
-      class="flex shrink-0 items-center justify-center text-white"
+      class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center text-[var(--color-paper)]"
       aria-label={brandName}
     >
       <img
@@ -76,6 +82,13 @@ const navKeyMap: Record<string, string> = {
         class="h-9 w-9 md:h-12 md:w-12"
         decoding="async"
       />
+      {
+        logoLabel ? (
+          <span class="ml-2 hidden font-display text-lg tracking-tight text-[var(--color-paper)] sm:inline">
+            {logoLabel}
+          </span>
+        ) : null
+      }
     </a>
 
     <nav
@@ -87,7 +100,7 @@ const navKeyMap: Record<string, string> = {
           <a
             href={item.href}
             class:list={[
-              "nav-link relative px-3 py-2 text-[13px] font-500 tracking-wide text-white/90 transition hover:text-white",
+              "nav-link relative inline-flex min-h-11 items-center px-3 py-2.5 text-[13px] font-500 tracking-wide text-[var(--color-paper)]/72 transition hover:text-[var(--color-paper)]",
               index === 0 && "is-active",
             ]}
             data-i18n={navKeyMap[item.label] || undefined}
@@ -102,7 +115,7 @@ const navKeyMap: Record<string, string> = {
       <div class="relative z-[70] hidden sm:block" data-lang-wrap>
         <button
           type="button"
-          class="lang-btn inline-flex items-center gap-1.5 rounded-full border border-white/35 px-3 py-1.5 text-xs font-600 tracking-wide text-white transition hover:border-white/70"
+          class="lang-btn inline-flex min-h-11 items-center gap-1.5 rounded-[0.4rem] border border-[var(--color-paper)]/30 px-3 py-1.5 text-xs font-600 tracking-wide text-[var(--color-paper)] transition hover:border-[var(--color-paper)] hover:bg-[var(--color-paper)]/10"
           aria-haspopup="listbox"
           aria-expanded="false"
           aria-label={langAria}
@@ -118,7 +131,7 @@ const navKeyMap: Record<string, string> = {
           </svg>
         </button>
         <ul
-          class="lang-menu absolute right-0 top-[calc(100%+8px)] z-[80] hidden min-w-[104px] overflow-hidden rounded-xl border border-white/15 bg-[#0c1018] py-1 shadow-2xl"
+          class="lang-menu absolute right-0 top-[calc(100%+8px)] z-[80] hidden min-w-[104px] overflow-hidden rounded-[0.4rem] border border-[var(--color-paper)]/20 bg-[var(--color-ink)] py-1"
           role="listbox"
           data-lang-menu
         >
@@ -127,7 +140,7 @@ const navKeyMap: Record<string, string> = {
               <li>
                 <button
                   type="button"
-                  class="block w-full px-3.5 py-2.5 text-left text-xs font-600 tracking-wide text-white/85 transition hover:bg-white/10 hover:text-white"
+                  class="flex min-h-11 w-full items-center px-3.5 py-3 text-left text-xs font-600 tracking-wide text-[var(--color-paper)] transition hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
                   data-lang-option={locale}
                   role="option"
                   aria-selected={locale === defaultLocale ? "true" : "false"}
@@ -144,7 +157,8 @@ const navKeyMap: Record<string, string> = {
         href={waHref}
         target={!phoneIsPlaceholder ? "_blank" : undefined}
         rel={!phoneIsPlaceholder ? "noopener noreferrer" : undefined}
-        class="cta-budget hidden items-center gap-2 rounded-full border border-white/40 px-3.5 py-2 text-[12px] font-600 tracking-wide text-white transition hover:border-white hover:bg-white/10 md:inline-flex lg:px-4 lg:text-[13px]"
+        class="cta-wa !hidden min-h-11 items-center gap-2 rounded-[0.4rem] border border-[var(--color-paper)]/35 px-3.5 py-2 text-[12px] font-600 tracking-wide text-[var(--color-paper)] transition hover:border-[var(--color-paper)] hover:bg-[var(--color-paper)]/10 md:!inline-flex lg:text-[13px]"
+        aria-label={waLabel}
       >
         <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] shrink-0" aria-hidden="true">
           <path
@@ -152,13 +166,13 @@ const navKeyMap: Record<string, string> = {
             d="M12.04 2C6.58 2 2.15 6.4 2.15 11.84c0 1.97.52 3.8 1.44 5.43L2 22l4.88-1.55a9.9 9.9 0 0 0 5.16 1.42h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2zm5.77 14.13c-.24.68-1.4 1.25-1.94 1.33-.5.07-1.13.1-1.82-.11-.42-.14-.96-.3-1.65-.6-2.9-1.26-4.79-4.2-4.93-4.4-.14-.19-1.17-1.56-1.17-2.97 0-1.42.74-2.11 1-2.4.26-.28.57-.35.76-.35h.55c.17 0 .4-.07.63.48.24.57.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.28.29-.12.56.16.28.71 1.17 1.53 1.9 1.05.93 1.94 1.22 2.21 1.36.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.63-.14.26.1 1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.68-.17 1.36z"
           ></path>
         </svg>
-        <span data-i18n="cta.budget">{cta.label}</span>
+        <span>{waLabel}</span>
       </a>
 
       <button
         type="button"
         id="menu-toggle"
-        class="menu-toggle relative z-[70] inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition active:scale-95 xl:hidden"
+        class="menu-toggle relative z-[70] inline-flex h-11 w-11 items-center justify-center rounded-[0.4rem] border border-[var(--color-paper)]/35 text-[var(--color-paper)] transition active:scale-95 xl:hidden"
         aria-expanded="false"
         aria-controls="site-menu"
         aria-label={menuOpen}
@@ -179,24 +193,24 @@ const navKeyMap: Record<string, string> = {
   hidden
   aria-hidden="true"
 >
-  <div class="site-menu__backdrop absolute inset-0 bg-black/55" data-menu-backdrop></div>
+  <div class="site-menu__backdrop absolute inset-0 bg-[var(--color-ink)]/45" data-menu-backdrop></div>
   <div
-    class="site-menu__panel absolute inset-y-0 right-0 flex w-full max-w-[420px] flex-col bg-[#070a10] shadow-[-20px_0_60px_rgba(0,0,0,0.45)]"
+    class="site-menu__panel absolute inset-y-0 right-0 flex w-full max-w-[420px] flex-col bg-[var(--color-paper)] shadow-[-20px_0_60px_rgba(14,14,14,0.25)]"
     role="dialog"
     aria-modal="true"
     aria-label={menuAria}
   >
     <div
-      class="flex items-center justify-between gap-3 border-b border-white/10 px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4"
+      class="flex items-center justify-between gap-3 border-b border-[var(--color-line)] px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4"
     >
       <div class="flex min-w-0 items-center gap-3">
-        <img src="/logo-devsur.svg" alt="" width="36" height="36" class="h-9 w-9 shrink-0" decoding="async" />
-        <span class="truncate font-display text-base font-700 tracking-wide text-white">{brandName}</span>
+        <img src="/logo-devsur.svg" alt="" width="36" height="36" class="logo-ink h-9 w-9 shrink-0" decoding="async" />
+        <span class="truncate font-display text-base font-700 tracking-wide text-[var(--color-ink)]">{brandName}</span>
       </div>
       <button
         type="button"
         id="menu-close"
-        class="inline-flex h-11 items-center gap-2 rounded-full border border-white/25 px-4 text-xs font-600 tracking-[0.14em] text-white uppercase transition hover:border-white/50"
+        class="inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] border border-[var(--color-ink)]/30 px-4 text-xs font-600 tracking-[0.14em] text-[var(--color-ink)] uppercase transition hover:border-[var(--color-ink)]"
         aria-label={menuClose}
       >
         <span data-i18n="menu.close">{menuClose}</span>
@@ -210,15 +224,15 @@ const navKeyMap: Record<string, string> = {
       {
         nav.map((item, i) => (
           <a
-            class="menu-link group flex items-center justify-between border-b border-white/8 py-3.5 text-white transition"
+            class="menu-link group flex min-h-12 items-center justify-between border-b border-[var(--color-line)]/40 py-3.5 text-[var(--color-ink)] transition"
             href={item.href}
             style={`--i:${i}`}
             data-i18n={navKeyMap[item.label] || undefined}
           >
-            <span class="font-display text-[1.65rem] leading-none font-700 tracking-tight transition group-hover:text-[var(--color-accent)] sm:text-[1.85rem]">
+            <span class="font-display text-[1.65rem] leading-none font-700 tracking-tight transition group-hover:opacity-70 sm:text-[1.85rem]">
               {item.label}
             </span>
-            <span class="text-white/25 transition group-hover:translate-x-0.5 group-hover:text-[var(--color-accent)]" aria-hidden="true">
+            <span class="text-[var(--color-ink)]/30 transition group-hover:translate-x-0.5 group-hover:text-[var(--color-ink)]" aria-hidden="true">
               →
             </span>
           </a>
@@ -226,18 +240,18 @@ const navKeyMap: Record<string, string> = {
       }
     </nav>
 
-    <div class="mt-auto space-y-4 border-t border-white/10 px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+    <div class="mt-auto space-y-4 border-t border-[var(--color-line)] px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="mr-1 text-[11px] font-600 tracking-[0.16em] text-white/45 uppercase">{langAria}</span>
+        <span class="mr-1 text-[11px] font-600 tracking-[0.16em] text-[var(--color-ink-soft)] uppercase">{langAria}</span>
         {
           locales.map((locale) => (
             <button
               type="button"
               class:list={[
-                "min-h-11 min-w-11 rounded-full border px-3.5 text-xs font-700 tracking-wide transition",
+                "min-h-11 min-w-11 rounded-[var(--radius-md)] border px-3.5 text-xs font-700 tracking-wide transition",
                 locale === defaultLocale
-                  ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]"
-                  : "border-white/25 text-white hover:border-white/50",
+                  ? "border-[var(--color-ink)] bg-[var(--color-coral)] text-[var(--color-ink)]"
+                  : "border-[var(--color-ink)]/30 text-[var(--color-ink)] hover:border-[var(--color-ink)]",
               ]}
               data-lang-option={locale}
             >
@@ -250,15 +264,16 @@ const navKeyMap: Record<string, string> = {
         href={waHref}
         target={!phoneIsPlaceholder ? "_blank" : undefined}
         rel={!phoneIsPlaceholder ? "noopener noreferrer" : undefined}
-        class="inline-flex w-full min-h-12 items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 text-sm font-700 text-white shadow-[0_10px_28px_rgba(37,211,102,0.35)] transition active:scale-[0.98]"
+        class="btn-ink inline-flex w-full min-h-12 items-center justify-center gap-2 text-sm"
+        data-menu-close
       >
-        <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+        <svg viewBox="0 0 24 24" class="h-5 w-5 shrink-0" aria-hidden="true">
           <path
-            fill="#fff"
+            fill="#25D366"
             d="M12.04 2C6.58 2 2.15 6.4 2.15 11.84c0 1.97.52 3.8 1.44 5.43L2 22l4.88-1.55a9.9 9.9 0 0 0 5.16 1.42h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2zm5.77 14.13c-.24.68-1.4 1.25-1.94 1.33-.5.07-1.13.1-1.82-.11-.42-.14-.96-.3-1.65-.6-2.9-1.26-4.79-4.2-4.93-4.4-.14-.19-1.17-1.56-1.17-2.97 0-1.42.74-2.11 1-2.4.26-.28.57-.35.76-.35h.55c.17 0 .4-.07.63.48.24.57.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.28.29-.12.56.16.28.71 1.17 1.53 1.9 1.05.93 1.94 1.22 2.21 1.36.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.63-.14.26.1 1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.68-.17 1.36z"
           ></path>
         </svg>
-        <span data-i18n="cta.budget">{cta.label}</span>
+        <span>{waLabel}</span>
       </a>
     </div>
   </div>
@@ -346,12 +361,13 @@ const navKeyMap: Record<string, string> = {
       header.classList.toggle("is-scrolled", y > 16);
     };
 
-    const sections = [...document.querySelectorAll<HTMLElement>("main section[id]")];
-    const links = [...document.querySelectorAll<HTMLAnchorElement>(".nav-link")];
     const path = window.location.pathname.replace(/\/$/, "") || "/";
     let syncRaf = 0;
 
     const syncActive = () => {
+      // Re-query cada tick: Faq/CtaContact (React) reemplazan nodos al hidratar;
+      // nodos detached dan top=0 y dejan la barra pegada en el último id (contacto).
+      const links = [...document.querySelectorAll<HTMLAnchorElement>(".nav-link")];
       if (path !== "/" && path !== "") {
         links.forEach((link) => {
           const href = (link.getAttribute("href") || "").replace(/\/$/, "");
@@ -359,6 +375,21 @@ const navKeyMap: Record<string, string> = {
         });
         return;
       }
+
+      const navIds = new Set(
+        links
+          .map((link) => {
+            const href = link.getAttribute("href") || "";
+            const i = href.indexOf("#");
+            return i >= 0 ? href.slice(i + 1) : "";
+          })
+          .filter(Boolean),
+      );
+
+      const sections = [...document.querySelectorAll<HTMLElement>("main section[id]")].filter(
+        (section) => section.isConnected && navIds.has(section.id),
+      );
+
       let current = sections[0]?.id;
       for (const section of sections) {
         const top = section.getBoundingClientRect().top;
@@ -449,9 +480,13 @@ const navKeyMap: Record<string, string> = {
 </script>
 
 <style>
+  .logo-ink {
+    filter: invert(1);
+  }
+
   .site-header.is-scrolled {
-    background: rgba(6, 8, 13, 0.92);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
+    background: color-mix(in oklab, var(--color-ink) 94%, transparent);
+    border-color: color-mix(in oklab, var(--color-paper) 16%, transparent);
   }
 
   .nav-link.is-active::after {
@@ -461,7 +496,7 @@ const navKeyMap: Record<string, string> = {
     right: 12px;
     bottom: 4px;
     height: 1.5px;
-    background: #fff;
+    background: var(--color-coral);
   }
 
   .lang-menu:not(.hidden) {
@@ -483,7 +518,7 @@ const navKeyMap: Record<string, string> = {
     width: 100%;
     height: 1.5px;
     border-radius: 2px;
-    background: #fff;
+    background: var(--color-paper);
     transition:
       transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.2s ease,
@@ -501,8 +536,12 @@ const navKeyMap: Record<string, string> = {
   }
 
   .menu-toggle.is-open {
-    border-color: rgba(250, 150, 88, 0.55);
-    background: rgba(250, 150, 88, 0.12);
+    border-color: var(--color-coral);
+    background: var(--color-coral);
+  }
+
+  .menu-toggle.is-open .burger-line {
+    background: var(--color-ink);
   }
 
   .menu-toggle.is-open .burger-line:nth-child(1) {

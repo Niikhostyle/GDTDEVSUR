@@ -1,0 +1,34 @@
+{
+  "enabled": true,
+  "eyebrow": "Por qué una web profesional",
+  "titleLight": "¿Por qué invertir en",
+  "titleBold": "diseño de páginas web en Chile?",
+  "body": "Una página web no debería ser solo “bonita”. Debe comunicar qué vendes, generar confianza, cargar rápido y facilitar que las personas te contacten o compren. En DevSur creamos sitios pensados para:",
+  "items": [
+    "Mostrar tu propuesta de valor con claridad.",
+    "Funcionar correctamente en celulares, computadores y tablets.",
+    "Cargar rápido y ofrecer una buena experiencia.",
+    "Posicionarse en buscadores.",
+    "Transformar visitas en cotizaciones, mensajes o ventas."
+  ],
+  "stats": [
+    {
+      "value": 3,
+      "prefix": "+",
+      "label": "+ años de experiencia",
+      "invert": false
+    },
+    {
+      "value": 150,
+      "prefix": "+",
+      "label": "+ páginas web desarrolladas",
+      "invert": true
+    },
+    {
+      "value": null,
+      "text": "CL",
+      "label": "Chile y países de habla hispana",
+      "invert": false
+    }
+  ]
+}

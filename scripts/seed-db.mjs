@@ -15,6 +15,7 @@ const COLLECTIONS = [
   "hero",
   "about",
   "services",
+  "why",
   "differentials",
   "portfolio",
   "process",

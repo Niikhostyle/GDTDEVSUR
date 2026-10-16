@@ -10,16 +10,15 @@ interface Item {
 }
 
 interface Props {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   subtitle: string;
   items: Item[];
   cta: { label: string; href: string };
 }
 
-const { eyebrow, title, subtitle, items, cta } = Astro.props;
+const { title, subtitle, items, cta } = Astro.props;
 
-/** /portfolio/x.webp → /portfolio/x-800.webp (variante generada junto al original) */
 function srcsetFor(src: string) {
   const match = src.match(/^(\/portfolio\/[^?]+?)\.webp(\?.*)?$/);
   if (!match) return undefined;
@@ -28,62 +27,80 @@ function srcsetFor(src: string) {
 }
 ---
 
-<section id="portfolio" class="reveal-section bg-[var(--color-surface)] px-5 py-16 md:px-8 md:py-24">
-  <div class="mx-auto max-w-[1120px]">
-    <div class="reveal-item mx-auto max-w-2xl text-center">
-      <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
-        {eyebrow}
-      </p>
-      <h2 class="font-display text-[1.75rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.15rem]">
+<section id="portfolio" class="reveal-section bg-[var(--color-paper)] px-5 py-20 text-[var(--color-ink)] md:px-8 md:py-28">
+  <div class="mx-auto max-w-[1200px]">
+    <div class="reveal-item mb-12 max-w-2xl md:mb-16">
+      <h2
+        class="font-display text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.02] tracking-[-0.025em] text-[var(--color-ink)]"
+        data-split-words
+      >
         {title}
       </h2>
-      <p class="mt-3 text-sm leading-relaxed text-[#6b6b6b] md:text-base">{subtitle}</p>
+      <p class="mt-5 max-w-[44ch] text-[0.975rem] leading-relaxed text-[var(--color-ink)]/70 md:text-base">
+        {subtitle}
+      </p>
     </div>
 
-    <div class="mt-12 grid gap-6 sm:grid-cols-2">
+    <div class="grid gap-5 md:gap-6 lg:grid-cols-2">
       {
         items.map((item, index) => (
           <a
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="portfolio-card reveal-item group block"
-            style={`--stagger: ${index * 90}ms`}
+            class="portfolio-cell reveal-item group block overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-ink)] transition duration-500"
+            style={`--stagger: ${index * 70}ms`}
           >
-            <div class="overflow-hidden rounded-2xl bg-white shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition duration-500 group-hover:-translate-y-1.5 group-hover:shadow-[0_22px_55px_rgba(0,0,0,0.14)]">
-              <div class="aspect-[16/10] overflow-hidden bg-[#eef2f7]">
-                <img
-                  src={item.image}
-                  srcset={srcsetFor(item.image)}
-                  sizes="(min-width: 640px) 544px, 100vw"
-                  alt={item.title}
-                  width="1440"
-                  height="900"
-                  class="h-full w-full object-cover object-left-top transition duration-700 ease-out group-hover:scale-[1.03]"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="p-5 md:p-6">
-                <p class="text-[11px] font-600 tracking-[0.16em] text-[var(--color-accent)] uppercase">
+            <div class="aspect-[16/10] relative overflow-hidden" data-craft-tilt>
+              <img
+                src={item.image}
+                srcset={srcsetFor(item.image)}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                alt={item.title}
+                width="1440"
+                height="900"
+                class="h-full w-full object-cover object-left-top transition duration-700 ease-out group-hover:scale-[1.04]"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="flex items-start justify-between gap-4 border-t border-[var(--color-paper)]/15 p-5 md:p-6">
+              <div>
+                <p class="font-mono text-[11px] tracking-[0.12em] text-[var(--color-coral)] uppercase">
                   {item.category}
                 </p>
-                <h3 class="font-display mt-2 text-xl font-600 text-[#2a2a2a]">{item.title}</h3>
-                <p class="mt-1 text-sm text-[#6b6b6b]">{item.client}</p>
+                <h3 class="font-display mt-2 text-xl tracking-[-0.015em] text-[var(--color-paper)] md:text-2xl">
+                  {item.title}
+                </h3>
+                <p class="mt-1 text-sm text-[var(--color-paper)]/60">{item.client}</p>
               </div>
+              <span class="font-mono text-sm text-[var(--color-coral)] transition group-hover:translate-x-1" aria-hidden="true">
+                →
+              </span>
             </div>
           </a>
         ))
       }
     </div>
 
-    <div class="reveal-item mt-12 text-center">
-      <a
-        href={cta.href}
-        class="inline-flex rounded-full border border-[var(--color-accent)] px-6 py-2.5 text-sm font-600 text-[var(--color-accent)] transition hover:bg-[var(--color-accent)] hover:text-white"
-      >
-        {cta.label}
-      </a>
-    </div>
+    {
+      cta?.href && (
+        <div class="reveal-item mt-10">
+          <a href={cta.href} class="btn-ink">
+            {cta.label}
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      )
+    }
   </div>
 </section>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-cell img {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>

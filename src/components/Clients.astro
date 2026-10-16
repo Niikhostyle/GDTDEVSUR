@@ -7,39 +7,38 @@ interface Item {
 }
 
 interface Props {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   items: Item[];
   locale?: "es" | "en";
 }
 
-const { eyebrow, title, items, locale = "es" } = Astro.props;
+const { title, items, locale = "es" } = Astro.props;
 const emptyLabel = locale === "en" ? "More clients coming soon." : "Pronto más clientes.";
 ---
 
-<section id="clientes" class="reveal-section border-y border-[var(--color-line)] bg-[var(--color-surface)] py-16 md:py-20">
-  <div class="reveal-item mx-auto mb-10 max-w-[1120px] px-5 text-center md:px-8">
-    <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
-      {eyebrow}
-    </p>
-    <h2 class="font-display text-[1.75rem] font-700 tracking-tight text-[#2a2a2a] md:text-[2.15rem]">{title}</h2>
+<section id="clientes" class="reveal-section section-rule bg-[var(--color-paper-deep)] py-14 md:py-16">
+  <div class="reveal-item mx-auto mb-8 max-w-[1120px] px-5 md:px-8">
+    <h2 class="font-display text-[clamp(1.5rem,3vw,2rem)] tracking-[-0.02em] text-[var(--color-ink)]">
+      {title}
+    </h2>
   </div>
   {
     items.length > 0 ? (
-      <div class="overflow-hidden">
-        <div class="marquee-track gap-16 px-6">
+      <div class="overflow-hidden border-y border-[var(--color-line)]">
+        <div class="marquee-track gap-12 px-6 py-6">
           {items.map((item) =>
             item.url ? (
               <a
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="font-display shrink-0 text-xl font-600 tracking-tight text-[#6b6b6b] transition hover:text-[var(--color-accent)]"
+                class="font-mono shrink-0 text-sm tracking-[0.08em] text-[var(--color-ink-soft)] uppercase transition hover:text-[var(--color-ink)]"
               >
                 {item.name}
               </a>
             ) : (
-              <span class="font-display shrink-0 text-xl font-600 tracking-tight text-[#6b6b6b]">
+              <span class="font-mono shrink-0 text-sm tracking-[0.08em] text-[var(--color-ink-soft)] uppercase">
                 {item.name}
               </span>
             ),
@@ -50,7 +49,7 @@ const emptyLabel = locale === "en" ? "More clients coming soon." : "Pronto más 
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="marquee-clone font-display shrink-0 text-xl font-600 tracking-tight text-[#6b6b6b] transition hover:text-[var(--color-accent)]"
+                class="marquee-clone font-mono shrink-0 text-sm tracking-[0.08em] text-[var(--color-ink-soft)] uppercase transition hover:text-[var(--color-ink)]"
                 aria-hidden="true"
                 tabindex="-1"
               >
@@ -58,7 +57,7 @@ const emptyLabel = locale === "en" ? "More clients coming soon." : "Pronto más 
               </a>
             ) : (
               <span
-                class="marquee-clone font-display shrink-0 text-xl font-600 tracking-tight text-[#6b6b6b]"
+                class="marquee-clone font-mono shrink-0 text-sm tracking-[0.08em] text-[var(--color-ink-soft)] uppercase"
                 aria-hidden="true"
               >
                 {item.name}
@@ -68,7 +67,40 @@ const emptyLabel = locale === "en" ? "More clients coming soon." : "Pronto más 
         </div>
       </div>
     ) : (
-      <p class="text-center text-sm text-[#6b6b6b]">{emptyLabel}</p>
+      <p class="px-5 text-center text-sm text-[var(--color-ink-soft)]">{emptyLabel}</p>
     )
   }
 </section>
+
+<style>
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: plano-marquee 40s linear infinite;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes plano-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: center;
+    }
+    .marquee-clone {
+      display: none;
+    }
+  }
+</style>

@@ -23,23 +23,15 @@
     },
     {
       "label": "About",
-      "href": "/acerca-de"
-    },
-    {
-      "label": "Portfolio",
-      "href": "/#portfolio"
-    },
-    {
-      "label": "Clients",
-      "href": "/#clientes"
+      "href": "/#nosotros"
     },
     {
       "label": "Services",
       "href": "/#servicios"
     },
     {
-      "label": "Blog",
-      "href": "/#blog"
+      "label": "Process",
+      "href": "/#proceso"
     },
     {
       "label": "FAQ",
@@ -55,7 +47,36 @@
     "href": "/#contacto"
   },
   "ctaSecondary": {
-    "label": "Learn more",
-    "href": "/#nosotros"
-  }
+    "label": "See the method",
+    "href": "/#proceso"
+  },
+  "footerBlurb": "Chilean tech studio. Custom web design and development.",
+  "footerMapLabel": "Sitemap",
+  "footerContactLabel": "Contact",
+  "marquee": [
+    {
+      "value": "Websites"
+    },
+    {
+      "value": "Online stores"
+    },
+    {
+      "value": "Landing pages"
+    },
+    {
+      "value": "SEO"
+    },
+    {
+      "value": "GEO"
+    },
+    {
+      "value": "Google Ads"
+    },
+    {
+      "value": "Maintenance"
+    }
+  ],
+  "whatsappPrefill": "Hi, I'd like to talk about a project",
+  "logoText": "DevSur",
+  "brandName": "GDT DevSur"
 }

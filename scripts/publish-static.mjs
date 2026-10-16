@@ -1,8 +1,9 @@
 /**
  * Copia dist/client → public_html para que Apache/LiteSpeed sirva JS/CSS/fuentes/imágenes
  * directamente (sin pasar por el proxy PHP → Node). Se ejecuta como `postbuild`.
- * Además genera index.html (snapshot SSR) para que `/` sea un archivo estático
- * y no dependa del proxy si LiteSpeed/CF falla en algunos clientes.
+ *
+ * NO publica HTML de páginas dinámicas (index.html, about/, etc.): el contenido CMS
+ * debe salir siempre de SSR Node vía index.php. Solo assets estáticos.
  */
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -21,42 +22,15 @@ const keep = new Set([
   "index.full.html",
 ]);
 
+/** HTML de rutas CMS — no deben quedar como archivos estáticos en public_html. */
+const stripHtml = new Set(["index.html", "about"]);
+
 async function exists(p) {
   try {
     await fs.access(p);
     return true;
   } catch {
     return false;
-  }
-}
-
-async function snapshotHome() {
-  const port = process.env.PORT || "3055";
-  const host = process.env.HOST || "127.0.0.1";
-  const url = `http://${host}:${port}/`;
-  try {
-    const res = await fetch(url, {
-      headers: { Accept: "text/html", "User-Agent": "gdtdevsur-publish-static" },
-      signal: AbortSignal.timeout(20000),
-    });
-    if (!res.ok) {
-      console.warn(`[publish-static] snapshot omitido: HTTP ${res.status}`);
-      return;
-    }
-    let html = await res.text();
-    if (!html || html.length < 1000) {
-      console.warn(`[publish-static] snapshot omitido: cuerpo demasiado corto (${html.length})`);
-      return;
-    }
-    // Forzar contenido visible (GSAP no debe poder dejar la página en blanco)
-    html = html.replace(
-      "<head>",
-      '<head><style id="boot-visible">[data-hero-content],.reveal-item,.vox-card,.hero-char,.hero-word,[data-hero-eyebrow],[data-hero-copy],[data-hero-cta],[data-hero-cta-wrap]{opacity:1!important;transform:none!important;translate:none!important}</style>',
-    );
-    await fs.writeFile(path.join(dest, "index.html"), html, "utf8");
-    console.log(`[publish-static] index.html snapshot (${html.length} bytes)`);
-  } catch (err) {
-    console.warn(`[publish-static] snapshot omitido: ${err?.message || err}`);
   }
 }
 
@@ -73,5 +47,7 @@ for (const entry of await fs.readdir(dest)) {
 await fs.cp(src, dest, { recursive: true });
 console.log(`[publish-static] ${src} → ${dest}`);
 
-// Snapshot tras copiar assets (PM2 debe estar up; si no, se omite)
-await snapshotHome();
+for (const name of stripHtml) {
+  await fs.rm(path.join(dest, name), { recursive: true, force: true });
+}
+console.log("[publish-static] HTML dinámico eliminado (SSR only via index.php)");

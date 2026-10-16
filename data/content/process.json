@@ -1,56 +1,207 @@
 {
-  "eyebrow": "Proceso",
-  "title": "Cómo trabajamos",
-  "subtitle": "De la consulta inicial al lanzamiento — con servidor de prueba y aprobación en cada etapa.",
+  "eyebrow": "Proceso de trabajo",
+  "titleLight": "Cómo trabajamos,",
+  "titleBold": "paso a paso.",
+  "title": "Cómo trabajamos, paso a paso.",
+  "subtitle": "",
   "steps": [
     {
       "number": "01",
-      "title": "Consulta inicial",
-      "description": "Entendemos objetivos, público y requerimientos del proyecto."
+      "title": "Entendemos tu negocio",
+      "description": "Definimos objetivos, audiencia, servicios prioritarios y acciones que quieres conseguir desde el sitio."
     },
     {
       "number": "02",
-      "title": "Propuesta y presupuesto",
-      "description": "Alcance, plazos e inversión a medida. Comenzamos tras tu aprobación."
+      "title": "Diseñamos la estrategia y estructura",
+      "description": "Ordenamos la información para que las personas y los buscadores comprendan rápidamente tu oferta."
     },
     {
       "number": "03",
-      "title": "Briefing y estrategia",
-      "description": "Contenidos, estructura, marca y referencias de diseño."
+      "title": "Diseñamos y desarrollamos",
+      "description": "Creamos una experiencia visual coherente con tu marca, adaptable a todos los dispositivos."
     },
     {
       "number": "04",
-      "title": "Diseño UX/UI",
-      "description": "Pantallas para aprobar el look antes de programar."
+      "title": "Optimizamos y publicamos",
+      "description": "Revisamos velocidad, SEO básico, formularios, medición y funcionamiento antes del lanzamiento."
     },
     {
       "number": "05",
-      "title": "Desarrollo",
-      "description": "Stack de alto rendimiento + avances en URL privada de prueba."
-    },
-    {
-      "number": "06",
-      "title": "Revisión y lanzamiento",
-      "description": "Ajustes, deploy en tu dominio, analítica y soporte."
+      "title": "Acompañamos el crecimiento",
+      "description": "Podemos ayudarte a mantener, actualizar y mejorar el sitio después de su publicación."
     }
   ],
-  "stackEyebrow": "Stack",
-  "stackTitle": "Tecnologías que dominamos",
+  "stackEyebrow": "",
+  "stackTitle": "Con qué construimos",
   "stack": [
-    { "id": "react", "name": "React", "icon": "react", "logo": "/tech/react.svg" },
-    { "id": "node", "name": "Node.js", "icon": "nodedotjs", "logo": "/tech/nodedotjs.svg" },
-    { "id": "next", "name": "Next.js", "icon": "nextdotjs", "logo": "/tech/nextdotjs.svg" },
-    { "id": "tailwind", "name": "Tailwind CSS", "icon": "tailwindcss", "logo": "/tech/tailwindcss.svg" },
-    { "id": "payload", "name": "Payload", "icon": "payloadcms", "logo": "/tech/payloadcms.svg" },
-    { "id": "prisma", "name": "Prisma", "icon": "prisma", "logo": "/tech/prisma.svg" },
-    { "id": "astro", "name": "Astro", "icon": "astro", "logo": "/tech/astro.svg" },
-    { "id": "gsap", "name": "GSAP", "icon": "greensock", "logo": "/tech/greensock.svg" },
-    { "id": "ts", "name": "TypeScript", "icon": "typescript", "logo": "/tech/typescript.svg" },
-    { "id": "vite", "name": "Vite", "icon": "vite", "logo": "/tech/vite.svg" },
-    { "id": "lenis", "name": "Lenis", "icon": "lenis", "logo": "/tech/lenis.svg" },
-    { "id": "nginx", "name": "NGINX", "icon": "nginx", "logo": "/tech/nginx.svg" },
-    { "id": "laravel", "name": "Laravel", "icon": "laravel", "logo": "/tech/laravel.svg" },
-    { "id": "cloudflare", "name": "Cloudflare", "icon": "cloudflare", "logo": "/tech/cloudflare.svg" }
+    {
+      "id": "html5",
+      "name": "HTML5",
+      "icon": "html5",
+      "logo": "/tech/html5.svg"
+    },
+    {
+      "id": "css",
+      "name": "CSS",
+      "icon": "css",
+      "logo": "/tech/css.svg"
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript",
+      "icon": "javascript",
+      "logo": "/tech/javascript.svg"
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "icon": "typescript",
+      "logo": "/tech/typescript.svg"
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "icon": "react",
+      "logo": "/tech/react.svg"
+    },
+    {
+      "id": "next",
+      "name": "Next.js",
+      "icon": "nextdotjs",
+      "logo": "/tech/nextdotjs.svg"
+    },
+    {
+      "id": "astro",
+      "name": "Astro",
+      "icon": "astro",
+      "logo": "/tech/astro.svg"
+    },
+    {
+      "id": "angular",
+      "name": "Angular",
+      "icon": "angular",
+      "logo": "/tech/angular.svg"
+    },
+    {
+      "id": "vue",
+      "name": "Vue",
+      "icon": "vuedotjs",
+      "logo": "/tech/vuedotjs.svg"
+    },
+    {
+      "id": "tailwind",
+      "name": "Tailwind",
+      "icon": "tailwindcss",
+      "logo": "/tech/tailwindcss.svg"
+    },
+    {
+      "id": "vite",
+      "name": "Vite",
+      "icon": "vite",
+      "logo": "/tech/vite.svg"
+    },
+    {
+      "id": "node",
+      "name": "Node.js",
+      "icon": "nodedotjs",
+      "logo": "/tech/nodedotjs.svg"
+    },
+    {
+      "id": "php",
+      "name": "PHP",
+      "icon": "php",
+      "logo": "/tech/php.svg"
+    },
+    {
+      "id": "laravel",
+      "name": "Laravel",
+      "icon": "laravel",
+      "logo": "/tech/laravel.svg"
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "icon": "python",
+      "logo": "/tech/python.svg"
+    },
+    {
+      "id": "mysql",
+      "name": "MySQL",
+      "icon": "mysql",
+      "logo": "/tech/mysql.svg"
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "icon": "mongodb",
+      "logo": "/tech/mongodb.svg"
+    },
+    {
+      "id": "redis",
+      "name": "Redis",
+      "icon": "redis",
+      "logo": "/tech/redis.svg"
+    },
+    {
+      "id": "prisma",
+      "name": "Prisma",
+      "icon": "prisma",
+      "logo": "/tech/prisma.svg"
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "icon": "supabase",
+      "logo": "/tech/supabase.svg"
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "icon": "docker",
+      "logo": "/tech/docker.svg"
+    },
+    {
+      "id": "nginx",
+      "name": "Nginx",
+      "icon": "nginx",
+      "logo": "/tech/nginx.svg"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "icon": "cloudflare",
+      "logo": "/tech/cloudflare.svg"
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "icon": "vercel",
+      "logo": "/tech/vercel.svg"
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase",
+      "icon": "firebase",
+      "logo": "/tech/firebase.svg"
+    },
+    {
+      "id": "git",
+      "name": "Git",
+      "icon": "git",
+      "logo": "/tech/git.svg"
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "icon": "github",
+      "logo": "/tech/github.svg"
+    },
+    {
+      "id": "figma",
+      "name": "Figma",
+      "icon": "figma",
+      "logo": "/tech/figma.svg"
+    }
   ],
   "enabled": true
 }

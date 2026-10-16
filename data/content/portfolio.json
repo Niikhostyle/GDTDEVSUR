@@ -1,7 +1,7 @@
 {
-  "eyebrow": "Nuestro trabajo",
-  "title": "Proyectos que ya están online",
-  "subtitle": "Diseño premium y desarrollo a medida para productos digitales con resultados reales.",
+  "eyebrow": "",
+  "title": "Trabajo en producción",
+  "subtitle": "Productos publicados y en uso.",
   "items": [
     {
       "id": "mibidon",
@@ -22,6 +22,9 @@
       "featured": true
     }
   ],
-  "cta": { "label": "Ver más trabajos", "href": "#contacto" },
-  "enabled": true
+  "cta": {
+    "label": "Hablar de un proyecto",
+    "href": "/#contacto"
+  },
+  "enabled": false
 }

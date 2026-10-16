@@ -1,0 +1,34 @@
+{
+  "enabled": true,
+  "eyebrow": "Why a professional website",
+  "titleLight": "Why invest in",
+  "titleBold": "web design in Chile?",
+  "body": "A website shouldn’t just look “pretty”. It should say what you sell, build trust, load fast and make it easy to contact you or buy. At DevSur we build sites designed to:",
+  "items": [
+    "Show your value proposition clearly.",
+    "Work properly on phones, desktops and tablets.",
+    "Load fast and feel good to use.",
+    "Rank in search engines.",
+    "Turn visits into quotes, messages or sales."
+  ],
+  "stats": [
+    {
+      "value": 10,
+      "prefix": "+",
+      "label": "+ years of experience",
+      "invert": false
+    },
+    {
+      "value": 350,
+      "prefix": "+",
+      "label": "+ websites developed",
+      "invert": true
+    },
+    {
+      "value": null,
+      "text": "CL",
+      "label": "Chile and Spanish-speaking markets",
+      "invert": false
+    }
+  ]
+}

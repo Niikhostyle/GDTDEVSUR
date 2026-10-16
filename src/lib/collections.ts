@@ -3,6 +3,7 @@ export const COLLECTIONS = [
   { id: "hero", label: "Hero" },
   { id: "about", label: "Acerca de" },
   { id: "services", label: "Servicios" },
+  { id: "why", label: "Por qué una web" },
   { id: "differentials", label: "Diferenciales" },
   { id: "portfolio", label: "Portfolio" },
   { id: "process", label: "Proceso" },

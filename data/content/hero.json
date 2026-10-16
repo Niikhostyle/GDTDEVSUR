@@ -1,16 +1,22 @@
 {
-  "eyebrow": "Diseño web premium",
-  "headline": "Tu próximo paso digital",
-  "headlineAccent": "empieza con una visión.",
-  "subheadline": "Combinamos estrategia, diseño y tecnología para desarrollar soluciones web a medida y acompañar la evolución de tu empresa.",
-  "primaryCta": { "label": "Solicita presupuesto", "href": "/#contacto" },
-  "secondaryCta": { "label": "Conoce más", "href": "/#nosotros" },
-  "stats": [
-    { "value": "+200", "label": "proyectos entregados" },
-    { "value": "16+", "label": "años de experiencia" },
-    { "value": "2.5s", "label": "LCP objetivo" }
-  ],
-  "trustLabel": "Tecnología de alto rendimiento",
-  "backgroundImage": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2400&q=80",
-  "enabled": true
+  "headline": "Diseño de páginas web en Chile que",
+  "headlineBold": "convierten",
+  "headlineRest": "visitas en",
+  "headlineAccent": "clientes.",
+  "subheadline": "Somos especialistas en diseño web a medida en Chile. En DevSur creamos sitios profesionales para empresas y negocios: rápidos, claros y preparados para aparecer en Google y responder las preguntas de tus futuros clientes.",
+  "primaryCta": {
+    "label": "Solicita presupuesto",
+    "href": "/#contacto"
+  },
+  "secondaryCta": {
+    "label": "Ver el método",
+    "href": "/#proceso"
+  },
+  "stats": [],
+  "trustLabel": "",
+  "eyebrow": "",
+  "backgroundImage": "",
+  "enabled": true,
+  "brandTitle": "DevSur",
+  "metaLine": "Grupo Desarrollo Tecnológico · Chile"
 }

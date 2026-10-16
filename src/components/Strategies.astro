@@ -1,0 +1,77 @@
+---
+/**
+ * Módulo VOX: bloque intermedio “estrategias” + formulario de consulta.
+ * Contenido adaptado a GDT DevSur.
+ */
+import Contact from "./Contact";
+
+interface Props {
+  locale?: "es" | "en";
+  contact: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    successMessage: string;
+    submitLabel: string;
+    fields: {
+      name: { label: string; required: boolean };
+      phone: { label: string; required: boolean };
+      email: { label: string; required: boolean };
+      company: { label: string; required: boolean };
+      message: { label: string; required: boolean };
+    };
+  };
+}
+
+const { locale = "es", contact } = Astro.props;
+
+const copy =
+  locale === "en"
+    ? {
+        eyebrow: "We maximize your web potential",
+        title: "We build winning strategies",
+        body: "We specialize in developing, implementing and optimizing websites. Custom solutions with a digital marketing mindset so every visit can become a client.",
+      }
+    : {
+        eyebrow: "Maximizamos el potencial web",
+        title: "Generamos estrategias exitosas",
+        body: "Nos especializamos en el desarrollo, implementación y optimización de páginas web. Soluciones personalizadas con foco en marketing digital para que cada visita pueda convertirse en cliente.",
+      };
+---
+
+<section id="estrategias" class="reveal-section border-y border-[var(--color-line)] bg-white px-5 py-16 md:px-8 md:py-24">
+  <div class="mx-auto grid max-w-[1120px] items-start gap-12 lg:grid-cols-2 lg:gap-16">
+    <div class="reveal-item">
+      <p class="mb-3 text-[11px] font-600 tracking-[0.22em] text-[var(--color-accent)] uppercase md:text-xs">
+        {copy.eyebrow}
+      </p>
+      <h2 class="font-display text-[1.75rem] leading-tight font-700 tracking-tight text-[#2a2a2a] md:text-[2.35rem]">
+        {copy.title}
+      </h2>
+      <p class="mt-4 max-w-xl text-sm leading-relaxed text-[#6b6b6b] md:text-base">
+        {copy.body}
+      </p>
+      <p class="mt-6 text-sm leading-relaxed text-[#6b6b6b]">
+        {
+          locale === "en"
+            ? "Send your inquiry and we’ll call you shortly for a no-obligation consultation."
+            : "Envíanos tu consulta y te llamaremos a la brevedad para asesorarte sin compromiso."
+        }
+      </p>
+    </div>
+
+    <div class="reveal-item rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-5 md:p-7">
+      <Contact
+        client:load
+        embedded
+        locale={locale}
+        eyebrow=""
+        title={contact.title}
+        subtitle=""
+        successMessage={contact.successMessage}
+        submitLabel={contact.submitLabel}
+        fields={contact.fields}
+      />
+    </div>
+  </div>
+</section>

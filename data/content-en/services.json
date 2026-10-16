@@ -1,37 +1,128 @@
 {
-  "eyebrow": "Services",
-  "title": "Everything you need for your digital presence",
-  "subtitle": "Premium design, custom development, and continuous evolution — one specialized team.",
+  "eyebrow": "What we do",
+  "titleLight": "Digital solutions to",
+  "titleBold": "attract, inform and convert.",
+  "title": "Digital solutions to attract, inform and convert.",
+  "subtitle": "We design and build digital solutions so your business can attract, inform and convert customers online.",
   "items": [
     {
       "id": "diseno-web",
-      "title": "Custom premium web design",
-      "description": "Typography, spacing, fluid animations, and calls to action built from scratch. No templates."
+      "title": "Corporate websites",
+      "description": "Custom sites that present your company and turn visits into contact.",
+      "href": "#diseno-web",
+      "icon": "sparkles"
     },
     {
-      "id": "web-apps",
-      "title": "Custom web apps and software",
-      "description": "Bookings, calculators, custom dashboards, CRM/ERP integrations, and platforms with users and databases."
+      "id": "tiendas-online",
+      "title": "Online stores",
+      "description": "Fast, clear ecommerce ready to sell.",
+      "href": "#tiendas-online",
+      "icon": "code"
     },
     {
-      "id": "multilang",
-      "title": "Multilingual websites",
-      "description": "Each language ranks separately on Google. Professional internationalization — not translator plugins."
+      "id": "landing-pages",
+      "title": "Landing pages for campaigns",
+      "description": "Pages focused on one offer and one conversion.",
+      "href": "#landing-pages",
+      "icon": "layout"
     },
     {
-      "id": "admin",
-      "title": "Custom admin panels",
-      "description": "Edit all content without touching code. Flexible, secure, and ready to scale."
+      "id": "seo",
+      "title": "SEO and Google optimization",
+      "description": "Technical structure and content to show up where it matters.",
+      "href": "#seo",
+      "icon": "search"
     },
     {
-      "id": "seo-geo",
-      "title": "Google and AI optimization",
-      "description": "Technical SEO + GEO: structure that ChatGPT, Gemini, and Claude can cite."
+      "id": "geo",
+      "title": "GEO: AI search visibility",
+      "description": "Ready for AI answers and generative search.",
+      "href": "#geo",
+      "icon": "globe"
     },
     {
-      "id": "redesign",
-      "title": "Redesign, maintenance, and support",
-      "description": "We modernize existing sites and support ongoing evolution month after month."
+      "id": "google-ads",
+      "title": "Google Ads advertising",
+      "description": "Campaigns aligned to your site and goals.",
+      "href": "#google-ads",
+      "icon": "target"
+    },
+    {
+      "id": "mantencion",
+      "title": "Web maintenance and upgrades",
+      "description": "Support, iterations and month-to-month evolution.",
+      "href": "/#contacto",
+      "icon": "refresh"
+    },
+    {
+      "id": "otra",
+      "title": "Another need? Let's talk",
+      "description": "Tell us what you need and we'll scope it.",
+      "href": "/#contacto",
+      "icon": "message"
     }
-  ]
+  ],
+  "detail": {
+    "eyebrow": "Services",
+    "titleLight": "Web design",
+    "titleBold": "in Chile for your business.",
+    "subtitle": "We work with companies and professionals who need a solid digital presence. Every site is built around business goals, audience, and the services or products you want to highlight.",
+    "items": [
+      {
+        "id": "diseno-web",
+        "label": "01 — Corporate sites",
+        "title": "Web design",
+        "body": "We build corporate sites that present your company, services and differentiators clearly. Ideal for businesses that need quotes, contact requests or bookings.",
+        "note": "**Includes:** responsive design, strategic sections, contact forms, WhatsApp integration, speed optimization and SEO foundations.",
+        "ctaLabel": "Learn about web design →",
+        "href": "#contacto"
+      },
+      {
+        "id": "tiendas-online",
+        "label": "02 — E-commerce",
+        "title": "Online stores",
+        "body": "We develop online stores that are easy to manage and designed to make buying simple. Categories, products, payments and shipping flow around your business needs.",
+        "note": "**Ideal for:** brands, retailers, founders and companies selling online.",
+        "ctaLabel": "Learn about online stores →",
+        "href": "#contacto"
+      },
+      {
+        "id": "landing-pages",
+        "label": "03 — Campaigns",
+        "title": "Landing pages",
+        "body": "We design landing pages for campaigns, specific services, product launches and lead capture.",
+        "note": "**Goal:** focus the visitor on one clear action — quote, book, buy or contact you.",
+        "ctaLabel": "Learn about landing pages →",
+        "href": "#contacto"
+      },
+      {
+        "id": "seo",
+        "label": "04 — Search",
+        "title": "SEO for websites",
+        "body": "We optimize structure, content and technical performance so Google understands your site and shows it to people looking for your services.",
+        "note": "**We work on:** search intent, content architecture, titles, meta descriptions, internal links, speed and structured data.",
+        "ctaLabel": "Learn about SEO →",
+        "href": "#contacto"
+      },
+      {
+        "id": "geo",
+        "label": "05 — AI search",
+        "title": "GEO for ChatGPT, Gemini and Google",
+        "body": "GEO (Generative Engine Optimization) prepares your site so AI search engines understand your business and can recommend it when people ask questions.",
+        "note": "**We work on:** content that answers real questions, clear structure, structured data, consistent business info and trust signals.",
+        "ctaLabel": "Learn about GEO →",
+        "href": "#contacto"
+      },
+      {
+        "id": "google-ads",
+        "label": "06 — Advertising",
+        "title": "Google Ads",
+        "body": "We create and manage Google campaigns to reach people already searching for your products or services, with conversion tracking so you know what works.",
+        "note": "**Includes:** keyword research, campaign setup, ads, conversion tracking and ongoing optimization.",
+        "ctaLabel": "Learn about Google Ads →",
+        "href": "#contacto"
+      }
+    ]
+  },
+  "enabled": true
 }

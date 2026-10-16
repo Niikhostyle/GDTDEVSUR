@@ -1,44 +1,128 @@
 {
-  "eyebrow": "Servicios",
-  "title": "Todo lo que necesitas para tu presencia digital",
-  "subtitle": "Diseño premium, desarrollo a medida y evolución continua — un solo equipo especializado.",
+  "eyebrow": "¿Qué hacemos?",
+  "titleLight": "Soluciones digitales para",
+  "titleBold": "atraer, informar y convertir.",
+  "title": "Soluciones digitales para atraer, informar y convertir.",
+  "subtitle": "Diseñamos y desarrollamos soluciones digitales para que tu negocio pueda atraer, informar y convertir clientes online.",
   "items": [
     {
       "id": "diseno-web",
-      "title": "Diseño web premium a medida",
-      "description": "Tipografía, espaciado, animaciones fluidas y llamados a la acción creados desde cero. Sin plantillas.",
+      "title": "Páginas web corporativas",
+      "description": "Sitios a medida que presentan tu empresa y convierten visitas en contacto.",
+      "href": "#diseno-web",
       "icon": "sparkles"
     },
     {
-      "id": "web-apps",
-      "title": "Web apps y software a medida",
-      "description": "Reservas, calculadoras, paneles propios, integraciones CRM/ERP y plataformas con usuarios y bases de datos.",
+      "id": "tiendas-online",
+      "title": "Tiendas online",
+      "description": "E-commerce rápido, claro y listo para vender.",
+      "href": "#tiendas-online",
       "icon": "code"
     },
     {
-      "id": "multilang",
-      "title": "Sitios multilenguaje",
-      "description": "Cada idioma posiciona por separado en Google. Internacionalización profesional, no plugins traductores.",
-      "icon": "globe"
-    },
-    {
-      "id": "admin",
-      "title": "Paneles de administración propios",
-      "description": "Edita todo el contenido sin tocar código. Flexibles, seguros y preparados para escalar.",
+      "id": "landing-pages",
+      "title": "Landing pages para campañas",
+      "description": "Páginas enfocadas en una oferta y una conversión.",
+      "href": "#landing-pages",
       "icon": "layout"
     },
     {
-      "id": "seo-geo",
-      "title": "Optimización para Google e IA",
-      "description": "SEO técnico + GEO: estructura citable por ChatGPT, Gemini y Claude.",
+      "id": "seo",
+      "title": "SEO y optimización para Google",
+      "description": "Estructura técnica y contenido para aparecer donde importa.",
+      "href": "#seo",
       "icon": "search"
     },
     {
-      "id": "redesign",
-      "title": "Rediseño, mantenimiento y soporte",
-      "description": "Modernizamos sitios existentes y acompañamos la evolución mes a mes.",
+      "id": "geo",
+      "title": "GEO: visibilidad en buscadores con IA",
+      "description": "Preparados para respuestas de IA y búsquedas generativas.",
+      "href": "#geo",
+      "icon": "globe"
+    },
+    {
+      "id": "google-ads",
+      "title": "Publicidad en Google Ads",
+      "description": "Campañas alineadas a tu sitio y a tus objetivos.",
+      "href": "#google-ads",
+      "icon": "target"
+    },
+    {
+      "id": "mantencion",
+      "title": "Mantención y mejoras web",
+      "description": "Soporte, iteraciones y evolución mes a mes.",
+      "href": "/#contacto",
       "icon": "refresh"
+    },
+    {
+      "id": "otra",
+      "title": "¿Otra necesidad? Conversemos",
+      "description": "Cuéntanos qué necesitas y armamos el alcance.",
+      "href": "/#contacto",
+      "icon": "message"
     }
   ],
+  "detail": {
+    "eyebrow": "Servicios",
+    "titleLight": "Diseño de páginas web",
+    "titleBold": "en Chile para tu negocio.",
+    "subtitle": "Trabajamos con empresas y profesionales que necesitan una presencia digital sólida. Cada sitio se construye según los objetivos del negocio, su audiencia y los servicios o productos que quiere destacar.",
+    "items": [
+      {
+        "id": "diseno-web",
+        "label": "01 — Sitios corporativos",
+        "title": "Diseño de páginas web",
+        "body": "Creamos sitios corporativos que presentan tu empresa, servicios y diferenciadores de forma clara. Ideal para negocios que necesitan recibir cotizaciones, solicitudes de contacto o reservas.",
+        "note": "**Incluye:** diseño adaptable, secciones estratégicas, formularios de contacto, integración con WhatsApp, optimización de velocidad y bases SEO.",
+        "ctaLabel": "Conocer diseño web →",
+        "href": "#contacto"
+      },
+      {
+        "id": "tiendas-online",
+        "label": "02 — E-commerce",
+        "title": "Tiendas online",
+        "body": "Desarrollamos tiendas online fáciles de administrar y diseñadas para facilitar la compra. Organizamos categorías, productos, medios de pago y procesos de despacho según las necesidades de tu negocio.",
+        "note": "**Ideal para:** marcas, comercios, emprendedores y empresas que quieren vender en internet.",
+        "ctaLabel": "Conocer tiendas online →",
+        "href": "#contacto"
+      },
+      {
+        "id": "landing-pages",
+        "label": "03 — Campañas",
+        "title": "Landing pages",
+        "body": "Diseñamos páginas de aterrizaje para campañas, servicios específicos, lanzamiento de productos y captación de prospectos.",
+        "note": "**Objetivo:** concentrar la atención del visitante en una acción concreta: cotizar, agendar, comprar o contactarte.",
+        "ctaLabel": "Conocer landing pages →",
+        "href": "#contacto"
+      },
+      {
+        "id": "seo",
+        "label": "04 — Posicionamiento",
+        "title": "SEO para páginas web",
+        "body": "Optimizamos la estructura, contenidos y rendimiento técnico de tu sitio para ayudar a Google a entenderlo mejor y mostrarlo a personas que buscan tus servicios.",
+        "note": "**Trabajamos:** intención de búsqueda, arquitectura de contenidos, títulos, metadescripciones, enlaces internos, velocidad y datos estructurados.",
+        "ctaLabel": "Conocer SEO →",
+        "href": "#contacto"
+      },
+      {
+        "id": "geo",
+        "label": "05 — Buscadores con IA",
+        "title": "GEO para ChatGPT, Gemini y Google",
+        "body": "El GEO (Generative Engine Optimization) prepara tu sitio para que los buscadores con inteligencia artificial entiendan tu negocio y puedan recomendarlo cuando las personas hacen preguntas.",
+        "note": "**Trabajamos:** contenido que responde preguntas reales, estructura clara, datos estructurados, información del negocio consistente y señales de confianza.",
+        "ctaLabel": "Conocer GEO →",
+        "href": "#contacto"
+      },
+      {
+        "id": "google-ads",
+        "label": "06 — Publicidad",
+        "title": "Google Ads",
+        "body": "Creamos y gestionamos campañas en Google para llegar a las personas que ya están buscando tus productos o servicios, con medición de conversiones para saber qué funciona.",
+        "note": "**Incluye:** investigación de palabras clave, configuración de campañas, anuncios, seguimiento de conversiones y optimización continua.",
+        "ctaLabel": "Conocer Google Ads →",
+        "href": "#contacto"
+      }
+    ]
+  },
   "enabled": true
 }

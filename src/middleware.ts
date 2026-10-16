@@ -36,5 +36,15 @@ export const onRequest = defineMiddleware(async (context, next) => {
     response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   }
 
+  // HTML pages must never be long-cached — CMS edits must show on next load.
+  const ct = response.headers.get("Content-Type") || "";
+  if (
+    (method === "GET" || method === "HEAD") &&
+    (ct.includes("text/html") || pathname === "/" || pathname.endsWith(".html")) &&
+    !pathname.startsWith("/_astro/")
+  ) {
+    response.headers.set("Cache-Control", "private, no-cache, no-store, must-revalidate");
+  }
+
   return response;
 });
